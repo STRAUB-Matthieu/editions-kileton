@@ -2,16 +2,16 @@
   <!-- Stylized K -->
   <g transform="translate(10, 5)">
     <!-- Vertical bar of K -->
-    <rect x="0" y="0" width="4" height="50" fill="#D4AF37"/>
+    <rect x="0" y="0" width="5" height="50" fill="#D4AF37"/>
     <!-- Diagonal strokes of K -->
-    <line x1="4" y1="25" x2="28" y2="0" stroke="#D4AF37" stroke-width="4" stroke-linecap="round"/>
-    <line x1="4" y1="25" x2="30" y2="50" stroke="#D4AF37" stroke-width="4" stroke-linecap="round"/>
+    <line x1="5" y1="25" x2="30" y2="0" stroke="#D4AF37" stroke-width="5" stroke-linecap="round"/>
+    <line x1="5" y1="25" x2="32" y2="50" stroke="#D4AF37" stroke-width="5" stroke-linecap="round"/>
     <!-- Small decorative diamond -->
-    <polygon points="16,25 20,21 24,25 20,29" fill="#D4AF37" opacity="0.6"/>
+    <polygon points="17,25 21,20 25,25 21,30" fill="#D4AF37" opacity="0.7"/>
   </g>
   <!-- Text: ÉDITIONS KILETON -->
-  <text x="55" y="28" font-family="'Playfair Display', Georgia, serif" font-size="13" letter-spacing="4" fill="#D4AF37" font-weight="400">ÉDITIONS</text>
-  <text x="55" y="47" font-family="'Playfair Display', Georgia, serif" font-size="18" letter-spacing="6" fill="#D4AF37" font-weight="700">KILETON</text>
+  <text x="55" y="27" font-family="Georgia, 'Times New Roman', serif" font-size="14" letter-spacing="3.5" fill="#D4AF37" font-weight="bold">ÉDITIONS</text>
+  <text x="55" y="48" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="5" fill="#D4AF37" font-weight="bold">KILETON</text>
   <!-- Subtle gold underline -->
-  <line x1="55" y1="52" x2="175" y2="52" stroke="#D4AF37" stroke-width="0.5" opacity="0.7"/>
+  <line x1="55" y1="53" x2="185" y2="53" stroke="#D4AF37" stroke-width="1" opacity="0.8"/>
 </svg>
