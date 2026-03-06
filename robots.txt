@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://editions-kileton.fr/sitemap.xml

@@ -1,0 +1,17 @@
+# Fichiers de prompts
+PROMPT_CLAUDE_CODE.md
+PROMPT_AJUSTEMENTS.md
+PROMPT_DEPLOIEMENT.md
+
+# Manuscrit original
+La_Verticale_du_Vide_FINALE_COUVERTURES.docx
+
+# Copies racine des images (les versions dans assets/images/ sont utilisées)
+/IMG_8125.PNG
+/IMG_8128.JPG
+
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/
