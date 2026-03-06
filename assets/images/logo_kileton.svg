@@ -10,8 +10,8 @@
     <polygon points="16,25 20,21 24,25 20,29" fill="#D4AF37" opacity="0.6"/>
   </g>
   <!-- Text: ÉDITIONS KILETON -->
-  <text x="55" y="28" font-family="'Playfair Display', Georgia, serif" font-size="13" letter-spacing="4" fill="#1B3A5C" font-weight="400">ÉDITIONS</text>
-  <text x="55" y="47" font-family="'Playfair Display', Georgia, serif" font-size="18" letter-spacing="6" fill="#1B3A5C" font-weight="700">KILETON</text>
+  <text x="55" y="28" font-family="'Playfair Display', Georgia, serif" font-size="13" letter-spacing="4" fill="#D4AF37" font-weight="400">ÉDITIONS</text>
+  <text x="55" y="47" font-family="'Playfair Display', Georgia, serif" font-size="18" letter-spacing="6" fill="#D4AF37" font-weight="700">KILETON</text>
   <!-- Subtle gold underline -->
   <line x1="55" y1="52" x2="175" y2="52" stroke="#D4AF37" stroke-width="0.5" opacity="0.7"/>
 </svg>
