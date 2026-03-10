@@ -207,12 +207,27 @@ if (document.body.classList.contains('page-book')) {
       try { return localStorage.getItem('kileton-ambient-muted') === '1'; } catch(e) { return false; }
     })();
 
-    audio.muted = savedMuted;
+    // Tenter l'autoplay avec son activé
+    audio.muted = false;
     audio.play().then(() => {
+      // Autoplay autorisé : respecter la préférence utilisateur
       setMuted(savedMuted);
     }).catch(() => {
-      // Autoplay bloqué par le navigateur : état muet par défaut
+      // Autoplay bloqué : afficher muet, lancer à la première interaction
       setMuted(true);
+      function resumeOnInteraction() {
+        audio.play().then(() => {
+          setMuted(savedMuted);
+        }).catch(() => {});
+        document.removeEventListener('click', resumeOnInteraction);
+        document.removeEventListener('scroll', resumeOnInteraction);
+        document.removeEventListener('keydown', resumeOnInteraction);
+        document.removeEventListener('touchstart', resumeOnInteraction);
+      }
+      document.addEventListener('click', resumeOnInteraction, { once: false });
+      document.addEventListener('scroll', resumeOnInteraction, { once: false, passive: true });
+      document.addEventListener('keydown', resumeOnInteraction, { once: false });
+      document.addEventListener('touchstart', resumeOnInteraction, { once: false, passive: true });
     });
 
     btn.addEventListener('click', () => {
