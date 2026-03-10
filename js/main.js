@@ -180,3 +180,47 @@
     }
 
 })();
+
+// ── Ambient Audio — livre.html only ──────────────────────────────────────
+if (document.body.classList.contains('page-book')) {
+  const audio   = document.getElementById('ambient-audio');
+  const btn     = document.getElementById('audio-toggle');
+  const iconOn  = document.getElementById('icon-sound-on');
+  const iconOff = document.getElementById('icon-sound-off');
+
+  if (audio && btn) {
+    audio.volume = 0.35;
+
+    function setMuted(muted) {
+      audio.muted = muted;
+      btn.classList.toggle('is-muted', muted);
+      iconOn.style.display  = muted ? 'none' : '';
+      iconOff.style.display = muted ? ''     : 'none';
+      btn.setAttribute('aria-label', muted
+        ? "Activer la musique d'ambiance"
+        : "Couper la musique d'ambiance");
+      try { localStorage.setItem('kileton-ambient-muted', muted ? '1' : '0'); } catch(e) {}
+    }
+
+    // Respecter la préférence précédente de l'utilisateur
+    const savedMuted = (() => {
+      try { return localStorage.getItem('kileton-ambient-muted') === '1'; } catch(e) { return false; }
+    })();
+
+    audio.muted = savedMuted;
+    audio.play().then(() => {
+      setMuted(savedMuted);
+    }).catch(() => {
+      // Autoplay bloqué par le navigateur : état muet par défaut
+      setMuted(true);
+    });
+
+    btn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => setMuted(false)).catch(() => {});
+      } else {
+        setMuted(!audio.muted);
+      }
+    });
+  }
+}

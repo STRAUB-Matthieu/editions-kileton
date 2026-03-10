@@ -943,6 +943,36 @@ button:focus-visible {
     outline-offset: 3px;
 }
 
+/* ── Ambient Audio Toggle ── */
+.page-book #audio-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+.page-book #audio-toggle:hover {
+  background: rgba(30, 30, 30, 0.85);
+  color: #ffffff;
+  transform: scale(1.08);
+}
+.page-book #audio-toggle.is-muted {
+  color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
     *,
