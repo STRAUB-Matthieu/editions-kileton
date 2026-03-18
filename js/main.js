@@ -239,10 +239,11 @@ if (document.body.classList.contains('page-book')) {
     });
 
     // ── Clip YouTube — gestion audio croisée via IFrame API ─────────────
-    const clipContainer = document.getElementById('clip-player');
+    const clipIframe = document.getElementById('clip-player');
 
-    if (clipContainer && audio) {
+    if (clipIframe && audio) {
       let ambientWasPlaying = false;
+      let ytPlayer = null;
       const FADE_OUT_MS = 600;
       const FADE_IN_MS  = 800;
       const FADE_STEPS  = 20;
@@ -273,22 +274,10 @@ if (document.body.classList.contains('page-book')) {
         }
       }
 
-      // Charger l'API YouTube IFrame
-      const tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(tag);
-
-      window.onYouTubeIframeAPIReady = function () {
-        new YT.Player('clip-player', {
-          videoId: '4It2_FXQbSU',
-          playerVars: {
-            rel: 0,
-            modestbranding: 1,
-            playsinline: 1
-          },
+      function initYTPlayer() {
+        ytPlayer = new YT.Player('clip-player', {
           events: {
             onStateChange: function (event) {
-              // PLAYING
               if (event.data === YT.PlayerState.PLAYING) {
                 ambientWasPlaying = !audio.paused && !audio.muted;
                 if (ambientWasPlaying) {
@@ -298,7 +287,6 @@ if (document.body.classList.contains('page-book')) {
                   });
                 }
               }
-              // PAUSED ou ENDED
               if (event.data === YT.PlayerState.PAUSED ||
                   event.data === YT.PlayerState.ENDED) {
                 resumeAmbientIfNeeded();
@@ -306,7 +294,19 @@ if (document.body.classList.contains('page-book')) {
             }
           }
         });
-      };
+      }
+
+      // Charger l'API YouTube IFrame
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
+
+      // L'API peut être prête avant ou après notre callback
+      if (window.YT && window.YT.Player) {
+        initYTPlayer();
+      } else {
+        window.onYouTubeIframeAPIReady = initYTPlayer;
+      }
     }
   }
 }
