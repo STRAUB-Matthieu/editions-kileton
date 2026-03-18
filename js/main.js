@@ -238,10 +238,10 @@ if (document.body.classList.contains('page-book')) {
       }
     });
 
-    // ── Clip vidéo — gestion audio croisée ──────────────────────────────
-    const clipVideo = document.getElementById('clip-video');
+    // ── Clip YouTube — gestion audio croisée via IFrame API ─────────────
+    const clipContainer = document.getElementById('clip-player');
 
-    if (clipVideo && audio) {
+    if (clipContainer && audio) {
       let ambientWasPlaying = false;
       const FADE_OUT_MS = 600;
       const FADE_IN_MS  = 800;
@@ -264,27 +264,7 @@ if (document.body.classList.contains('page-book')) {
         }, stepTime);
       }
 
-      clipVideo.addEventListener('play', () => {
-        // Mémoriser si l'ambiance jouait (et pas muted manuellement)
-        ambientWasPlaying = !audio.paused && !audio.muted;
-
-        if (ambientWasPlaying) {
-          // Fade-out l'ambiance, puis la mettre en pause
-          fadeAudio(audio, audio.volume, 0, FADE_OUT_MS, () => {
-            audio.pause();
-            audio.volume = 0.35; // Restaurer le volume cible pour la reprise
-          });
-        }
-
-        // Démuter la vidéo pour que le visiteur entende le clip
-        clipVideo.muted = false;
-      });
-
       function resumeAmbientIfNeeded() {
-        // Remuter la vidéo
-        clipVideo.muted = true;
-
-        // Reprendre l'ambiance uniquement si elle jouait avant
         if (ambientWasPlaying) {
           audio.volume = 0;
           audio.play().then(() => {
@@ -293,15 +273,40 @@ if (document.body.classList.contains('page-book')) {
         }
       }
 
-      clipVideo.addEventListener('pause', () => {
-        if (!clipVideo.ended) {
-          resumeAmbientIfNeeded();
-        }
-      });
+      // Charger l'API YouTube IFrame
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
 
-      clipVideo.addEventListener('ended', () => {
-        resumeAmbientIfNeeded();
-      });
+      window.onYouTubeIframeAPIReady = function () {
+        new YT.Player('clip-player', {
+          videoId: '4It2_FXQbSU',
+          playerVars: {
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1
+          },
+          events: {
+            onStateChange: function (event) {
+              // PLAYING
+              if (event.data === YT.PlayerState.PLAYING) {
+                ambientWasPlaying = !audio.paused && !audio.muted;
+                if (ambientWasPlaying) {
+                  fadeAudio(audio, audio.volume, 0, FADE_OUT_MS, () => {
+                    audio.pause();
+                    audio.volume = 0.35;
+                  });
+                }
+              }
+              // PAUSED ou ENDED
+              if (event.data === YT.PlayerState.PAUSED ||
+                  event.data === YT.PlayerState.ENDED) {
+                resumeAmbientIfNeeded();
+              }
+            }
+          }
+        });
+      };
     }
   }
 }

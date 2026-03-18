@@ -660,9 +660,20 @@ ul {
     border: 1px solid rgba(212, 175, 55, 0.15);
 }
 
-.clip-wrapper video {
+.clip-responsive {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.clip-responsive iframe,
+.clip-responsive #clip-player {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    display: block;
+    height: 100%;
 }
 
 /* ============================================
