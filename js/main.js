@@ -237,5 +237,71 @@ if (document.body.classList.contains('page-book')) {
         setMuted(!audio.muted);
       }
     });
+
+    // ── Clip vidéo — gestion audio croisée ──────────────────────────────
+    const clipVideo = document.getElementById('clip-video');
+
+    if (clipVideo && audio) {
+      let ambientWasPlaying = false;
+      const FADE_OUT_MS = 600;
+      const FADE_IN_MS  = 800;
+      const FADE_STEPS  = 20;
+
+      function fadeAudio(audioEl, fromVol, toVol, durationMs, callback) {
+        const steps = FADE_STEPS;
+        const stepTime = durationMs / steps;
+        const volStep = (toVol - fromVol) / steps;
+        let currentStep = 0;
+
+        const interval = setInterval(() => {
+          currentStep++;
+          audioEl.volume = Math.max(0, Math.min(1, fromVol + volStep * currentStep));
+          if (currentStep >= steps) {
+            clearInterval(interval);
+            audioEl.volume = toVol;
+            if (callback) callback();
+          }
+        }, stepTime);
+      }
+
+      clipVideo.addEventListener('play', () => {
+        // Mémoriser si l'ambiance jouait (et pas muted manuellement)
+        ambientWasPlaying = !audio.paused && !audio.muted;
+
+        if (ambientWasPlaying) {
+          // Fade-out l'ambiance, puis la mettre en pause
+          fadeAudio(audio, audio.volume, 0, FADE_OUT_MS, () => {
+            audio.pause();
+            audio.volume = 0.35; // Restaurer le volume cible pour la reprise
+          });
+        }
+
+        // Démuter la vidéo pour que le visiteur entende le clip
+        clipVideo.muted = false;
+      });
+
+      function resumeAmbientIfNeeded() {
+        // Remuter la vidéo
+        clipVideo.muted = true;
+
+        // Reprendre l'ambiance uniquement si elle jouait avant
+        if (ambientWasPlaying) {
+          audio.volume = 0;
+          audio.play().then(() => {
+            fadeAudio(audio, 0, 0.35, FADE_IN_MS);
+          }).catch(() => {});
+        }
+      }
+
+      clipVideo.addEventListener('pause', () => {
+        if (!clipVideo.ended) {
+          resumeAmbientIfNeeded();
+        }
+      });
+
+      clipVideo.addEventListener('ended', () => {
+        resumeAmbientIfNeeded();
+      });
+    }
   }
 }

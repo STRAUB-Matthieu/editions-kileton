@@ -634,6 +634,38 @@ ul {
 }
 
 /* ============================================
+   SECTION — CLIP VIDÉO / BANDE-ANNONCE (Livre)
+   ============================================ */
+.section-clip {
+    background: var(--night-blue);
+    padding: 4rem 0;
+}
+
+.clip-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    letter-spacing: 0.02em;
+}
+
+.clip-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.clip-wrapper video {
+    width: 100%;
+    display: block;
+}
+
+/* ============================================
    SECTION — EXTRAIT (Livre)
    ============================================ */
 .section-excerpt {
