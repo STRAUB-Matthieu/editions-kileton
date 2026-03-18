@@ -652,7 +652,7 @@ ul {
 }
 
 .clip-wrapper {
-    max-width: 860px;
+    max-width: 960px;
     margin: 0 auto;
     border-radius: 8px;
     overflow: hidden;
@@ -667,13 +667,13 @@ ul {
     overflow: hidden;
 }
 
-.clip-responsive iframe,
-.clip-responsive #clip-player {
+.clip-responsive iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    border: 0;
 }
 
 /* ============================================
