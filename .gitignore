@@ -1,14 +1,18 @@
-# Fichiers de prompts
-PROMPT_CLAUDE_CODE.md
-PROMPT_AJUSTEMENTS.md
-PROMPT_DEPLOIEMENT.md
+# Fichiers de prompts (tous)
+PROMPT_*.md
+
+# Instructions de déploiement
+DEPLOY_INSTRUCTIONS.md
 
 # Manuscrit original
 La_Verticale_du_Vide_FINALE_COUVERTURES.docx
 
-# Copies racine des images (les versions dans assets/images/ sont utilisées)
+# Images racine (doublons — les originaux sont dans assets/images/)
 /IMG_8125.PNG
 /IMG_8128.JPG
+
+# Page de garde brute
+PAGE_DE_GARDE.jpg
 
 # macOS
 .DS_Store

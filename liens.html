@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Verticale du Vide — Matthieu Straub | Éditions Kileton</title>
+    <meta name="description" content="La Verticale du Vide de Matthieu Straub. Écoutez la bande-son, achetez le livre, découvrez l'univers des Éditions Kileton.">
+    <meta property="og:title" content="La Verticale du Vide — Matthieu Straub">
+    <meta property="og:description" content="Là où les mots deviennent lumière. Écoutez la bande-son, achetez le livre.">
+    <meta property="og:image" content="https://editions-kileton.fr/assets/images/IMG_8125.PNG">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://editions-kileton.fr/liens">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La Verticale du Vide — Matthieu Straub">
+    <meta name="twitter:description" content="Là où les mots deviennent lumière. Écoutez la bande-son, achetez le livre.">
+    <meta name="twitter:image" content="https://editions-kileton.fr/assets/images/IMG_8125.PNG">
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --night-blue: #0A1628;
+            --gold: #D4AF37;
+            --gold-light: #E8D48B;
+            --pure-white: #FFFFFF;
+            --deep-blue: #1B3A5C;
+            --muted: #8896A6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--night-blue);
+            color: var(--pure-white);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 3rem 1.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Halo doré subtil */
+        .container::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center 30%, rgba(212,175,55,0.08) 0%, #0A1628 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Cover */
+        .cover {
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.5),
+                0 0 30px rgba(212,175,55,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Titre */
+        .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--pure-white);
+            letter-spacing: 0.05em;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Auteur */
+        .author {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.8rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Tagline */
+        .tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--gold-light);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* Divider doré */
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: var(--gold);
+            margin: 2rem auto;
+            border: none;
+        }
+
+        /* Label de section */
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        /* Boutons */
+        .links {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .link-button {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            max-width: 320px;
+            margin: 0.5rem auto;
+            padding: 0.85rem 1.25rem;
+            background: rgba(27, 58, 92, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: var(--pure-white);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        .link-button:hover {
+            background: rgba(27, 58, 92, 0.7);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .link-button:active {
+            transform: translateY(0);
+        }
+
+        .link-button:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+
+        /* Bouton désactivé - plateforme en attente */
+        .link-button.disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .link-button .badge-soon {
+            margin-left: auto;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: rgba(212,175,55,0.1);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .link-button svg {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-logo {
+            height: 30px;
+            width: auto;
+        }
+
+        .footer-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        /* Clip vidéo */
+        .video-wrapper {
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.5),
+                0 0 20px rgba(212,175,55,0.08);
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+
+        .video-wrapper iframe {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .link-button {
+                transition: none;
+            }
+            .link-button:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container" role="main">
+
+        <!-- Cover du livre -->
+        <img
+            src="assets/images/IMG_8125.PNG"
+            alt="Couverture du livre La Verticale du Vide par Matthieu Straub"
+            class="cover"
+            width="200"
+            height="200"
+            loading="eager"
+            decoding="async"
+        >
+
+        <!-- Titre & auteur -->
+        <h1 class="title">La Verticale du Vide</h1>
+        <p class="author">Matthieu Straub</p>
+        <p class="tagline">Là où les mots deviennent lumière</p>
+
+        <hr class="divider">
+
+        <!-- Section : Écouter la bande-son -->
+        <h2 class="section-label">Écouter la bande-son</h2>
+        <div class="links">
+            <a href="https://open.spotify.com/album/2dJ1dbR1tPVAorNvehIuko" class="link-button" target="_blank" rel="noopener noreferrer" aria-label="Écouter sur Spotify">
+                <!-- Spotify -->
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.496 17.318a.75.75 0 0 1-1.032.246c-2.826-1.728-6.384-2.12-10.576-1.162a.75.75 0 1 1-.336-1.462c4.588-1.048 8.526-.598 11.698 1.346a.75.75 0 0 1 .246 1.032zm1.466-3.27a.937.937 0 0 1-1.29.308c-3.234-1.989-8.166-2.566-11.988-1.404a.937.937 0 1 1-.544-1.794c4.362-1.326 9.786-.684 13.514 1.6a.937.937 0 0 1 .308 1.29zm.126-3.404C15.612 8.396 9.072 8.184 5.286 9.282a1.125 1.125 0 1 1-.654-2.154c4.344-1.26 11.562-1.02 16.122 1.59a1.125 1.125 0 0 1-1.666 1.426z"/></svg>
+                Spotify
+            </a>
+            <a href="https://music.apple.com/fr/album/la-verticale-du-vide/1886797689?i=1886797690" class="link-button" target="_blank" rel="noopener noreferrer" aria-label="Écouter sur Apple Music">
+                <!-- Apple Music -->
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0 0 19.63.28a10.16 10.16 0 0 0-1.758-.172C17.2.076 16.53.054 15.86.04 14.94.02 14.02.01 13.1.004 11.26-.004 9.42.002 7.58.012c-.9.006-1.8.014-2.698.05-.46.02-.92.054-1.378.124C2.68.326 1.88.654 1.2 1.242.58 1.776.18 2.434.054 3.21a8.36 8.36 0 0 0-.098 1.254c-.02.51-.032 1.02-.042 1.53v.004C-.026 7.658-.014 9.32.006 10.98c.012 1.05.03 2.098.07 3.148.024.62.064 1.24.168 1.852.212 1.254.752 2.28 1.678 3.076.6.516 1.296.824 2.063.972.468.092.942.134 1.418.16.672.034 1.344.05 2.016.06 1.86.032 3.722.02 5.582.01 1.06-.006 2.12-.016 3.18-.048.53-.016 1.06-.042 1.588-.114 1.194-.16 2.2-.66 3.012-1.486.592-.604.97-1.32 1.15-2.134.112-.51.162-1.028.186-1.548.034-.76.05-1.52.058-2.28.016-1.46.012-2.918.002-4.378 0-.56-.006-1.12-.018-1.678zM17.22 12.07v4.97c0 .56-.12 1.082-.46 1.54-.42.568-1.006.86-1.692.964-.456.068-.916.058-1.35-.098-.672-.24-1.058-.744-1.14-1.448a1.755 1.755 0 0 1 .48-1.488c.378-.396.856-.6 1.38-.71.344-.072.69-.12 1.034-.18.336-.058.536-.262.582-.6.006-.044.01-.088.01-.132V9.582c0-.14-.04-.2-.176-.222-.248-.04-.496-.074-.744-.112l-5.702-.946c-.034-.006-.068-.006-.102-.014-.16-.024-.226.032-.236.2v.01c-.006.094-.006.19-.006.284v7.572c0 .578-.114 1.118-.468 1.588-.41.548-.988.836-1.66.944-.48.076-.96.066-1.418-.09-.672-.228-1.07-.722-1.168-1.422a1.78 1.78 0 0 1 .454-1.524c.374-.4.85-.61 1.376-.72.33-.07.664-.118.996-.178.38-.068.574-.288.606-.67V6.588c0-.332.046-.654.222-.946.24-.398.6-.62 1.022-.72.274-.066.554-.1.832-.146l5.056-.842c.382-.064.764-.124 1.148-.182.3-.046.442.058.476.36.006.066.01.132.01.198z"/></svg>
+                Apple Music
+            </a>
+            <a href="https://listen.tidal.com/track/508878030" class="link-button" target="_blank" rel="noopener noreferrer" aria-label="Écouter sur Tidal">
+                <!-- Tidal -->
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996l4.004 4.004 4.004-4.004 4.004 4.004 4.004-4.004L20.02 11.999l4.004-4.004L20.02 3.992l-4.004 4.004zm-.001 8.008l-4.004 4.004-4.003-4.004L0 16.004l4.004 4.004 4.004-4.004 4.004 4.004 4.004-4.004 4.003 4.003 4.004-4.004-4.004-4.003z"/></svg>
+                Tidal
+            </a>
+            <a href="#" class="link-button disabled" aria-label="Deezer — bientôt disponible" aria-disabled="true">
+                <!-- Deezer -->
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.027h5.189V8.38H6.27zm12.54 0v3.027H24V8.38h-5.19zM6.27 12.594v3.027h5.189v-3.027H6.27zm6.271 0v3.027h5.19v-3.027h-5.19zm6.27 0v3.027H24v-3.027h-5.19zM0 16.81v3.029h5.19v-3.03H0zm6.27 0v3.029h5.189v-3.03H6.27zm6.271 0v3.029h5.19v-3.03h-5.19zm6.27 0v3.029H24v-3.03h-5.19z"/></svg>
+                Deezer
+                <span class="badge-soon">Bientôt</span>
+            </a>
+            <a href="#" class="link-button disabled" aria-label="YouTube Music — bientôt disponible" aria-disabled="true">
+                <!-- YouTube Music -->
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228 18.228 15.432 18.228 12 15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/></svg>
+                YouTube Music
+                <span class="badge-soon">Bientôt</span>
+            </a>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Section : Clip vidéo -->
+        <h2 class="section-label">Clip officiel</h2>
+        <div class="video-wrapper">
+            <iframe
+                src="https://www.youtube.com/embed/FnUR_KO1qzw?rel=0&modestbranding=1"
+                title="La Verticale du Vide — Clip officiel"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+            ></iframe>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Section : Découvrir le livre -->
+        <h2 class="section-label">Découvrir le livre</h2>
+        <div class="links">
+            <a href="#AMAZON_URL" class="link-button" target="_blank" rel="noopener noreferrer" aria-label="Acheter sur Amazon">
+                <!-- Amazon / Cart -->
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.045 18.02c.071-.116.698-.854 1.232-1.298.347-.29.847-.659 1.491-1.1C4.44 14.475 6.601 13.768 9 13.768c2.346 0 4.482.69 6.14 1.782.644.424 1.142.793 1.49 1.1.535.444 1.162 1.182 1.233 1.298-.516.363-1.07.675-1.654.931-1.768.775-3.76 1.162-5.963 1.162-2.397 0-4.527-.445-6.382-1.336l-.044-.019c-.546-.243-1.063-.54-1.544-.894l-.23-.17zM13.2 12.604l.028-.062c.206-.456.303-.964.303-1.542 0-2.068-1.252-3.89-3.178-4.749L10.29 6.22a5.626 5.626 0 0 0-.974-.204C8.67 5.89 8 5.88 7.328 5.97a5.486 5.486 0 0 0-.975.228l-.064.028C4.366 7.084 3.114 8.906 3.114 10.974c0 .598.104 1.124.32 1.59l.028.064c.856 1.826 2.646 3.06 4.726 3.168l.08.002c.232.01.46.002.688-.02a5.956 5.956 0 0 0 1.3-.284l.058-.022c.844-.324 1.582-.846 2.166-1.536l.05-.06c.266-.318.484-.67.67-1.058z"/><path d="M21.174 4.627c-.318-.2-.672-.332-1.054-.374-.162-.018-.33-.024-.504-.018-.77.024-1.632.328-2.318.848-.14.106-.27.218-.39.336a3.65 3.65 0 0 0-.392.45l-.04.056c-.168.252-.302.526-.398.81-.044.13-.08.264-.108.4-.048.23-.072.466-.072.706 0 .404.064.788.186 1.148.018.054.04.106.062.158.226.536.582.998 1.036 1.354.176.138.366.262.57.368l.048.024c.396.2.838.318 1.31.356.074.006.148.008.222.008.428 0 .834-.074 1.206-.22l.038-.016c.67-.268 1.22-.72 1.584-1.31l.028-.046c.19-.31.326-.654.398-1.017.028-.138.048-.28.058-.424l.004-.072c.016-.32-.02-.636-.098-.94-.104-.404-.282-.776-.524-1.1l-.032-.042a3.407 3.407 0 0 0-.954-.876l-.044-.028c-.116-.066-.236-.126-.36-.178l-.03-.012z"/><path d="M22.884 17.072l-.016.01c-.066.042-.144.09-.234.142-.404.234-.876.44-1.406.612-.744.242-1.588.408-2.508.496-.274.026-.556.044-.846.054a16.86 16.86 0 0 1-1.1-.004c-1.12-.046-2.19-.198-3.2-.456-1.536-.392-2.928-.992-4.136-1.786-.554-.364-1.064-.766-1.524-1.2-.154-.146-.302-.296-.444-.45l-.032-.036c-.122-.134-.178-.146-.27-.02-.038.052-.07.11-.104.166l-.022.04c-.204.388-.318.788-.352 1.21-.01.11-.012.226-.006.344.022.39.116.768.278 1.124l.014.03c.3.656.782 1.202 1.396 1.58.322.198.67.36 1.04.476.256.08.518.14.786.18.476.072.966.08 1.452.026.614-.07 1.2-.232 1.744-.474.086-.038.17-.08.254-.122l.022-.012c.146-.076.288-.16.424-.25.104-.07.206-.144.304-.222.08-.064.156-.132.23-.202.086-.08.124-.076.166.024.032.08.056.164.072.25.026.142.03.288.012.432-.032.256-.12.5-.26.726l-.02.03a2.422 2.422 0 0 1-.604.612c-.264.198-.564.354-.89.466-.468.16-.97.252-1.494.27-.142.006-.284.004-.428-.006-.664-.044-1.298-.198-1.888-.458l-.028-.012a5.054 5.054 0 0 1-1.648-1.168l-.038-.042a4.562 4.562 0 0 1-.852-1.398l-.016-.042a4.1 4.1 0 0 1-.246-1.078 3.821 3.821 0 0 1 .004-.702c.02-.182.054-.36.1-.532.044-.166.144-.286.302-.354l.028-.012c.14-.058.288-.054.43.006.406.172.782.4 1.12.68.136.112.266.232.39.356.258.258.544.486.856.684.94.596 2.022 1.03 3.226 1.3.902.204 1.85.318 2.83.34l.1.002c.374.006.746-.004 1.116-.032.908-.068 1.776-.23 2.586-.484.558-.174 1.076-.396 1.546-.662l.052-.03c.096-.056.188-.116.276-.18l.018-.014c.048-.038.052-.068.012-.106z"/></svg>
+                Acheter sur Amazon
+            </a>
+            <a href="https://editions-kileton.fr" class="link-button" target="_blank" rel="noopener noreferrer" aria-label="Visiter le site Éditions Kileton">
+                <!-- Globe -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                editions-kileton.fr
+            </a>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <!-- Logo KILETON inline SVG -->
+            <svg class="footer-logo" viewBox="0 0 320 60" fill="none" aria-label="Logo Éditions Kileton">
+                <g transform="translate(10, 5)">
+                    <rect x="0" y="0" width="5" height="50" fill="#D4AF37"/>
+                    <line x1="5" y1="25" x2="30" y2="0" stroke="#D4AF37" stroke-width="5" stroke-linecap="round"/>
+                    <line x1="5" y1="25" x2="32" y2="50" stroke="#D4AF37" stroke-width="5" stroke-linecap="round"/>
+                    <polygon points="17,25 21,20 25,25 21,30" fill="#D4AF37" opacity="0.7"/>
+                </g>
+                <text x="55" y="27" font-family="Georgia, 'Times New Roman', serif" font-size="14" letter-spacing="3.5" fill="#D4AF37" font-weight="bold">ÉDITIONS</text>
+                <text x="55" y="48" font-family="Georgia, 'Times New Roman', serif" font-size="20" letter-spacing="5" fill="#D4AF37" font-weight="bold">KILETON</text>
+                <line x1="55" y1="53" x2="185" y2="53" stroke="#D4AF37" stroke-width="1" opacity="0.8"/>
+            </svg>
+            <p class="footer-text">&copy; 2026 Éditions Kileton</p>
+        </footer>
+
+    </main>
+</body>
+</html>
