@@ -7,13 +7,13 @@
     <meta name="description" content="La Verticale du Vide de Matthieu Straub. Écoutez la bande-son, achetez le livre, découvrez l'univers des Éditions Kileton.">
     <meta property="og:title" content="La Verticale du Vide — Matthieu Straub">
     <meta property="og:description" content="Là où les mots deviennent lumière. Écoutez la bande-son, achetez le livre.">
-    <meta property="og:image" content="https://editions-kileton.fr/assets/images/PAGE_DE_GARDE.jpg">
+    <meta property="og:image" content="https://editions-kileton.fr/assets/images/PAGE_DE_GARDE_opt.jpg">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://editions-kileton.fr/liens">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="La Verticale du Vide — Matthieu Straub">
     <meta name="twitter:description" content="Là où les mots deviennent lumière. Écoutez la bande-son, achetez le livre.">
-    <meta name="twitter:image" content="https://editions-kileton.fr/assets/images/PAGE_DE_GARDE.jpg">
+    <meta name="twitter:image" content="https://editions-kileton.fr/assets/images/PAGE_DE_GARDE_opt.jpg">
     <link rel="icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -317,15 +317,18 @@
 
         <!-- Image héroïque avec texte superposé -->
         <div class="hero">
-            <img
-                src="assets/images/PAGE_DE_GARDE.jpg"
-                alt="Page de garde La Verticale du Vide — portail gothique en arche ogivale, lumière céleste traversant la pierre sombre"
-                class="hero-img"
-                width="720"
-                height="1280"
-                loading="eager"
-                decoding="async"
-            >
+            <picture>
+                <source srcset="assets/images/PAGE_DE_GARDE.webp" type="image/webp">
+                <img
+                    src="assets/images/PAGE_DE_GARDE_opt.jpg"
+                    alt="Page de garde La Verticale du Vide — portail gothique en arche ogivale, lumière céleste traversant la pierre sombre"
+                    class="hero-img"
+                    width="720"
+                    height="1280"
+                    loading="eager"
+                    decoding="async"
+                >
+            </picture>
             <div class="hero-overlay">
                 <h1 class="hero-title">La Verticale du Vide</h1>
                 <p class="hero-author">Matthieu Straub</p>
