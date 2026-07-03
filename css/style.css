@@ -129,8 +129,15 @@ ul {
 
 .nav-links {
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
     align-items: center;
+}
+
+/* Progressive enhancement : la liste inline est le repli sans JS ;
+   dès que JS est actif, elle s'efface au profit du seul bouton « Menu ». */
+.js .nav-links {
+    display: none;
 }
 
 .nav-link {
@@ -160,36 +167,58 @@ ul {
     background: var(--gold);
 }
 
-/* Hamburger */
-.hamburger {
+/* ============================================
+   BOUTON « MENU » — déclencheur unique du drawer
+   Repli progressif : masqué sans JS (la liste .nav-links sert
+   alors de navigation) ; révélé dès que JS est actif (.js).
+   ============================================ */
+.menu-toggle {
     display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 0.95rem;
+    background: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    border-radius: 999px;
+    color: var(--pure-white);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     cursor: pointer;
-    padding: 5px;
     z-index: 1001;
+    transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
 }
 
-.hamburger-line {
+.js .menu-toggle {
+    display: inline-flex;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus-visible {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.08);
+}
+
+/* Icône : trois filets qui suivent la couleur du texte (currentColor)
+   pour s'adapter automatiquement au fond de chaque page. */
+.menu-toggle-icon {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.menu-toggle-icon span {
     display: block;
-    width: 24px;
+    width: 18px;
     height: 2px;
-    background: var(--pure-white);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    background: currentColor;
 }
 
-.hamburger.active .hamburger-line:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-
-.hamburger.active .hamburger-line:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active .hamburger-line:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+.menu-toggle-label {
+    line-height: 1;
 }
 
 /* ============================================
@@ -395,6 +424,12 @@ ul {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Sans JS, aucune animation : tout le contenu reste visible (repli). */
+html:not(.js) .fade-in {
+    opacity: 1;
+    transform: none;
 }
 
 /* ============================================
@@ -846,38 +881,259 @@ ul {
 }
 
 /* ============================================
+   MENU LATÉRAL (DRAWER) — Mode Nuit KILETON
+   Global sur toutes les pages. État ouvert = classe .is-open (JS).
+   ============================================ */
+
+/* Overlay assombri derrière le panneau */
+.drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    background: rgba(6, 14, 26, 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.drawer-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.35s ease;
+}
+
+/* Panneau glissant depuis la droite — « demi-page » */
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1600;
+    height: 100vh;
+    height: 100dvh;
+    width: min(480px, 50vw);          /* desktop */
+    max-width: 100%;
+    background: var(--night-blue);     /* #0A1628 */
+    color: var(--pure-white);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.45);
+    transform: translateX(100%);
+    visibility: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transition: transform 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.drawer.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.35s ease;
+}
+
+.drawer-inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 1.5rem 1.75rem 2.5rem;
+}
+
+/* En-tête du drawer : marque + bouton fermer */
+.drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.25rem;
+}
+
+.drawer-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.drawer-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: -0.5rem;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+.drawer-close:hover,
+.drawer-close:focus-visible {
+    color: var(--gold);
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.drawer-section-title {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+/* Cartes d'œuvres — nom (Cormorant) + tagline + flèche */
+.drawer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.work-card {
+    position: relative;
+    display: block;
+    padding: 1.35rem 3rem 1.4rem 1.4rem;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    border-radius: 10px;
+    background: rgba(212, 175, 55, 0.03);
+    transition: border-color 0.35s ease, background 0.35s ease,
+                transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.work-card:hover,
+.work-card:focus-visible {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.08);
+    transform: translateX(-4px);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.12);
+}
+
+.work-card-name {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--pure-white);
+    margin-bottom: 0.3rem;
+}
+
+.work-card-tagline {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.work-card-arrow {
+    position: absolute;
+    top: 50%;
+    right: 1.4rem;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: var(--gold);
+    transition: transform 0.35s ease;
+}
+
+.work-card:hover .work-card-arrow,
+.work-card:focus-visible .work-card-arrow {
+    transform: translateY(-50%) translateX(4px);
+}
+
+/* Liens secondaires discrets, poussés en bas du panneau */
+.drawer-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin-top: auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.drawer-secondary a {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
+}
+
+.drawer-secondary a:hover,
+.drawer-secondary a:focus-visible {
+    color: var(--gold);
+}
+
+/* Verrou du scroll de la page tant que le drawer est ouvert */
+body.drawer-open {
+    overflow: hidden;
+}
+
+/* Largeurs responsives du drawer */
+@media (max-width: 1023px) {
+    .drawer { width: 60vw; }           /* tablette */
+}
+
+@media (max-width: 767px) {
+    .drawer { width: 100vw; }          /* mobile plein écran */
+    .drawer-inner { padding: 1.25rem 1.25rem 2rem; }
+}
+
+/* ============================================
+   PAGE FRANCE DES TALENTS — habillage header/footer
+   (le drawer reste Mode Nuit ; seule la page est crème/doré)
+   ============================================ */
+
+/* Header lisible sur fond crème, y compris une fois scrollé */
+.page-france .site-header.scrolled {
+    background: rgba(247, 241, 225, 0.95);
+    box-shadow: 0 2px 20px rgba(122, 94, 26, 0.12);
+}
+
+/* Bouton « Menu » et liens de repli en or profond sur le crème */
+.page-france .menu-toggle {
+    color: #7A5E1A;
+    border-color: rgba(122, 94, 26, 0.4);
+}
+
+.page-france .menu-toggle:hover,
+.page-france .menu-toggle:focus-visible {
+    color: #5A4712;
+    border-color: #7A5E1A;
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.page-france .nav-link {
+    color: #2C2617;
+}
+
+/* Pied de page : touche bleu-nuit réservée (charte Patrimoine) */
+.page-france .site-footer {
+    background: var(--architect-blue);   /* #1B3A5C */
+    border-top-color: rgba(212, 175, 55, 0.25);
+}
+
+.page-france .footer-copyright,
+.page-france .footer-nav a {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.page-france .footer-nav a:hover {
+    color: var(--gold);
+}
+
+/* ============================================
    RESPONSIVE — MOBILE FIRST
    ============================================ */
 
 /* Mobile (< 768px) */
 @media (max-width: 767px) {
-    .hamburger {
-        display: flex;
-    }
-
+    /* Repli sans JS : la liste de navigation reste lisible et compacte
+       (le drawer, piloté par JS, prend le relais dès qu'il est disponible). */
     .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 70%;
-        max-width: 300px;
-        height: 100vh;
-        flex-direction: column;
-        justify-content: center;
-        gap: 2rem;
-        background: rgba(10, 22, 40, 0.97);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        transition: right 0.4s ease;
-        padding: 2rem;
-    }
-
-    .nav-links.open {
-        right: 0;
-    }
-
-    .nav-link {
-        font-size: 1rem;
+        gap: 1.1rem;
     }
 
     /* Hero Accueil */

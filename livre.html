@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
+    <script>document.documentElement.classList.add('js');</script>
     <title>La Verticale du Vide — Roman de Matthieu Straub | Éditions Kileton</title>
     <meta name="description" content="La Verticale du Vide, premier roman de Matthieu Straub. Un architecte star, une tour qui s'effondre, un voyage entre les mondes. Chute, rédemption et libre arbitre.">
     <link rel="canonical" href="https://editions-kileton.fr/livre.html">
@@ -82,17 +84,58 @@
             <a href="index.html" class="logo-link" aria-label="Accueil Éditions Kileton">
                 <img src="assets/images/logo_kileton.svg?v=3" alt="Logo Éditions Kileton" class="logo" width="200" height="40">
             </a>
-            <button class="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
+            <!-- Navigation inline : repli accessible sans JS -->
             <ul class="nav-links">
                 <li><a href="index.html" class="nav-link">Accueil</a></li>
                 <li><a href="livre.html" class="nav-link active" aria-current="page">La Verticale du Vide</a></li>
+                <li><a href="france-des-talents.html" class="nav-link">La France des Talents</a></li>
             </ul>
+            <!-- Déclencheur unique du menu latéral (révélé par JS) -->
+            <button class="menu-toggle" type="button" aria-label="Ouvrir le menu de navigation" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-drawer">
+                <span class="menu-toggle-icon" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </span>
+                <span class="menu-toggle-label">Menu</span>
+            </button>
         </nav>
     </header>
+
+    <!-- MENU LATÉRAL (DRAWER) — navigation principale, Mode Nuit -->
+    <div class="drawer-overlay"></div>
+    <aside id="site-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Menu de navigation" aria-hidden="true" tabindex="-1">
+        <div class="drawer-inner">
+            <div class="drawer-head">
+                <p class="drawer-eyebrow">Éditions Kileton</p>
+                <button class="drawer-close" type="button" aria-label="Fermer le menu">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="drawer-nav" aria-label="Les œuvres">
+                <p class="drawer-section-title">Les œuvres</p>
+
+                <a class="work-card" href="livre.html">
+                    <span class="work-card-name">La Verticale du Vide</span>
+                    <span class="work-card-tagline">Roman — entre la chute et le chant, il y a nous</span>
+                    <span class="work-card-arrow" aria-hidden="true">→</span>
+                </a>
+
+                <a class="work-card" href="france-des-talents.html">
+                    <span class="work-card-name">La France des Talents</span>
+                    <span class="work-card-tagline">Essai — les fondements d'une France libre et souveraine</span>
+                    <span class="work-card-arrow" aria-hidden="true">→</span>
+                </a>
+            </nav>
+
+            <nav class="drawer-secondary" aria-label="Liens secondaires">
+                <a href="index.html">Accueil</a>
+                <a href="index.html#contact">Me contacter</a>
+            </nav>
+        </div>
+    </aside>
 
     <main role="main">
 
@@ -244,6 +287,7 @@
                 <nav class="footer-nav" aria-label="Navigation pied de page">
                     <a href="index.html">Accueil</a>
                     <a href="livre.html">La Verticale du Vide</a>
+                    <a href="france-des-talents.html">La France des Talents</a>
                 </nav>
             </div>
         </div>

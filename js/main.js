@@ -22,38 +22,91 @@
     window.addEventListener('scroll', handleHeaderScroll, { passive: true });
     handleHeaderScroll();
 
-    /* --- Mobile hamburger menu --- */
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+    /* --- Menu latéral (drawer) ---
+       Déclencheur unique « Menu » -> panneau glissant Mode Nuit.
+       Accessibilité : focus déplacé dans le panneau, focus trap,
+       fermeture Échap / overlay / bouton, retour du focus au déclencheur,
+       scroll du body verrouillé. */
+    const menuToggle    = document.querySelector('.menu-toggle');
+    const drawer        = document.getElementById('site-drawer');
+    const drawerOverlay = document.querySelector('.drawer-overlay');
+    const drawerClose   = drawer ? drawer.querySelector('.drawer-close') : null;
 
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', function () {
-            const isOpen = navLinks.classList.toggle('open');
-            hamburger.classList.toggle('active');
-            hamburger.setAttribute('aria-expanded', isOpen);
-            document.body.style.overflow = isOpen ? 'hidden' : '';
-        });
+    if (menuToggle && drawer && drawerOverlay) {
+        const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+        let lastFocused = null;
 
-        // Close menu on link click
-        navLinks.querySelectorAll('.nav-link').forEach(function (link) {
-            link.addEventListener('click', function () {
-                navLinks.classList.remove('open');
-                hamburger.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-            });
-        });
+        function getFocusable() {
+            return Array.prototype.slice.call(drawer.querySelectorAll(FOCUSABLE));
+        }
 
-        // Close menu on outside click
-        document.addEventListener('click', function (e) {
-            if (navLinks.classList.contains('open') &&
-                !navLinks.contains(e.target) &&
-                !hamburger.contains(e.target)) {
-                navLinks.classList.remove('open');
-                hamburger.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
+        function openDrawer() {
+            lastFocused = document.activeElement;
+            drawer.classList.add('is-open');
+            drawerOverlay.classList.add('is-open');
+            drawer.setAttribute('aria-hidden', 'false');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('drawer-open');
+
+            // Déplacer le focus dans le panneau (bouton fermer en priorité)
+            const focusables = getFocusable();
+            (drawerClose || focusables[0] || drawer).focus();
+
+            document.addEventListener('keydown', onKeydown);
+        }
+
+        function closeDrawer(returnFocus) {
+            drawer.classList.remove('is-open');
+            drawerOverlay.classList.remove('is-open');
+            drawer.setAttribute('aria-hidden', 'true');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('drawer-open');
+
+            document.removeEventListener('keydown', onKeydown);
+
+            // Retour du focus sur le déclencheur (sauf si on navigue via un lien)
+            if (returnFocus !== false && lastFocused &&
+                typeof lastFocused.focus === 'function') {
+                lastFocused.focus();
             }
+        }
+
+        function onKeydown(e) {
+            if (e.key === 'Escape' || e.key === 'Esc') {
+                e.preventDefault();
+                closeDrawer();
+                return;
+            }
+
+            // Focus trap : maintenir la tabulation dans le panneau
+            if (e.key === 'Tab') {
+                const focusables = getFocusable();
+                if (focusables.length === 0) { return; }
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        }
+
+        menuToggle.addEventListener('click', openDrawer);
+        drawerOverlay.addEventListener('click', function () { closeDrawer(); });
+
+        if (drawerClose) {
+            drawerClose.addEventListener('click', function () { closeDrawer(); });
+        }
+
+        // Fermer en cliquant un lien du drawer ; la navigation prend le relais
+        drawer.querySelectorAll('a[href]').forEach(function (link) {
+            link.addEventListener('click', function () {
+                closeDrawer(false);
+            });
         });
     }
 

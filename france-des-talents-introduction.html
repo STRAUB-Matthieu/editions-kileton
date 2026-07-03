@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
+    <script>document.documentElement.classList.add('js');</script>
+    <title>Introduction — La France des Talents, Tome 1 | Éditions Kileton</title>
+    <meta name="description" content="Introduction du Tome 1 de La France des Talents — La France en 2026, et la seule sortie possible. Un essai de Matthieu Straub, Éditions Kileton.">
+    <link rel="canonical" href="https://editions-kileton.fr/france-des-talents-introduction.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Introduction — La France des Talents, Tome 1">
+    <meta property="og:description" content="La France en 2026, et la seule sortie possible.">
+    <meta property="og:image" content="https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg">
+    <meta property="og:url" content="https://editions-kileton.fr/france-des-talents-introduction.html">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="fr_FR">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet globale (header, drawer, footer, charte) -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- ============================================================
+         STYLES PROPRES À LA PAGE — Mode Patrimoine (crème / doré)
+         Portée limitée à .page-france. Header / drawer / footer
+         viennent de style.css.
+         ============================================================ -->
+    <style>
+    /* Variables spécifiques au Mode Patrimoine */
+    :root {
+        --cream:      #F7F1E1;   /* fond principal         */
+        --cream-alt:  #EFE4CB;   /* alternance de sections */
+        --gold-deep:  #7A5E1A;   /* titres sur crème (AA)  */
+        --ink:        #2C2617;   /* corps de texte         */
+        --ink-soft:   #5C523E;   /* textes secondaires     */
+    }
+
+    body.page-france {
+        background-color: var(--cream);
+        color: var(--ink);
+    }
+
+    /* --- Divider or signature --- */
+    .page-france .divider {
+        width: 60px;
+        height: 2px;
+        background: var(--gold);
+        border: 0;
+        margin: 1.25rem 0 0;
+    }
+    .page-france .divider--center { margin-left: auto; margin-right: auto; }
+
+    /* --- Label capitalisé --- */
+    .page-france .eyebrow {
+        font-family: var(--font-sans);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold-deep);
+    }
+
+    /* ============================================================
+       LIEN DE RETOUR (haut & bas de page)
+       ============================================================ */
+    .intro-backlink {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-sans);
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold-deep);
+        text-decoration: none;
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+    .intro-backlink:hover { color: var(--gold); transform: translateX(-3px); }
+    .intro-backlink svg { width: 18px; height: 18px; }
+
+    .intro-backbar {
+        background: var(--cream);
+        padding: clamp(5.5rem, 10vw, 7rem) 0 0;   /* dégage le header fixe */
+    }
+
+    .intro-footer-nav {
+        background: var(--cream-alt);
+        text-align: center;
+        padding: clamp(2.5rem, 6vw, 4rem) 0 clamp(4rem, 9vw, 6rem);
+    }
+
+    /* ============================================================
+       INTRODUCTION — zone de lecture confortable
+       ============================================================ */
+    .introduction {
+        padding: clamp(2.5rem, 6vw, 4rem) 0 clamp(4rem, 9vw, 6rem);
+        background: var(--cream-alt);
+    }
+    .introduction-head { text-align: center; margin-bottom: 2.75rem; }
+    .introduction-title {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        font-size: clamp(2.2rem, 6vw, 3.4rem);
+        color: var(--gold-deep);
+        letter-spacing: 0.02em;
+    }
+    .introduction-subtitle {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.15rem, 3vw, 1.5rem);
+        color: var(--ink-soft);
+        margin-top: 1.1rem;
+        text-wrap: balance;
+    }
+
+    /* Colonne de lecture — line-height 1.85, ~640px, justifié */
+    .reading-column {
+        max-width: 640px;
+        margin: 0 auto;
+        font-family: var(--font-serif);
+        font-size: clamp(1.15rem, 2.6vw, 1.3rem);
+        line-height: 1.85;
+        color: var(--ink);
+        text-align: justify;
+        hyphens: auto;
+    }
+    .reading-column p + p { margin-top: 1.4rem; }
+    .reading-column em { font-style: italic; }
+
+    /* Épigraphe en tête de lecture */
+    .reading-epigraph {
+        max-width: 620px;
+        margin: 0 auto 2.75rem;
+        text-align: center;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: clamp(1.2rem, 3vw, 1.5rem);
+        line-height: 1.4;
+        color: var(--gold-deep);
+    }
+    .reading-epigraph em { font-style: italic; }
+    .reading-epigraph-src {
+        display: block;
+        margin-top: 0.6rem;
+        font-style: normal;
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+    }
+
+    /* Sous-titres de section à l'intérieur de la lecture */
+    .reading-subhead {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        line-height: 1.2;
+        color: var(--gold-deep);
+        text-align: left;
+        margin: 2.75rem 0 1.1rem;
+        text-wrap: balance;
+    }
+
+    /* Mention de fin */
+    .reading-end {
+        margin-top: 2.75rem;
+        text-align: center;
+        font-family: var(--font-sans);
+        font-size: 0.8rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        opacity: 0.8;
+    }
+    </style>
+</head>
+
+<body class="page-france">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="site-header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <a href="index.html" class="logo-link" aria-label="Accueil Éditions Kileton">
+                <img src="assets/images/logo_kileton.svg?v=3" alt="Logo Éditions Kileton" class="logo" width="200" height="40">
+            </a>
+            <!-- Navigation inline : repli accessible sans JS -->
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="livre.html" class="nav-link">La Verticale du Vide</a></li>
+                <li><a href="france-des-talents.html" class="nav-link active" aria-current="page">La France des Talents</a></li>
+            </ul>
+            <!-- Déclencheur unique du menu latéral (révélé par JS) -->
+            <button class="menu-toggle" type="button" aria-label="Ouvrir le menu de navigation" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-drawer">
+                <span class="menu-toggle-icon" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </span>
+                <span class="menu-toggle-label">Menu</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- MENU LATÉRAL (DRAWER) — navigation principale, Mode Nuit -->
+    <div class="drawer-overlay"></div>
+    <aside id="site-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Menu de navigation" aria-hidden="true" tabindex="-1">
+        <div class="drawer-inner">
+            <div class="drawer-head">
+                <p class="drawer-eyebrow">Éditions Kileton</p>
+                <button class="drawer-close" type="button" aria-label="Fermer le menu">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="drawer-nav" aria-label="Les œuvres">
+                <p class="drawer-section-title">Les œuvres</p>
+
+                <a class="work-card" href="livre.html">
+                    <span class="work-card-name">La Verticale du Vide</span>
+                    <span class="work-card-tagline">Roman — entre la chute et le chant, il y a nous</span>
+                    <span class="work-card-arrow" aria-hidden="true">→</span>
+                </a>
+
+                <a class="work-card" href="france-des-talents.html">
+                    <span class="work-card-name">La France des Talents</span>
+                    <span class="work-card-tagline">Essai — les fondements d'une France libre et souveraine</span>
+                    <span class="work-card-arrow" aria-hidden="true">→</span>
+                </a>
+            </nav>
+
+            <nav class="drawer-secondary" aria-label="Liens secondaires">
+                <a href="index.html">Accueil</a>
+                <a href="index.html#contact">Me contacter</a>
+            </nav>
+        </div>
+    </aside>
+
+    <main role="main">
+
+        <!-- Lien de retour vers la présentation -->
+        <div class="intro-backbar">
+            <div class="container">
+                <a class="intro-backlink" href="france-des-talents.html">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Retour à la présentation
+                </a>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             INTRODUCTION — texte intégral du Tome 1
+             ============================================================ -->
+        <section class="introduction" aria-labelledby="introduction-title">
+            <div class="container">
+                <div class="introduction-head fade-in">
+                    <p class="eyebrow">La France des Talents · Tome 1</p>
+                    <h1 class="introduction-title" id="introduction-title">Introduction</h1>
+                    <hr class="divider divider--center">
+                    <p class="introduction-subtitle">La France en 2026, et la seule sortie possible</p>
+                </div>
+
+                <div class="reading-column fade-in">
+                    <blockquote class="reading-epigraph"><em>« Avance en eau profonde, et jetez vos filets pour pêcher. »</em><span class="reading-epigraph-src">Lc 5, 4</span></blockquote>
+                    <h2 class="reading-subhead">Une mort sans bruit</h2>
+                    <p>La France meurt sans drame, sans bataille, sans cri. Aucune armée ennemie ne franchit ses frontières, aucune guerre civile ne déchire son territoire, aucune catastrophe ne ravage ses provinces. Et pourtant, en cette année 2026, le diagnostic ne souffre plus l'ambiguïté : ce pays s'éteint à bas bruit, dans une extinction lente, polie, confortable. C'est précisément cette douceur qui devrait nous alarmer plus que tout. On se résigne mal à une agonie qui ne fait pas mal.</p>
+                    <p>Le premier symptôme est le plus profond, parce qu'il est le plus irréfutable. Une nation se mesure d'abord à sa capacité d'engendrer ceux qui lui succéderont — et la France ne fait plus d'enfants. L'indice de fécondité, c'est-à-dire le nombre moyen d'enfants par femme, est tombé en 2025 à 1,56 (INSEE, <em>Bilan démographique</em>), son niveau le plus bas depuis la sortie de la Première Guerre mondiale, et loin sous le seuil qui permet à une population de seulement se maintenir, fixé à 2,1. On a compté cette année-là 645 000 naissances, près d'un quart de moins qu'en 2010, et 651 000 décès. Pour la première fois depuis 1945, il meurt désormais plus de Français qu'il n'en naît : le solde naturel est devenu négatif. Ce n'est plus une menace annoncée, c'est un fait accompli — et la France, qui fut longtemps la plus féconde des grandes nations d'Europe, a perdu jusqu'à cette première place. Une nation qui, hors immigration, ne se reproduit plus est une nation qui a cessé de croire en elle-même.</p>
+                    <p>Que l'on me comprenne bien : ce signal n'est pas une statistique parmi d'autres. C'est <em>le</em> signal. On peut tricher avec les comptes publics, avec les indicateurs de croissance, avec les classements internationaux ; on ne triche pas avec la natalité. Quand un peuple n'engendre plus assez d'enfants pour se prolonger, il a déjà répondu, à son insu, à la plus politique des questions : <em>vaut-il la peine de durer ?</em> La fécondité française dit non là où les discours officiels disent oui. C'est ce démenti silencieux qu'aucun gouvernement n'ose entendre.</p>
+                    <h2 class="reading-subhead">La dette, et l'État sans bornes</h2>
+                    <p>Le deuxième symptôme est financier, et il pèse, lui aussi, sur les générations qui n'ont rien demandé. À la fin de l'année 2025, la dette publique française atteignait 115,6 % du produit intérieur brut, c'est-à-dire de tout ce que le pays produit en un an, soit 3 460,5 milliards d'euros (INSEE). Faute de réforme de fond, la trajectoire conduit vers 130 % du PIB au tournant de 2030. Chaque seconde, l'État contracte de la dette nouvelle. Chaque enfant qui naît dans ce pays vient au monde grevé, à sa première respiration, d'environ 50 000 euros de dette publique sur les épaules — sans qu'on lui ait demandé son avis, sans qu'il ait consommé le moindre service, sans qu'il puisse encore en exiger des comptes.</p>
+                    <p>Le coût même de cette dette est devenu un gouffre. Les intérêts à verser aux créanciers de l'État passeront de 58 milliards d'euros en 2024 à 67 en 2025, puis à 74 milliards en 2026 (Sénat, projet de loi de finances pour 2026) : assez pour faire de la charge de la dette le tout premier poste du budget de l'État, devant l'Éducation nationale, et désormais devant la Défense elle-même. Disons-le crûment : la France paie aujourd'hui davantage pour rembourser ses prêteurs que pour former la génération suivante ou pour protéger son territoire. C'est l'exacte inversion de la vocation politique. Un État qui consacre plus à son passé qu'à son avenir n'est plus un État au sens fort du terme : c'est une machine à entretenir sa propre rente.</p>
+                    <p>Et ce passé, soyons précis, n'a pas été investi dans des chefs-d'œuvre durables. La dette française n'a pas payé un parc nucléaire neuf, des infrastructures de pointe, une politique familiale conquérante, une armée surdimensionnée. Elle a financé, pour l'essentiel — de l'ordre de quatre cinquièmes —, le fonctionnement ordinaire d'un État qui ne sait plus tourner sans emprunter pour ses dépenses courantes. Ce n'est plus de l'investissement : l'investissement public, lui, ne pèse qu'environ 130 milliards d'euros par an (Fipeco), une fraction de la dette accumulée. C'est une consommation à crédit, ininterrompue depuis un demi-siècle. La dernière année où le budget de la France fut à l'équilibre remonte à 1974.</p>
+                    <p>Ce gonflement de la dette n'est que la trace comptable d'un mal plus large : un État qui a grossi sans mesure. La dépense publique représente, en 2025, 57,3 % du produit intérieur brut (INSEE). La France détient là, presque sans interruption depuis 2017, un record que nul pays développé ne lui dispute : aucun ne consacre une part aussi écrasante de sa richesse à son administration. Que l'on compare : l'Allemagne fonctionne avec près de 49 % de son PIB, le Japon avec environ 44 %, les États-Unis avec quelque 38 %, la Suisse avec à peine un tiers (OCDE et FMI) ; la moyenne de la zone euro elle-même plafonne à 49,5 % (Eurostat). La France, elle, en est à 57,3 % — seule de sa catégorie. Cela signifie, très concrètement, qu'un euro sur deux et demi produit par le travail français passe entre les mains de la puissance publique avant d'être, éventuellement, redistribué. Cela signifie qu'un actif sur cinq, dans ce pays, est un employé public au sens large : près de 5,7 millions d'agents répartis entre la fonction publique d'État, la territoriale et l'hospitalière. Cela signifie que l'État, devenu à lui seul le cœur et le poumon de la nation, n'a plus de membres pour le porter — il s'est substitué au corps tout entier.</p>
+                    <p>Le Christ avait eu, à propos d'une autre caste de gardiens du Temple, un mot qui résonne ici avec une exactitude troublante : <em>« Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt »</em> (Mt 23, 4). Avouons-le : on n'a rien écrit, en deux mille ans, de plus juste sur notre haute administration contemporaine. Le code du travail compte aujourd'hui plus de 11 000 articles — il en avait deux fois moins il y a vingt ans ; le code général des impôts en dépasse 4 000 ; le volume du droit en vigueur a tout bonnement doublé depuis 2002 (Secrétariat général du Gouvernement), et l'on estime à plus de 400 000 le nombre de normes applicables sur le territoire. Personne, dans ce pays, ne sait plus exactement combien de règles s'imposent à lui : c'est précisément cela, le symptôme. Cette inflation des normes est un impôt invisible — l'OCDE en chiffre le coût entre 3 et 4 % du PIB chaque année, et certaines estimations le portent autour de cent milliards d'euros (Fondation IFRAP). Et elle n'est jamais supportée par ceux qui la produisent : les législateurs, les hauts fonctionnaires, les juristes et les cabinets de conseil qui en vivent.</p>
+                    <h2 class="reading-subhead">Produire, employer, retenir</h2>
+                    <p>Le troisième symptôme est productif. En 1970, l'industrie manufacturière représentait environ 22 % de la valeur ajoutée française ; aujourd'hui, elle en pèse à peine 10 %. La France, qui avait fait la première révolution industrielle du continent avec les forges de Wendel, les mines du Nord, les arsenaux de Brest et de Toulon, la chimie lyonnaise, l'automobile de Renault et de Peugeot, l'aéronautique de Dassault, l'électronique de Thomson, est devenue, en deux générations, un pays qui ne produit presque plus. Notre balance commerciale des biens reste lourdement déficitaire — près de 80 milliards d'euros pour la seule année 2024 (Douanes) : nous importons jusqu'aux médicaments les plus banals, jusqu'aux composants les plus stratégiques, jusqu'aux machines-outils sans lesquelles aucune autonomie n'est plus possible. Vendre moins que l'on n'achète, année après année, ce n'est pas une mauvaise passe : c'est une dépendance installée.</p>
+                    <p>Cette désindustrialisation a une traduction humaine immédiate : le travail qui manque. Au sens du Bureau international du travail, le taux de chômage tournait, en moyenne, autour de 7,7 % en 2025, et il remontait au début de 2026 vers 8 % de la population active (INSEE) — une hausse, après des années de lent reflux. Mais ce chiffre seul masque une réalité plus tenace. Il est vrai que le taux d'emploi des 15-64 ans a atteint, en 2024, son plus haut niveau jamais mesuré, à 68,8 % — je le dis sans détour, car l'honnêteté l'exige et parce que la réforme des retraites de 2023 y a poussé l'emploi des seniors à des records. Mais ce record reste, en proportion, l'un des plus modestes d'Europe : l'Allemagne fait travailler près de 78 % de ses 15-64 ans, les Pays-Bas plus de 80 % (OCDE), quand la France plafonne à 68,8 %. L'écart est plus net encore chez les seniors : le taux d'emploi des 55-64 ans, qui grimpe en France vers 62 % sous l'effet de la réforme des retraites de 2023, atteint déjà près de 74 % en Allemagne et 77 % en Suède (OCDE). Surtout, derrière la moyenne, le sous-emploi, le « halo » du chômage, les contrats précaires et les emplois aidés portent à près de quatre millions le nombre de Français qui voudraient travailler davantage et ne le peuvent pas. Une nation qui, même à son meilleur niveau d'emploi depuis cinquante ans, laisse encore tant d'adultes au bord du marché du travail n'a pas réglé le problème : elle l'a seulement masqué.</p>
+                    <p>À l'autre bout de l'échelle, la fuite des talents s'accélère. Chaque année, des dizaines de milliers de Français hautement qualifiés quittent le pays ; les expatriés français approchent désormais 2,5 millions de personnes (ministère de l'Europe et des Affaires étrangères), dont la moitié dans des pays développés. Ce ne sont pas des fuyards : ce sont, pour beaucoup, des actifs jeunes, formés sur fonds publics, qui calculent froidement qu'ils gagneront davantage, paieront moins d'impôts et seront mieux considérés en Suisse, au Royaume-Uni, en Amérique du Nord, à Singapour ou aux Émirats. Chaque ingénieur, chaque cadre, chaque chercheur formé à HEC, à Polytechnique, à l'École normale supérieure ou à Centrale qui s'en va est une dette nouvelle pour ceux qui restent. Le pays vit, en partie, sur ce qu'il exporte de ses propres enfants. C'est l'envers du miroir colonial : ce ne sont plus les capitaux qui s'expatrient, ce sont les cerveaux.</p>
+                    <h2 class="reading-subhead">Des institutions à bout, un peuple qui doute</h2>
+                    <p>Le quatrième symptôme est institutionnel. La Ve République, ce régime semi-présidentiel taillé pour de Gaulle, fonctionne désormais à vide. Les présidents s'usent en moins d'un mandat, les majorités se fragmentent, les premiers ministres se succèdent à un rythme insoutenable. Pis encore, les institutions ne sont plus respectées par les institutions elles-mêmes : le Conseil constitutionnel se mue en chambre de censure politique, le Conseil d'État légifère par sa jurisprudence, la Cour de cassation déborde sur la loi, le Parlement vote des textes aussitôt corrigés par décret, et l'exécutif gouverne par ordonnances et par le fameux article 49.3, qui permet d'adopter une loi sans vote. Chacun déborde de son lit ; plus personne ne tient le sien.</p>
+                    <p>À cette crise verticale s'ajoute une crise horizontale : la défiance massive du peuple envers ceux qui le dirigent. Tous les baromètres convergent, et le plus sérieux d'entre eux, celui du CEVIPOF, mesure depuis quinze ans une dégradation continue. Sa vague de février 2026 est sans appel : à peine 17 % des Français déclarent encore avoir confiance dans le gouvernement, 20 % dans l'Assemblée nationale, et seulement 15 % dans les partis politiques. La participation aux élections municipales est tombée à 44,7 % au premier tour en 2020, un record d'abstention ; celle aux législatives a plafonné à 47,5 % en 2022 ; celle aux européennes oscille autour de la moitié des inscrits. Quand une démocratie n'a plus que la moitié de ses citoyens pour la légitimer par leur vote, et que l'autre moitié juge le suffrage inutile, indigne ou méprisable, ce n'est plus une démocratie en bonne santé : c'est une démocratie en sursis.</p>
+                    <p>À cette dépolitisation interne s'ajoute une dépolitisation externe, plus profonde encore : la captation progressive de la souveraineté française par l'écosystème bruxellois. On répète volontiers que « 80 % de nos lois » viendraient de Bruxelles. C'est faux, et le chapitre 12 le démontrera chiffres en main : la part réelle tourne autour de 20 %, avec des pointes dans quelques secteurs et presque rien dans d'autres. Mais qu'on ne se rassure pas trop vite, car la dépolitisation, elle, est bien réelle, et elle ne se compte pas en pourcentage de textes. Les commissaires, les directions de la Commission, les agences, les lobbies installés autour des institutions européennes, et les secondes carrières offertes aux anciens ministres et parlementaires, forment un système qui anesthésie la classe dirigeante française. La frontière entre la haute fonction publique nationale, les cabinets de conseil internationaux et les institutions européennes est devenue si poreuse que les mêmes visages se croisent à tous les guichets du pouvoir. C'est ce que Charles de Gaulle refusait par avance lorsqu'il défendait, contre la fédération forcée, <em>« l'Europe des États, à défaut de quoi il n'y aura pas d'Europe »</em>.</p>
+                    <p>L'affaire des cabinets de conseil, partiellement révélée en 2022 par le rapport sénatorial de la commission Bazin-Assassi, en a livré l'illustration la plus crue : plus d'un milliard d'euros versés chaque année à McKinsey, Capgemini, Accenture, EY, PwC et consorts pour produire des notes, des audits, des présentations et des stratégies que la fonction publique devrait, par vocation et par devoir, élaborer elle-même. Cette dépendance ne traduit pas la supériorité du privé : elle trahit l'effondrement intérieur de la capacité de l'État à se penser. Il a fini par déléguer jusqu'à sa propre intelligence.</p>
+                    <p>Le cinquième symptôme est anthropologique, et c'est peut-être le plus grave de tous. La France n'a plus de récit commun. Elle ne s'accorde plus sur ce qu'elle est, sur ce qu'elle veut, sur ce qu'elle doit transmettre. Le récit républicain et laïque, qui a tenu pendant un siècle, s'est dilué dans des injonctions contradictoires : célébrer la diversité tout en exigeant l'unité, défendre la laïcité tout en multipliant les accommodements, prôner l'universel tout en assignant chacun à sa minorité. La société française fonctionne en pilote automatique sur des principes qu'elle ne défend plus, qu'elle n'enseigne plus, qu'elle n'incarne plus.</p>
+                    <p>Le résultat se mesure, lui aussi. La proportion de Français qui se déclarent fiers de leur nationalité est tombée, en quinze ans, des trois quarts à un peu moins de six sur dix. Les jeunes générations, surtout, doutent ouvertement de la valeur de l'héritage. L'école, qui devait être le lieu de la transmission, est devenue, dans l'enquête internationale PISA de 2022, l'un des points faibles des pays de l'OCDE en lecture comme en mathématiques, où les résultats français comptent parmi les plus bas jamais relevés. Les sorties précoces du système scolaire — 7,6 % des 18-24 ans qui le quittent sans aucune qualification (DEPP) — alimentent une masse silencieuse de jeunes Français sans diplôme, sans emploi, sans projet, sans perspective. Et à l'autre extrémité de la vie, la solitude des anciens s'aggrave : six millions de Français vivent seuls, quatre millions disent souffrir d'un isolement régulier (Fondation de France), et près d'un quart des plus de soixante-quinze ans ne reçoivent aucune visite dans la semaine.</p>
+                    <p>Une société qui ne sait plus accueillir ses nouveau-nés, former ses adolescents, employer ses adultes ni accompagner ses vieillards a démissionné, à chacun des âges de la vie, de sa propre humanité. Cette démission n'est pas le fruit d'un complot ; c'est le produit d'un système. Un système qui prélève toujours plus, dépense toujours plus, légifère toujours plus — et obtient toujours moins.</p>
+                    <h2 class="reading-subhead">La France des trois océans</h2>
+                    <p>Il existe, par-dessus ces symptômes, un dernier mal qui les éclaire tous : l'aveuglement de la France à l'égard de sa propre puissance maritime. On l'ignore presque, et c'est tout le problème — la France est le deuxième empire maritime du monde. Sa zone économique exclusive, c'est-à-dire l'espace marin sur lequel elle détient des droits souverains, couvre 10,2 millions de kilomètres carrés (SHOM) : vingt fois la superficie de l'Hexagone, le deuxième domaine de la planète derrière les seuls États-Unis. Cette zone, pour l'essentiel ultramarine, recèle des ressources halieutiques, énergétiques, minérales et stratégiques que les plus grandes puissances nous envient. Et pourtant, demandez à un Français ordinaire, demandez à un ministre, demandez à un présentateur de journal télévisé : la France maritime n'existe pas. On ne l'enseigne pas à l'école, on ne la célèbre pas dans le discours national, on ne l'intègre ni aux politiques économiques, ni énergétiques, ni environnementales, ni diplomatiques.</p>
+                    <p>Cet effacement n'est pas neutre ; il dit quelque chose de la maladie française. Une nation qui ignore sa première ressource est une nation qui a perdu le regard sur elle-même. Elle se pense petite, continentale, marginale, vieille — quand elle est, en réalité, la seule puissance européenne pleinement déployée sur trois océans, présente dans l'Indo-Pacifique, dans l'Atlantique et dans l'océan Indien, capable de projeter sa souveraineté sur des territoires maritimes situés à 97 % hors d'Europe. Cet aveuglement est le symptôme suprême d'un pays qui a oublié ce qu'il est. La parole que Jésus adresse à Pierre, las de pêcher dans les eaux peu profondes du rivage — <em>« Avance en eau profonde, et jetez vos filets pour pêcher »</em> (Lc 5, 4) — pourrait servir de devise à un redressement français. C'est précisément ce que ce livre proposera.</p>
+                    <h2 class="reading-subhead">Une seule maladie</h2>
+                    <p>À ce stade, le lecteur attentif aura compris que la démographie, la dette, l'État obèse, la désindustrialisation, la défiance institutionnelle et la perte du sens ne sont pas des maladies distinctes. Ce sont les manifestations d'une seule et même pathologie : un peuple a confié à l'État ce qui ne se confie pas à l'État, et celui-ci, pris au mot, a fait ce que fait tout pouvoir à qui l'on donne trop. Il a grandi, il s'est complexifié, il s'est nourri, il s'est protégé — et il a, par déformation, étouffé ce qu'il prétendait servir.</p>
+                    <p>L'État français n'est pas une malveillance. Il est, au contraire, l'expression d'une intention généreuse, très française : celle de prendre soin de tout, partout, tout le temps. Mais cette bonne intention a tourné en pathologie. À force de vouloir prendre en charge la naissance, l'enfance, l'école, la santé, le logement, le travail, le chômage, la maladie, la vieillesse, la mort, et jusqu'au sens même de la vie collective, l'État a déresponsabilisé ses citoyens, vidé les corps intermédiaires, asséché la générosité privée, soumis l'économie à ses rentes, désorganisé les solidarités naturelles, et siphonné la richesse à un rythme tel que la richesse, lasse d'être ainsi traitée, est partie ailleurs.</p>
+                    <p>Le diagnostic tient donc en une phrase : <em>la France périt d'un excès d'État, là où elle aurait besoin de revenir aux principes les plus simples qui ont nourri sa civilisation.</em></p>
+                    <h2 class="reading-subhead">Pourquoi rouvrir l'Évangile</h2>
+                    <p>À cette pathologie, la classe politique française oppose, depuis quarante ans, une succession de remèdes empruntés à des écoles fatiguées. La gauche a invoqué Marx, Bourdieu, Foucault, Piketty : plus de redistribution, plus d'État, plus de droits. La droite a invoqué un libéralisme honteux, jamais assumé, jamais appliqué, oscillant entre Hayek le dimanche et Keynes le lundi. Le centre a inventé une troisième voie qui n'était qu'un compromis tiède entre les deux échecs précédents. Toutes ces propositions ont une chose en commun : elles s'inscrivent dans un horizon mental forgé entre la Révolution française et la guerre froide. Et cet horizon est épuisé.</p>
+                    <p>Il est temps d'aller chercher des ressources plus profondes — non pas plus anciennes par nostalgie, mais plus profondes par radicalité, au sens propre : en allant à la racine. La France est un pays façonné, sur le plan de la civilisation, par deux mille ans de christianisme. Que l'on soit croyant, agnostique ou athée n'y change rien : nos institutions, notre droit, notre architecture morale, notre rapport à la personne, à la dignité, à la liberté, à la propriété, à la charité, à la famille, à la mort, à l'autorité légitime, tout cela est tissé des fils que les Évangiles ont déposés dans l'âme européenne. <em>« On naît dans une civilisation comme on naît dans une langue »</em>, écrivait Rémi Brague. La civilisation française est, littéralement, une langue chrétienne — quand bien même elle ne s'en souviendrait plus.</p>
+                    <p>Il est donc légitime, et même fécond, d'aller relire le texte fondateur de cette civilisation pour y chercher non pas une révélation, mais une grille de pensée politique. Tocqueville l'avait fait au XIXe siècle, en cherchant dans le christianisme américain le secret d'une démocratie viable. Lord Acton l'avait fait en montrant que la liberté est « le fruit délicat d'une civilisation mûrie », née de la matrice chrétienne (<em>The History of Freedom</em>, 1877). Bernanos l'avait fait en dénonçant, dans <em>La France contre les robots</em> (1947), les machines à broyer les hommes. Manent le fait aujourd'hui en réinterrogeant la cité européenne. Il est temps qu'un essai politique français de 2026 le refasse à sa manière, en s'attachant non pas à la Tradition, non pas au catéchisme, non pas à l'Église, mais aux paroles littérales du Christ rapportées dans les quatre Évangiles, et, en appui, à l'ensemble du Nouveau Testament.</p>
+                    <p>Soyons précis, car ce livre se donne une discipline. Il ne s'autorise qu'une seule source d'argument principale : le Nouveau Testament, lu littéralement. Les Évangiles d'abord, c'est-à-dire les paroles du Christ telles que les ont transmises Matthieu, Marc, Luc et Jean. Les écrits apostoliques ensuite — les Actes, les Épîtres de Paul et des autres apôtres, l'Apocalypse — qui viennent consolider, illustrer ou prolonger ces paroles. Aucune autre source biblique n'est mobilisée comme telle : l'Ancien Testament n'est cité que lorsque le Christ ou un apôtre le cite lui-même. Aucune référence n'est faite à la Tradition de l'Église, au Catéchisme, au Magistère, aux conciles, aux Pères de l'Église, aux théologiens du Moyen Âge ou des temps modernes. Ainsi le lecteur juif, le lecteur protestant, le lecteur orthodoxe, le lecteur agnostique et même le lecteur musulman se retrouvent-ils devant le même texte, sans préjugé de confession.</p>
+                    <p>Cette ascèse — cette règle volontairement étroite — a une vertu : elle libère le débat. Quiconque accepte de lire les Évangiles comme un document politique d'une valeur exceptionnelle pour la civilisation française peut entrer dans la discussion, sans avoir à partager la foi en la divinité du Christ. C'est exactement la posture qu'imposait Pascal : <em>« Si je vous parle de ces choses, ce n'est pas que je veuille vous convertir, c'est que je veux d'abord que vous compreniez. »</em> Ce livre est laïque dans sa méthode, chrétien dans son matériau, libéral dans sa conclusion politique ; il revendique cette triple appartenance sans la moindre ambiguïté. À la discipline du texte s'ajoute d'ailleurs une discipline de droit : la pleine compatibilité avec la loi de séparation des Églises et de l'État du 9 décembre 1905, et avec l'article premier de la Constitution, qui dispose que <em>« la République est une, indivisible, laïque, démocratique et sociale »</em>. Le livre ne propose aucune mesure qui contredise l'une ou l'autre. Il ne demande pas que la France redevienne « fille aînée de l'Église » ; il demande qu'elle redevienne lucide sur ce qui l'a faite, et féconde sur ce qu'elle pourrait redevenir.</p>
+                    <h2 class="reading-subhead">Une lecture libérale, sans demi-mot</h2>
+                    <p>On me posera d'emblée la question, et elle est légitime : pourquoi lire les Évangiles avec un regard libéral, plutôt que socialiste, conservateur ou communiste ? Pourquoi celui-ci, et pas un autre ? La réponse tient en un renversement qu'il faut oser dire clairement. Je ne plaque pas le libéralisme sur le Christ ; c'est le libéralisme qui, sans toujours le savoir, descend de lui. Ce n'est donc pas que le Christ serait « libéral » — l'étiquette est trop courte, et il déborde de toutes parts nos catégories politiques. C'est l'inverse : la liberté de la personne, sa responsabilité, la limite posée au pouvoir, la dignité qui ne se négocie pas — ces idées dont le libéralisme a fait son socle ont leur source dans une parole prononcée il y a deux mille ans. Les penseurs que je convoquerai au fil de ces pages — Locke, Smith, Tocqueville, Acton, Bastiat, Hayek — en sont les héritiers ; et le plus troublant est que plusieurs d'entre eux, agnostiques ou indifférents à toute religion, n'ont pas cessé une seule ligne d'épouser la vision du Christ sur l'homme et sur la cité, sans plus se souvenir de qui, jadis, l'avait dessinée le premier. Je ne suis pas le premier à le remarquer : je l'ai dit en ouverture, cette conviction, je l'ai reçue d'autres — de Philippe Nemo, de Charles Gave — qui l'ont portée avant moi.</p>
+                    <p>Il faut maintenant énoncer la thèse politique de ce livre, et l'énoncer sans demi-mot. Lus à la lettre, les Évangiles, et plus largement le Nouveau Testament, fournissent les éléments d'une philosophie politique libérale et radicale. Ses principes sont, dans cet ordre : la liberté de la personne humaine, créature unique, irréductible, dotée d'une dignité qui ne se négocie pas ; la responsabilité individuelle, qui veut que chacun porte son propre fardeau (Ga 6, 5) et récolte ce qu'il a semé (Ga 6, 7) ; la propriété privée comme prolongement de la personne, attestée jusque dans le geste de Pierre rappelant à Ananie que son champ, et le prix qu'il en avait tiré, lui appartenaient en propre (Ac 5, 4) ; la prise de risque comme vocation économique, légitimée par la parabole des talents, qui récompense l'investissement et condamne l'inaction (Mt 25, 14-30) ; la stricte limitation du pouvoir politique, fondée sur le partage des sphères énoncé par le Christ — <em>« Rendez à César ce qui est à César, et à Dieu ce qui est à Dieu »</em> (Mt 22, 21) ; et enfin la charité comme devoir personnel, financé personnellement, exercé d'humain à humain, en proximité, dans la liberté du cœur.</p>
+                    <p>C'est sur ce dernier point que le malentendu doit être dissipé d'emblée, car c'est sur lui que toute la littérature hostile au libéralisme s'appuie pour récuser une lecture libérale des Évangiles. Le Christ dit en effet : <em>« Vendez vos biens et donnez-les en aumône »</em> (Lc 12, 33). Il dit : <em>« Si tu veux être parfait, va, vends ce que tu possèdes et donne-le aux pauvres »</em> (Mt 19, 21). Il prononce les Béatitudes, qui renversent les hiérarchies humaines. Il chasse les marchands du Temple. Il met en garde contre Mammon, c'est-à-dire l'argent érigé en idole. Tout cela est dans le texte ; rien ne sera caché.</p>
+                    <p>Mais lisons précisément. À qui le Christ s'adresse-t-il ? Toujours à un <em>« tu »</em> ou à un <em>« vous »</em>. Jamais à un <em>« César »</em>. Jamais à un État. Jamais à une administration fiscale. <em>« Vends ce que tu possèdes »</em>, dit-il à un homme précis. <em>« Donnez l'aumône »</em>, dit-il à ses disciples. Le commandement évangélique de la charité n'est, dans aucun verset, dans aucune parole, dans aucun écrit apostolique, transformé en mandat donné à un État pour prélever et redistribuer à la place des fidèles. C'est même tout l'inverse. Quand Pierre rappelle à Ananie qu'il n'était nullement obligé de vendre son champ, et qu'une fois vendu le prix lui appartenait encore (Ac 5, 4), il défend, au cœur même de la première Église, la propriété privée et le don volontaire contre l'illusion d'une mise en commun obligatoire. Quand Paul écrit aux Corinthiens : <em>« Que chacun donne comme il l'a résolu en son cœur, sans tristesse ni contrainte ; car Dieu aime celui qui donne avec joie »</em> (2 Co 9, 7), il condamne, en une phrase, tout prélèvement forcé déguisé en charité. Et quand il écrit à Timothée : <em>« Si quelqu'un ne prend pas soin des siens, et avant tout de ceux de sa famille, il a renié la foi et il est pire qu'un infidèle »</em> (1 Tm 5, 8), il pose le principe de subsidiarité : la charité commence par les siens, et l'aide collective n'intervient qu'en dernier recours, lorsque la famille, le voisinage, l'association volontaire ont fait ce qui leur revenait.</p>
+                    <p>La lecture libérale et évangélique que ce livre défend est donc, dans le détail, la suivante : le Christ commande à chacun, personnellement, une charité radicale, vraie, libre, financée de sa poche, exercée en proximité. Il ne commande nulle part à César de la faire à notre place. Bien au contraire : en confiant ce devoir à l'État, nous l'avons dénaturé. Nous avons remplacé un acte d'amour personnel par un prélèvement anonyme, une relation d'humain à humain par une transaction administrative, la rencontre par le formulaire. L'État-providence n'est pas l'accomplissement du christianisme : il en est la grande falsification.</p>
+                    <p>C'est là, peut-être, l'intuition la plus dérangeante de ce livre. La pauvreté, en France, est mal combattue parce qu'on l'a confiée à un système qui la gère au lieu de personnes qui la rencontrent. La solidarité s'est perdue parce qu'on l'a nationalisée. La générosité française, autrefois proverbiale, s'est asséchée parce qu'on l'a remplacée par une fiscalité. Les chrétiens français eux-mêmes donnent près de six fois moins, proportionnellement, que les chrétiens américains, parce qu'ils estiment, non sans raison, que l'État prélève déjà pour eux. Et l'État, qui prélève, ne rencontre personne : il distribue à des numéros de dossier.</p>
+                    <p>Ce livre proposera la sortie de ce piège : le démantèlement progressif de l'État-providence et, dans le même mouvement, la restauration d'une charité privée massive, organisée, encouragée par l'impôt et célébrée par la culture. Ce n'est pas une innovation ; c'est, dès le siècle de l'évangelisation, ce que faisaient les premières communautés chrétiennes décrites dans les Actes. C'est, aujourd'hui, ce que pratiquent à grande échelle les Églises évangéliques américaines et les communautés mormones, avec des résultats que les sociologues les moins suspects de sympathie reconnaissent.</p>
+                    <h2 class="reading-subhead">Le ressort caché</h2>
+                    <p>Il y a, sous tous les maux décrits dans ce livre, un même ressort caché — et c'est peut-être la clé qui ouvre toutes les portes. Derrière la dette, la bureaucratie, le déclin du travail, l'échec de l'école, la ruine de nos services publics, on retrouve toujours la même cause profonde : de mauvais mécanismes. Car les institutions, comme les hommes, sont façonnées par les règles qui les gouvernent. Il existe des mécanismes qui réveillent l'homme — ceux qui placent au centre la responsabilité, la décision, l'effort récompensé. Et il en existe d'autres qui l'endorment — ceux qui le dispensent de répondre de ses actes, le déchargent de décider, et finissent par le rendre passif, indifférent, et même, à la longue, bête. Le même homme, selon le mécanisme qui l'entoure, devient un bâtisseur ou un assisté.</p>
+                    <p>Regardons d'abord ceux qui abrutissent, car ils sont partout en France. Le monopole, qui n'a pas de concurrent à craindre, donc pas de client à séduire. La subvention versée quoi qu'il arrive, qui paie l'effort raté comme l'effort réussi. L'usager captif, qui ne peut rien exiger. La responsabilité diluée sur dix étages, où personne, à la fin, n'est coupable de rien. Et, au sommet, le mal que ce livre nomme sans relâche : la nomination par la proximité du pouvoir plutôt que par le mérite — le pantouflage, ces dirigeants placés non parce qu'ils réussissent, mais parce qu'ils sont des proches, et qui ne risquent jamais leur poste sur un résultat. Tous ces mécanismes ont un point commun : ils coupent le lien entre ce qu'un homme fait et ce qu'il en récolte. Or un homme à qui l'on a appris que ses actes n'ont pas de conséquences cesse, peu à peu, d'agir.</p>
+                    <p>Le Christ, lui, a décrit le mécanisme inverse, et dans une parabole que ce livre place au cœur de sa méthode : celle des talents (Mt 25, 14-30). Un maître confie des sommes — des talents — à ses serviteurs, puis il part. Il revient, et il demande des comptes. Celui qui a fait fructifier ce qu'on lui avait confié est élevé : <em>« Tu as été fidèle en peu de choses, je t'établirai sur beaucoup »</em> (Mt 25, 21). Celui qui, par peur, a enfoui son talent sans rien en faire est condamné — non pour l'avoir perdu, mais pour n'avoir rien osé. Tout le mécanisme sain est là : on confie, on laisse libre, et l'on revient demander le fruit. La récompense suit le résultat ; la sanction suit l'inaction. Le serviteur sait qu'il devra rendre des comptes, et cette seule certitude le tient éveillé.</p>
+                    <p>Voilà ce que la France a perdu, et ce qu'il faut lui rendre : un État qui se prend de nouveau pour le maître — non un maître tyrannique, mais un maître exigeant —, qui confie à chacune de ses institutions un talent, et qui revient en réclamer le fruit multiplié. Concrètement, cela tient en une règle simple, qu'on retrouvera dans presque tous les chapitres : chaque institution publique doit avoir des résultats mesurables, et chaque responsable doit en rendre compte au peuple, son poste en dépendant. L'hôpital répond de ses guérisons, l'école de ses élèves qui savent lire, le tribunal de ses délais, le port de ses navires, la compagnie ferroviaire de ses trains à l'heure. Non pour humilier ceux qui dirigent, mais pour réveiller les institutions en réveillant la responsabilité de ceux qui les tiennent. Et ce n'est pas compliqué : c'est même parce qu'on a cru que c'était compliqué, et qu'on a empilé mille règles au lieu de restaurer ce seul ressort, que plus rien ne marche. Que le lecteur garde donc cette grille à l'esprit dans les pages qui suivent. Chaque mesure de ce livre — qu'elle parle de fiscalité, d'école, de justice ou de transports — applique au fond le même principe : retirer les mécanismes qui déresponsabilisent, remettre au centre ceux qui responsabilisent, et rendre à l'homme le lien entre ses actes et leurs fruits. C'est peut-être toute la politique en une phrase.</p>
+                    <h2 class="reading-subhead">Ni théocratie, ni programme, ni sermon</h2>
+                    <p>Il faut ici dire ce que ce livre n'est pas, pour dissiper tout malentendu. Ce livre n'est pas une théocratie déguisée. Il ne propose à aucun moment que la France soit gouvernée par l'Église, ni que la loi reflète une doctrine religieuse. Le Christ lui-même refuse explicitement le pouvoir politique : <em>« Mon royaume n'est pas de ce monde »</em> (Jn 18, 36) ; et quand la foule veut le faire roi, il se retire seul dans la montagne (Jn 6, 15). Le Christ est, paradoxalement, le penseur politique qui aura le plus solidement fondé la séparation des sphères. Une République laïque inspirée par ses paroles est non seulement possible : elle est, sur ce point précis, plus rigoureusement laïque que toutes les autres.</p>
+                    <p>Ce livre n'est pas non plus un programme électoral. Aucun parti, aucun candidat, aucune machine politique n'y est nommé ni soutenu. Les mesures qu'il développe dans le second tome — l'impôt à taux unique d'inspiration évangélique, le démantèlement administratif, la refondation européenne, la restauration de la charité privée, le plafond constitutionnel de la dépense publique, le réinvestissement de la France maritime — sont des propositions argumentées et chiffrées, livrées à la discussion publique. Elles seront reprises par qui voudra ; elles seront ignorées par qui le voudra aussi. Le livre ne sera pas attaché à leur succès immédiat.</p>
+                    <p>Ce livre, enfin, n'est pas un sermon. L'auteur n'est ni théologien, ni clerc, ni prédicateur. Sa foi personnelle ne joue aucun rôle dans l'argument. Le lecteur ne sera ni évangélisé, ni converti, ni édifié. Il sera, dans le meilleur des cas, contraint de reposer pour lui-même les questions les plus fondamentales : à quoi sert l'État ? qui doit prendre soin du pauvre ? que veut dire être libre ? quel travail vaut la peine ? quelle famille veut-on protéger ? quelle nation veut-on transmettre ? Si le lecteur referme le livre avec ces questions plus vives qu'avant de l'ouvrir, le pari aura été tenu, qu'il adhère ou non au programme proposé.</p>
+                    <h2 class="reading-subhead">Le plan</h2>
+                    <p>Ce Tome 1 est organisé en trois Parties, encadrées par une Introduction, un chapitre de Méthode et une Conclusion. Le Tome 2, qui prend le relais, applique cette grille en sept parties, domaine après domaine — pour une cinquantaine d'unités de lecture en tout entre les deux volumes. Le chapitre de Méthode explicite la chaîne d'argument qui conduit, pas à pas, d'un verset du Nouveau Testament à une mesure politique précise ; il pose les garde-fous laïques ; il affronte de face les contre-textes que toute lecture libérale doit traverser ; il prévient les anachronismes.</p>
+                    <p>La Partie I, <em>Fondements anthropologiques et éthiques</em>, établit les six piliers de la lecture défendue : la personne humaine libre et responsable, la propriété privée comme prolongement de la personne, le travail et la prise de risque comme vocation, la charité volontaire opposée à la redistribution forcée, la famille comme matrice première, la vérité comme condition de la liberté. Ces six chapitres fondent tout ce qui suivra. La Partie II, <em>L'État minimal et la gouvernance</em>, définit ce que l'État doit faire, et seulement cela : la justice, la police, la défense, la diplomatie, la monnaie souveraine, les frontières. Elle traite, dans la foulée, des trois grandes pathologies françaises : la complexité administrative, la corruption systémique et la dépendance bruxelloise — et, sur ce dernier point, le livre défend, dans la tradition gaullienne, une Europe des Nations souveraines à la place de la fédération forcée d'aujourd'hui. La Partie III, <em>La société libre et responsable</em>, restitue à la société civile ce que l'État lui a confisqué : l'initiative individuelle, les corps intermédiaires, la solidarité de proximité, la liberté d'expression, la transmission de la civilisation. C'est dans cette partie que se joue, concrètement, la possibilité d'une France qui n'aurait plus besoin de son État pour vivre.</p>
+                    <p>Le Tome 2, enfin, qui prend la suite de celui-ci, applique l'un après l'autre cette grille libérale et évangélique à tous les champs de la vie collective, à travers sept parties consacrées respectivement à l'économie et la finance, au social, au régalien et à la souveraineté, à la culture et l'information, à l'environnement et aux techniques, au territoire et aux infrastructures, puis aux institutions et à la refondation : fiscalité, dépense publique, monnaie, travail, entreprise, industrie, agriculture, pêche, énergie, logement, santé, éducation, famille, retraites, charité, justice, défense, immigration, Europe, outre-mer, médias, culture, sport, environnement, numérique, intelligence artificielle, bioéthique, espace, transports, ruralité, collectivités locales. Aucun domaine n'est laissé hors champ ; chacun fond, dans un même mouvement d'essai, deux à cinq paroles du Nouveau Testament et leur explication, un principe libéral, un diagnostic chiffré de la situation française et des mesures concrètes, chiffrées de leur montant ou de leur cible. Les objections les plus sérieuses n'y forment pas une rubrique à part : elles sont anticipées et réfutées au fil de la démonstration ; et lorsqu'un pays applique déjà le modèle proposé, il est nommé en passant, jamais en catalogue. La Conclusion, pour finir, propose une feuille de route : le référendum constituant qui graverait dans la Constitution les verrous contre la corruption et le périmètre de l'État régalien, les indicateurs du succès, et une vision finale de la France en 2050 — redressée, libre, démographiquement vigoureuse, économiquement productive, maritime, fière d'elle-même sans arrogance, et de nouveau capable de se transmettre.</p>
+                    <p>Que l'on saisisse bien, pour finir, l'ambition qui commande ce découpage. Ce livre n'est pas une collection de réformes éparses : c'est une réflexion d'ensemble sur la situation française — sur ses mesures comme sur des domaines entiers que la pensée publique laisse en jachère. Cette vue d'ensemble n'est pas un raffinement de méthode ; elle est la condition même de l'entreprise. Car on ne refonde pas un pays par morceaux. À ne disséquer qu'un sujet, puis un autre, sans jamais les rapporter au tout, on s'interdit de repenser le modèle dans sa globalité, et l'on retombe immanquablement dans la réforme de détail qui replâtre une cloison pendant que la maison s'affaisse. Tout revoir, tout repenser de fond en comble, suppose au contraire qu'on embrasse l'ensemble d'un même regard. J'ai donc tenté de ne rien laisser de côté : aucun domaine, aucun thème, aucune zone d'ombre. De la fiscalité à la mer, de l'école à l'intelligence artificielle, du plus visible au plus négligé, tout est ici traité. C'est, au fond, le sens de ce livre : laisser le moins possible dans l'ombre, et tout porter au grand jour.</p>
+                    <h2 class="reading-subhead">Avance en eau profonde</h2>
+                    <p>Reste à dire un mot du ton et du contrat. Ce livre ne sera pas commode. Il dérangera les lecteurs de gauche, qui y verront un libéralisme assumé sans la moindre concession à l'État-providence. Il dérangera une partie de la droite, qui y verra une religion politique qu'elle n'avait pas demandée, et qui devra accepter que la doctrine sociale ici proposée soit indissociable du démantèlement administratif, de l'Europe des Nations et d'un combat contre la corruption qui n'épargnera aucun camp. Il dérangera les chrétiens conservateurs, qui y trouveront une lecture sans aucune place pour la Tradition de l'Église. Il dérangera les chrétiens progressistes, qui y trouveront le démontage de la théologie de la libération. Il dérangera, enfin, les libéraux laïques qui ne supportent pas que leur philosophie soit adossée à un texte religieux, et les religieux laïcophobes qui ne supportent pas qu'un texte religieux soit mis au service d'un projet pleinement républicain.</p>
+                    <p>Tant mieux. Un livre qui ne dérange personne ne sert à rien.</p>
+                    <p>Le pari de l'auteur est que la France, en 2026, n'a plus le luxe des demi-mesures. Une nation qui ne se reproduit plus, qui ne produit plus, qui ne s'aime plus et qui ne se gouverne plus ne sera pas sauvée par une réforme de détail. Il lui faut un changement d'imaginaire. Or aucun changement d'imaginaire ne se fait sans aller puiser à la source la plus profonde dont on dispose. Pour la France, cette source — qu'on le veuille ou non, qu'on l'aime ou non, qu'on y croie ou non — c'est l'Évangile. Refuser d'y puiser par pudeur laïque, c'est se priver d'un trésor au moment où l'on est sur le point de tout perdre. Y puiser sans céder à la confessionnalisation, sans renoncer à la loi de 1905, sans tomber dans la théocratie : c'est précisément l'exercice auquel ce livre s'engage.</p>
+                    <p>Le Christ disait à Pierre, qui peinait dans les eaux familières du rivage : <em>« Avance en eau profonde, et jetez vos filets pour pêcher »</em> (Lc 5, 4). Pierre, pêcheur de métier, savait que ce n'était ni l'heure ni la profondeur convenables. Il obéit pourtant, et tira une pêche qui faillit faire couler ses barques. C'est cette parole, par-dessus toutes les autres, qui ouvrira chacune des grandes entrées de ce livre. À la France de 2026, qui peine en eau peu profonde depuis trop longtemps, qui jette ses filets là où elle ne prend plus rien, et qui n'ose plus reconnaître qu'elle est, par sa zone maritime, par son histoire et par sa civilisation, l'une des nations les plus profondément maritimes du monde, ce livre adresse la même invitation : avance en eau profonde. Retourne à ce que tu es. Cesse de te raconter une France qui n'est pas la tienne. Reprends en main, personnellement, ce que tu as confié, par lassitude, à l'État. Donne ce que tu peux donner, non par contrainte mais par joie. Travaille pour ce qui en vaut la peine. Engendre des enfants à qui tu pourras transmettre quelque chose. Et reconstruis, brique après brique, un pays libre, fier, productif, généreux, et de nouveau capable de regarder ses océans en face.</p>
+                    <p>Ce livre est l'esquisse de ce programme. Il n'est, comme toute esquisse, qu'un commencement. Mais il commence — et c'est déjà beaucoup, pour une nation qui, depuis quarante ans, n'avait commencé rien.</p>
+                    <p class="reading-end">— Fin de l'Introduction —</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lien de retour (bas de page) -->
+        <div class="intro-footer-nav">
+            <a class="intro-backlink" href="france-des-talents.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Retour à la présentation du Tome 1
+            </a>
+        </div>
+
+    </main>
+
+    <!-- FOOTER (partagé) — touche bleu-nuit sur la page Patrimoine -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; 2026 Éditions Kileton — <a href="mentions-legales.html">Mentions légales</a></p>
+                <nav class="footer-nav" aria-label="Navigation pied de page">
+                    <a href="index.html">Accueil</a>
+                    <a href="livre.html">La Verticale du Vide</a>
+                    <a href="france-des-talents.html">La France des Talents</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
+    <script>document.documentElement.classList.add('js');</script>
+    <title>La France des Talents — Tome 1 | Éditions Kileton</title>
+    <meta name="description" content="La France des Talents, Tome 1 — Les fondements évangéliques d'une France libre, responsable et souveraine. Un essai de Matthieu Straub, Éditions Kileton.">
+    <link rel="canonical" href="https://editions-kileton.fr/france-des-talents.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="La France des Talents — Tome 1">
+    <meta property="og:description" content="Les Évangiles pris au mot comme grille de pensée politique. Les fondements d'une France libre, responsable et souveraine.">
+    <meta property="og:image" content="https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg">
+    <meta property="og:url" content="https://editions-kileton.fr/france-des-talents.html">
+    <meta property="og:type" content="book">
+    <meta property="og:locale" content="fr_FR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La France des Talents — Tome 1 · Matthieu Straub">
+    <meta name="twitter:description" content="Les fondements évangéliques d'une France libre, responsable et souveraine.">
+    <meta name="twitter:image" content="https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet globale (header, drawer, footer, charte) -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- JSON-LD Book -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "name": "La France des Talents — Tome 1",
+        "author": {
+            "@type": "Person",
+            "name": "Matthieu Straub"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Éditions Kileton"
+        },
+        "bookFormat": "Paperback",
+        "inLanguage": "fr",
+        "genre": ["Essai", "Politique", "Spiritualité"],
+        "description": "Les Évangiles pris au mot comme grille de pensée politique : les fondements d'une France libre, responsable et souveraine. Premier volet d'un diptyque.",
+        "image": "https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg",
+        "url": "https://editions-kileton.fr/france-des-talents.html"
+    }
+    </script>
+
+    <!-- ============================================================
+         STYLES PROPRES À LA PAGE — Mode Patrimoine (crème / doré)
+         Portée limitée à .page-france : aucune collision avec la
+         feuille globale. Header / drawer / footer viennent de style.css.
+         ============================================================ -->
+    <style>
+    /* Variables spécifiques au Mode Patrimoine */
+    :root {
+        --cream:      #F7F1E1;   /* fond principal        */
+        --cream-alt:  #EFE4CB;   /* alternance de sections */
+        --gold-deep:  #7A5E1A;   /* titres sur crème (AA)  */
+        --ink:        #2C2617;   /* corps de texte         */
+        --ink-soft:   #5C523E;   /* textes secondaires     */
+    }
+
+    /* Fond et couleur de base de la page */
+    body.page-france {
+        background-color: var(--cream);
+        color: var(--ink);
+    }
+
+    /* --- Divider or signature --- */
+    .page-france .divider {
+        width: 60px;
+        height: 2px;
+        background: var(--gold);
+        border: 0;
+        margin: 1.25rem 0 0;
+    }
+    .page-france .divider--center { margin-left: auto; margin-right: auto; }
+
+    /* --- Label capitalisé --- */
+    .page-france .eyebrow {
+        font-family: var(--font-sans);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold-deep);
+    }
+
+    /* --- CTA or signature --- */
+    .page-france .fdt-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.95rem 2.25rem;
+        background: var(--gold);
+        color: #2A2109;
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .page-france .fdt-btn:hover {
+        background: #E2C255;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
+    }
+
+    /* ============================================================
+       1 · HERO
+       ============================================================ */
+    .fdt-hero {
+        position: relative;
+        /* padding-top généreux pour dégager le header fixe */
+        padding: clamp(6rem, 11vw, 8.5rem) 0 clamp(3rem, 7vw, 5.5rem);
+        background:
+            radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.14) 0%, transparent 55%),
+            var(--cream);
+        overflow: hidden;
+    }
+
+    .fdt-hero-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(2.5rem, 6vw, 4.5rem);
+    }
+
+    .fdt-hero-text { text-align: center; max-width: 640px; }
+
+    .fdt-hero-title {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: clamp(2.6rem, 8vw, 5rem);
+        line-height: 1.02;
+        letter-spacing: 0.01em;
+        color: var(--gold-deep);
+        margin: 1.4rem 0 0.9rem;
+        text-wrap: balance;
+    }
+
+    .fdt-hero-subtitle {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.15rem, 3.2vw, 1.55rem);
+        line-height: 1.45;
+        color: var(--ink-soft);
+        max-width: 34ch;
+        margin: 0 auto 2.2rem;
+        text-wrap: balance;
+    }
+
+    /* Couverture mise en scène (ratio 2×3, ombre premium) */
+    .fdt-cover-frame { perspective: 1400px; flex-shrink: 0; }
+
+    .fdt-cover {
+        width: min(340px, 78vw);
+        aspect-ratio: 6 / 9;
+        object-fit: cover;
+        border-radius: 4px;
+        box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.25),
+            0 0 40px rgba(212, 175, 55, 0.15);
+        transform: rotateY(-6deg);
+        transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fdt-cover:hover { transform: rotateY(0deg) scale(1.02); }
+
+    /* ============================================================
+       2 · ACCROCHE
+       ============================================================ */
+    .accroche {
+        background: var(--cream-alt);
+        padding: clamp(4rem, 10vw, 7rem) 0;
+        text-align: center;
+    }
+    .accroche blockquote {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        font-size: clamp(1.9rem, 6vw, 3.4rem);
+        line-height: 1.15;
+        letter-spacing: 0.01em;
+        color: var(--gold-deep);
+        max-width: 18ch;
+        margin: 0 auto;
+        text-wrap: balance;
+    }
+    .accroche p {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+        color: var(--ink-soft);
+        max-width: 42ch;
+        margin: 1.75rem auto 0;
+        line-height: 1.55;
+    }
+
+    /* ============================================================
+       3 · PRÉSENTATION
+       ============================================================ */
+    .presentation {
+        padding: clamp(4rem, 9vw, 6.5rem) 0;
+        background: var(--cream);
+    }
+    .presentation-body {
+        max-width: 640px;
+        margin: 0 auto;
+    }
+    .presentation-body p {
+        font-size: 1.075rem;
+        line-height: 1.85;
+        color: var(--ink);
+        text-align: justify;
+        hyphens: auto;
+    }
+    .presentation-body p + p { margin-top: 1.4rem; }
+    .presentation-body em {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 1.15em;
+        color: var(--gold-deep);
+    }
+
+    /* ============================================================
+       4 · EXERGUE DORÉ
+       ============================================================ */
+    .exergue {
+        padding: clamp(3.5rem, 8vw, 6rem) 0;
+        background: var(--cream-alt);
+    }
+    .exergue blockquote {
+        max-width: 640px;
+        margin: 0 auto;
+        border-left: 2px solid var(--gold);
+        padding: 0.4rem 0 0.4rem 1.75rem;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.5rem, 4.5vw, 2.35rem);
+        line-height: 1.3;
+        color: var(--gold-deep);
+        text-wrap: balance;
+    }
+
+    /* ============================================================
+       5 · DIPTYQUE
+       ============================================================ */
+    .diptyque {
+        padding: clamp(3rem, 7vw, 5rem) 0;
+        background: var(--cream);
+    }
+    .diptyque-tomes {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        gap: 1.25rem;
+        max-width: 620px;
+        margin: 0 auto 2rem;
+    }
+    .tome-chip {
+        flex: 1;
+        padding: 1.25rem;
+        border: 1px solid rgba(122, 94, 26, 0.28);
+        border-radius: 8px;
+        text-align: center;
+    }
+    .tome-chip .eyebrow { display: block; margin-bottom: 0.4rem; }
+    .tome-chip .tome-desc {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 1.05rem;
+        color: var(--ink-soft);
+        line-height: 1.4;
+    }
+    .tome-chip--active { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); }
+
+    .diptyque-note {
+        max-width: 560px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 0.98rem;
+        line-height: 1.7;
+        color: var(--ink-soft);
+    }
+
+    /* ============================================================
+       RESPONSIVE — élargissement au-delà du mobile
+       ============================================================ */
+    @media (min-width: 860px) {
+        .fdt-hero-inner {
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(3rem, 6vw, 5rem);
+        }
+        .fdt-hero-text { text-align: left; }
+        .fdt-hero-text .divider { margin-left: 0; }
+        .fdt-hero-subtitle { margin-left: 0; }
+        .fdt-cover { width: min(360px, 34vw); }
+    }
+
+    /* ============================================================
+       REDUCED MOTION — neutralise la mise en scène 3D de la couverture
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+        .fdt-cover { transform: none; }
+    }
+    </style>
+</head>
+
+<body class="page-france">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="site-header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <a href="index.html" class="logo-link" aria-label="Accueil Éditions Kileton">
+                <img src="assets/images/logo_kileton.svg?v=3" alt="Logo Éditions Kileton" class="logo" width="200" height="40">
+            </a>
+            <!-- Navigation inline : repli accessible sans JS -->
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="livre.html" class="nav-link">La Verticale du Vide</a></li>
+                <li><a href="france-des-talents.html" class="nav-link active" aria-current="page">La France des Talents</a></li>
+            </ul>
+            <!-- Déclencheur unique du menu latéral (révélé par JS) -->
+            <button class="menu-toggle" type="button" aria-label="Ouvrir le menu de navigation" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-drawer">
+                <span class="menu-toggle-icon" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </span>
+                <span class="menu-toggle-label">Menu</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- MENU LATÉRAL (DRAWER) — navigation principale, Mode Nuit -->
+    <div class="drawer-overlay"></div>
+    <aside id="site-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Menu de navigation" aria-hidden="true" tabindex="-1">
+        <div class="drawer-inner">
+            <div class="drawer-head">
+                <p class="drawer-eyebrow">Éditions Kileton</p>
+                <button class="drawer-close" type="button" aria-label="Fermer le menu">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="drawer-nav" aria-label="Les œuvres">
+                <p class="drawer-section-title">Les œuvres</p>
+
+                <a class="work-card" href="livre.html">
+                    <span class="work-card-name">La Verticale du Vide</span>
+                    <span class="work-card-tagline">Roman — entre la chute et le chant, il y a nous</span>
+                    <span class="work-card-arrow" aria-hidden="true">→</span>
+                </a>
+
+                <a class="work-card" href="france-des-talents.html">
+                    <span class="work-card-name">La France des Talents</span>
+                    <span class="work-card-tagline">Essai — les fondements d'une France libre et souveraine</span>
+                    <span class="work-card-arrow" aria-hidden="true">→</span>
+                </a>
+            </nav>
+
+            <nav class="drawer-secondary" aria-label="Liens secondaires">
+                <a href="index.html">Accueil</a>
+                <a href="index.html#contact">Me contacter</a>
+            </nav>
+        </div>
+    </aside>
+
+    <main role="main">
+
+        <!-- ============================================================
+             HERO — label · titre · sous-titre · couverture · CTA
+             ============================================================ -->
+        <section class="fdt-hero" aria-label="Présentation du livre">
+            <div class="container fdt-hero-inner">
+
+                <!-- Couverture Tome 1 : WebP + fallback JPEG via <picture> -->
+                <div class="fdt-cover-frame fade-in">
+                    <picture>
+                        <source srcset="assets/images/couverture-france-talents-tome1.webp" type="image/webp">
+                        <img class="fdt-cover" src="assets/images/couverture-france-talents-tome1.jpg" width="700" height="1050" loading="eager" decoding="async" alt="Première de couverture de « La France des Talents », Tome 1, par Matthieu Straub — Éditions Kileton">
+                    </picture>
+                </div>
+
+                <div class="fdt-hero-text fade-in">
+                    <p class="eyebrow">Essai · Tome 1</p>
+                    <h1 class="fdt-hero-title">La France<br>des Talents</h1>
+                    <p class="fdt-hero-subtitle">Les fondements évangéliques d'une France libre, responsable et souveraine</p>
+                    <a class="fdt-btn" href="france-des-talents-introduction.html">Lire le Tome 1</a>
+                    <hr class="divider">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ACCROCHE
+             ============================================================ -->
+        <section class="accroche" aria-label="Accroche">
+            <div class="container fade-in">
+                <blockquote>La France se meurt&nbsp;— et nous le savons tous.</blockquote>
+                <p>Et si le seul programme capable de la redresser sans la trahir tenait dans les paroles d'un homme qu'on a cessé d'écouter&nbsp;?</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             PRÉSENTATION
+             ============================================================ -->
+        <section class="presentation" aria-label="Présentation du livre">
+            <div class="container">
+                <div class="presentation-body fade-in">
+                    <p>Ce livre prend les Évangiles au mot — non comme une religion, mais comme une grille de pensée politique d'une lucidité redoutable&nbsp;: une certaine idée de la personne, libre et responsable&nbsp;; un État réduit à ses missions vitales, propre, simple et souverain&nbsp;; une société vivante qui n'attend plus tout de l'État pour exister.</p>
+                    <p>Sans langue de bois, chiffres vérifiés à l'appui, objections affrontées de face&nbsp;: voici les fondations d'une nation qui se relève. Le <em>pourquoi</em> avant le <em>comment</em>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             EXERGUE DORÉ
+             ============================================================ -->
+        <section class="exergue" aria-label="Citation">
+            <div class="container">
+                <blockquote class="fade-in">« La France a reçu des talents. Il est temps de cesser de les enfouir. »</blockquote>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             DIPTYQUE
+             ============================================================ -->
+        <section class="diptyque" aria-label="Le diptyque">
+            <div class="container">
+                <div class="diptyque-tomes fade-in">
+                    <div class="tome-chip tome-chip--active">
+                        <span class="eyebrow">Tome 1</span>
+                        <span class="tome-desc">Les fondements</span>
+                    </div>
+                    <div class="tome-chip">
+                        <span class="eyebrow">Tome 2</span>
+                        <span class="tome-desc">Les applications concrètes</span>
+                    </div>
+                </div>
+                <p class="diptyque-note fade-in">Premier volet d'un diptyque. Le Tome 1 pose les fondements&nbsp;; le Tome 2 en tirera les applications concrètes, domaine par domaine.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER (partagé) — touche bleu-nuit sur la page Patrimoine -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; 2026 Éditions Kileton — <a href="mentions-legales.html">Mentions légales</a></p>
+                <nav class="footer-nav" aria-label="Navigation pied de page">
+                    <a href="index.html">Accueil</a>
+                    <a href="livre.html">La Verticale du Vide</a>
+                    <a href="france-des-talents.html">La France des Talents</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
