@@ -1043,6 +1043,103 @@ html:not(.js) .fade-in {
     transform: translateY(-50%) translateX(4px);
 }
 
+/* --- Groupe extensible : « La France des Talents » → Tome 1 / Tome 2 --- */
+.work-group { position: relative; }
+
+/* Le parent réutilise .work-card mais c'est un <button> */
+.work-card--parent {
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Chevron indicateur d'ouverture */
+.work-card-chevron {
+    position: absolute;
+    top: 50%;
+    right: 1.4rem;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    color: var(--gold);
+    transition: transform 0.35s ease;
+    pointer-events: none;
+}
+
+/* Sous-navigation : repliée par défaut */
+.work-subnav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 0;
+    margin-top: 0;
+    padding-left: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease,
+                visibility 0.4s ease, margin-top 0.4s ease;
+}
+
+/* Ouverture au clic / tap (toutes plateformes) */
+.work-group.open .work-subnav {
+    max-height: 240px;
+    margin-top: 0.65rem;
+    opacity: 1;
+    visibility: visible;
+}
+.work-group.open .work-card-chevron {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Ouverture au survol — uniquement sur périphériques à pointeur fin (desktop) */
+@media (hover: hover) and (pointer: fine) {
+    .work-group:hover .work-subnav {
+        max-height: 240px;
+        margin-top: 0.65rem;
+        opacity: 1;
+        visibility: visible;
+    }
+    .work-group:hover .work-card-chevron {
+        transform: translateY(-50%) rotate(180deg);
+    }
+}
+
+/* Sous-items (Tome 1 / Tome 2) */
+.work-subitem {
+    position: relative;
+    display: block;
+    padding: 0.85rem 1.4rem 0.9rem 1.5rem;
+    border: 1px solid rgba(212, 175, 55, 0.18);
+    border-radius: 8px;
+    background: rgba(212, 175, 55, 0.02);
+    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+}
+.work-subitem:hover,
+.work-subitem:focus-visible {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.08);
+    transform: translateX(-3px);
+}
+.work-subitem-name {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--pure-white);
+}
+.work-subitem-desc {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.55);
+    margin-top: 0.2rem;
+}
+
 /* Liens secondaires discrets, poussés en bas du panneau */
 .drawer-secondary {
     display: flex;

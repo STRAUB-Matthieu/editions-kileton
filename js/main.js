@@ -108,6 +108,24 @@
                 closeDrawer(false);
             });
         });
+
+        // Sous-menu extensible « La France des Talents » (tap / clic).
+        // Le survol desktop est géré en CSS ; ici on gère le clic/tap.
+        var workParent = drawer.querySelector('.work-card--parent');
+        if (workParent) {
+            var workGroup = workParent.closest('.work-group');
+            workParent.addEventListener('click', function () {
+                var isOpen = workGroup.classList.toggle('open');
+                workParent.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+            // Replier le sous-menu quand on referme le drawer
+            drawer.addEventListener('transitionend', function () {
+                if (!drawer.classList.contains('is-open')) {
+                    workGroup.classList.remove('open');
+                    workParent.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
     }
 
     /* --- Fade-in on scroll (Intersection Observer) --- */

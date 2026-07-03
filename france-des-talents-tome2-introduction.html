@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>document.documentElement.classList.add('js');</script>
+    <title>Introduction — La France des Talents, Tome 2 | Éditions Kileton</title>
+    <meta name="description" content="Introduction du Tome 2 de La France des Talents — Maintenant, les actes. Un essai de Matthieu Straub, Éditions Kileton.">
+    <link rel="canonical" href="https://editions-kileton.fr/france-des-talents-tome2-introduction.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Introduction — La France des Talents, Tome 2">
+    <meta property="og:description" content="Maintenant, les actes.">
+    <meta property="og:image" content="https://editions-kileton.fr/assets/images/couverture-france-talents-tome2.jpg">
+    <meta property="og:url" content="https://editions-kileton.fr/france-des-talents-tome2-introduction.html">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="fr_FR">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet globale (header, drawer, footer, charte) -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- ============================================================
+         STYLES PROPRES À LA PAGE — « Ivoire & champagne » (Tome 2)
+         ============================================================ -->
+    <style>
+    :root {
+        --ivory:      #FBF8F1;
+        --ivory-alt:  #F5EFE1;
+        --champagne:  #CBB061;
+        --gold-deep:  #7E661E;
+        --ink:        #2E2A1C;
+        --ink-soft:   #635944;
+    }
+
+    body.page-tome2 {
+        background-color: var(--ivory);
+        color: var(--ink);
+    }
+
+    .page-tome2 .divider {
+        width: 60px;
+        height: 2px;
+        background: var(--champagne);
+        border: 0;
+        margin: 1.25rem 0 0;
+    }
+    .page-tome2 .divider--center { margin-left: auto; margin-right: auto; }
+
+    .page-tome2 .eyebrow {
+        font-family: var(--font-sans);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold-deep);
+    }
+
+    /* Liens de retour */
+    .intro-backlink {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-sans);
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold-deep);
+        text-decoration: none;
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+    .intro-backlink:hover { color: var(--champagne); transform: translateX(-3px); }
+    .intro-backlink svg { width: 18px; height: 18px; }
+
+    .intro-backbar {
+        background: var(--ivory);
+        padding: clamp(5.5rem, 10vw, 7rem) 0 0;
+    }
+    .intro-footer-nav {
+        background: var(--ivory-alt);
+        text-align: center;
+        padding: clamp(2.5rem, 6vw, 4rem) 0 clamp(4rem, 9vw, 6rem);
+    }
+
+    /* Zone de lecture */
+    .introduction {
+        padding: clamp(2.5rem, 6vw, 4rem) 0 clamp(4rem, 9vw, 6rem);
+        background: var(--ivory-alt);
+    }
+    .introduction-head { text-align: center; margin-bottom: 2.75rem; }
+    .introduction-title {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        font-size: clamp(2.2rem, 6vw, 3.4rem);
+        color: var(--gold-deep);
+        letter-spacing: 0.02em;
+    }
+    .introduction-subtitle {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.15rem, 3vw, 1.5rem);
+        color: var(--ink-soft);
+        margin-top: 1.1rem;
+        text-wrap: balance;
+    }
+
+    .reading-column {
+        max-width: 640px;
+        margin: 0 auto;
+        font-family: var(--font-serif);
+        font-size: clamp(1.15rem, 2.6vw, 1.3rem);
+        line-height: 1.85;
+        color: var(--ink);
+        text-align: justify;
+        hyphens: auto;
+    }
+    .reading-column p + p { margin-top: 1.4rem; }
+    .reading-column em { font-style: italic; }
+
+    .reading-epigraph {
+        max-width: 620px;
+        margin: 0 auto 2.75rem;
+        text-align: center;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: clamp(1.2rem, 3vw, 1.5rem);
+        line-height: 1.4;
+        color: var(--gold-deep);
+    }
+    .reading-epigraph em { font-style: italic; display: block; }
+    .reading-epigraph em + .reading-epigraph-src { margin-bottom: 1.1rem; }
+    .reading-epigraph-src {
+        display: block;
+        margin-top: 0.5rem;
+        font-style: normal;
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+    }
+
+    .reading-subhead {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        line-height: 1.2;
+        color: var(--gold-deep);
+        text-align: left;
+        margin: 2.75rem 0 1.1rem;
+        text-wrap: balance;
+    }
+
+    .reading-end {
+        margin-top: 2.75rem;
+        text-align: center;
+        font-family: var(--font-sans);
+        font-size: 0.8rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        opacity: 0.8;
+    }
+    </style>
+</head>
+
+<body class="page-tome2">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="site-header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <a href="index.html" class="logo-link" aria-label="Accueil Éditions Kileton">
+                <img src="assets/images/logo_kileton.svg?v=3" alt="Logo Éditions Kileton" class="logo" width="200" height="40">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="livre.html" class="nav-link">La Verticale du Vide</a></li>
+                <li><a href="france-des-talents.html" class="nav-link active" aria-current="page">La France des Talents</a></li>
+            </ul>
+            <button class="menu-toggle" type="button" aria-label="Ouvrir le menu de navigation" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-drawer">
+                <span class="menu-toggle-icon" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </span>
+                <span class="menu-toggle-label">Menu</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- MENU LATÉRAL (DRAWER) -->
+    <div class="drawer-overlay"></div>
+    <aside id="site-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Menu de navigation" aria-hidden="true" tabindex="-1">
+        <div class="drawer-inner">
+            <div class="drawer-head">
+                <p class="drawer-eyebrow">Éditions Kileton</p>
+                <button class="drawer-close" type="button" aria-label="Fermer le menu">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="drawer-nav" aria-label="Les œuvres">
+                <p class="drawer-section-title">Les œuvres</p>
+
+                <a class="work-card" href="livre.html">
+                    <span class="work-card-name">La Verticale du Vide</span>
+                    <span class="work-card-tagline">Roman — entre la chute et le chant, il y a nous</span>
+                    <span class="work-card-arrow" aria-hidden="true">→</span>
+                </a>
+
+                <div class="work-group open">
+                    <button class="work-card work-card--parent" type="button" aria-expanded="true" aria-controls="fdt-subnav">
+                        <span class="work-card-name">La France des Talents</span>
+                        <span class="work-card-tagline">Essai — le pourquoi et le comment d'une France libre et souveraine</span>
+                        <span class="work-card-chevron" aria-hidden="true">&#9662;</span>
+                    </button>
+                    <div class="work-subnav" id="fdt-subnav">
+                        <a class="work-subitem" href="france-des-talents.html">
+                            <span class="work-subitem-name">Tome 1 — Le Pourquoi</span>
+                            <span class="work-subitem-desc">Les fondements</span>
+                        </a>
+                        <a class="work-subitem" href="france-des-talents-tome2.html" aria-current="page">
+                            <span class="work-subitem-name">Tome 2 — Le Comment</span>
+                            <span class="work-subitem-desc">Les applications concrètes</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <nav class="drawer-secondary" aria-label="Liens secondaires">
+                <a href="index.html">Accueil</a>
+                <a href="index.html#contact">Me contacter</a>
+            </nav>
+        </div>
+    </aside>
+
+    <main role="main">
+
+        <!-- Lien de retour vers la présentation -->
+        <div class="intro-backbar">
+            <div class="container">
+                <a class="intro-backlink" href="france-des-talents-tome2.html">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Retour à la présentation
+                </a>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             INTRODUCTION DU TOME 2 — texte intégral
+             ============================================================ -->
+        <section class="introduction" aria-labelledby="introduction-title">
+            <div class="container">
+                <div class="introduction-head fade-in">
+                    <p class="eyebrow">La France des Talents · Tome 2</p>
+                    <h1 class="introduction-title" id="introduction-title">Introduction</h1>
+                    <hr class="divider divider--center">
+                    <p class="introduction-subtitle">Maintenant, les actes</p>
+                </div>
+
+                <div class="reading-column">
+                    <blockquote class="reading-epigraph">
+                        <em>« Quiconque entend les paroles que je viens de dire et les met en pratique, peut être comparé à un homme avisé qui a bâti sa maison sur le roc. »</em><span class="reading-epigraph-src">Mt 7, 24</span>
+                        <em>« La foi, si elle n'a pas les œuvres, est morte en elle-même. »</em><span class="reading-epigraph-src">Jc 2, 17</span>
+                    </blockquote>
+
+                    <h2 class="reading-subhead">« C'est plus compliqué que ça »</h2>
+                    <p>Il existe une phrase qui a tué plus de réformes en France que toutes les oppositions réunies. On ne la crie pas ; on la murmure — dans les cabinets, les couloirs des ministères, les notes de bas de page des rapports. Elle a l'air raisonnable, prudente, adulte. Elle est l'arme absolue de l'immobilisme français, et la voici : <em>« C'est plus compliqué que ça. »</em></p>
+                    <p>On ne m'a pas attendu pour me la servir. <em>Vos principes sont beaux</em>, dit-on, <em>mais gouverner, c'est autre chose ; le réel résiste, les chiffres sont têtus.</em> Et l'on retourne, soulagé, à l'administration des choses, en rangeant les idées au tiroir des belles choses trop pures pour ce bas monde. C'est ainsi qu'une nation s'endort : non pas en rejetant les vérités qu'on lui dit, mais en les classant sans suite.</p>
+                    <p>Je n'accorderai pas ce confort. Ce second tome est la réponse à cette phrase. La vérité que les gardiens de la complexité ne supportent pas, c'est que les choses sont presque toujours moins compliquées qu'ils ne le prétendent — et que la complexité, en France, n'est pas une fatalité subie mais un métier, une rente, un rempart derrière lequel s'abritent ceux qui vivent du désordre qu'ils entretiennent. <em>« Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt »</em> (Mt 23, 4). La France ne se meurt pas d'avoir manqué de bonnes intentions ; elle se meurt d'avoir manqué de comptes. La dernière loi de finances en équilibre remonte à 1974 ; depuis, on a promis sans budgéter, réformé sans dater, proclamé sans jamais rendre raison. Ce tome rompt avec l'à-peu-près, non par goût de la technique, mais parce qu'un homme libre est celui qui sait ce que ses choix lui coûtent.</p>
+                    <p>Et cette phrase, qui descend d'en haut, a une jumelle qui monte d'en bas et dit le même renoncement : <em>« On ne m'a pas dit que. »</em> Voilà l'alibi du quotidien, l'excuse de celui qui attend qu'on lui commande jusqu'à l'évidence et qui, faute de consigne expresse, ne fait rien — ou se lave les mains de tout. La complexité qui paralyse les puissants et la déresponsabilisation qui éteint les humbles sont les deux visages d'un même mal : une nation qui a désappris d'agir d'elle-même, qui attend tout d'un ordre venu d'en haut ou d'un guichet ouvert en bas. Ce livre les combat ensemble, car il ne croit ni au sauveur suprême ni à l'assisté perpétuel, mais à l'homme libre et responsable — celui qui, sachant ce qu'il doit faire, n'attend pas qu'on le lui dise.</p>
+
+                    <h2 class="reading-subhead">Ce que ce livre est, et ce qu'il n'est pas</h2>
+                    <p>Que le lecteur le comprenne avant d'entrer : je n'ai pas voulu dresser un programme tout fait, applicable demain matin, qui répondrait à tous les problèmes de la France. Ce serait mentir, et je n'aime pas qu'on me mente. J'ai cherché des mesures tirées du bon sens — d'un bon sens que je dis évangélique parce que c'est là que je le puise —, des mesures dont beaucoup ont déjà fait leurs preuves ailleurs, chez des nations qui ont osé trancher quand nous n'osions plus même formuler. Cela ne veut pas dire qu'il faille prendre cet ouvrage comme un bloc, à avaler ou à rejeter d'un seul tenant. Ce n'est pas mon but. Telle mesure n'est sans doute pas la plus fine ni la plus efficace qu'on puisse concevoir : c'est celle qui m'a paru porter le plus de bon sens, et je l'assume comme telle, ouverte à plus juste qu'elle.</p>
+                    <p>Je ne pourrai donc pas creuser chaque sujet jusqu'à son dernier détail — aucun livre ne le pourrait sans cesser d'être lu. Mais je tiens tous les axes indispensables, ceux sans lesquels il n'y a pas de redressement possible. Ce que je dépose ici, ce sont des propositions qui permettent un premier travail de réflexion. Un commencement, pas un point final.</p>
+                    <p>Et puisqu'il faut montrer plutôt qu'annoncer, prenons une parole, une seule, et suivons-la jusqu'au bout. Le Christ raconte l'histoire d'un maître qui confie ses talents à trois serviteurs ; deux les font fructifier, le troisième, par peur, enterre le sien et le rend intact. Et c'est celui-là, le prudent, le sans-risque, l'irréprochable, que le maître condamne : <em>« Serviteur mauvais et paresseux… il fallait placer mon argent, et à mon retour j'aurais recouvré mon bien avec un intérêt »</em> (Mt 25, 26-27). Du verset naît un principe — l'inaction n'est pas une vertu, et celui qui ne tente rien est coupable de ce qu'il n'a pas osé ; du principe, une règle — un État juste ne punit pas celui qui entreprend pour récompenser celui qui se cache ; de la règle, une mesure concrète et chiffrée sur la fiscalité du capital et le droit de l'entreprise. De la parole à la loi, sans rupture et sans tricher. Ce geste, le livre le refait domaine après domaine : la parole du Christ, son explication, le mal français qu'elle éclaire, la solution qui en découle, fondus dans un même mouvement. Chaque mesure porte son montant ou sa cible.</p>
+
+                    <h2 class="reading-subhead">Ma boussole, et contre qui j'écris</h2>
+                    <p>Que le lecteur ne se trompe pas sur la source de ce livre. Ma boussole, d'un bout à l'autre, c'est l'Évangile — non comme un dogme que l'État imposerait, car la laïcité demeure la règle et je n'y touche pas, mais comme la plus haute mesure du bien que je connaisse. Je le dis sans détour, et l'on peut être ici absolu : le Christ fut le bien, l'amour et la compassion incarnés, et rien d'autre. Il est ma mesure : une politique, je la juge bonne ou mauvaise selon qu'elle s'approche de lui ou s'en éloigne. Et c'est parce que je dispose de cet étalon que je peux écrire la chose la plus dure de cet ouvrage.</p>
+                    <p>Que personne, pas une minute, n'imagine que la France est gouvernée par des gens qui veulent son bien. Ce serait faux, et tout ce livre s'est efforcé de le démontrer. Son gouvernement, ses élites, gouvernent à rebours de l'Évangile — à rebours, donc, de la compassion, de la responsabilité, de la dignité de l'homme et de sa liberté. Ces deux tomes se dressent contre l'ensemble des politiques menées en France depuis un demi-siècle, parce qu'elles sont l'exact contraire de ce qu'un tel modèle exige. Et pour qu'un vrai travail de redressement commence, il faudra changer ceux qui nous gouvernent — non rafistoler à la marge une caste qui a confondu le pouvoir avec une rente, mais la remplacer par des femmes et des hommes qui ont la France au cœur.</p>
+                    <p>Car j'entends partout la même rengaine : le Français serait devenu râleur, la nouvelle génération plus difficile que l'ancienne, le pays peuplé de fainéants. C'est faux, et je le pense profondément. Une civilisation devient ce qu'on lui a demandé de devenir — ni plus, ni moins. Il n'y a pas de race, il n'y a pas de religion qui vaille ici : il y a des hommes et des femmes, tous capables, tous libres, tous souverains d'eux-mêmes, chacun porteur d'une destinée et de talents qui n'appartiennent qu'à lui. Voilà ceux qu'il faut remettre au cœur de la cité et au cœur de nos politiques. Voilà pourquoi ce livre s'appelle <em>La France des talents</em> : tout l'enjeu est de bâtir un modèle qui les rende à ceux qui les portent, au lieu de les enfouir.</p>
+                    <p>C'est pourquoi je me dresse, et sans nuance, contre deux mensonges jumeaux. Contre l'assistanat, d'abord — celui qui installe l'homme dans la dépendance et éteint en lui le ressort qu'on prétend secourir ; on verra que défendre un plancher pour que nul ne meure n'a rien à voir avec cette charité administrée qui infantilise. Contre l'égalité absolue, ensuite, l'horizontalité qui nivelle tout et n'élève rien — celle qui a conduit un grand empire du siècle dernier jusqu'à la folie.</p>
+
+                    <h2 class="reading-subhead">Le roc est choisi ; reste à bâtir</h2>
+                    <p>Dans la parole placée en tête de ce tome, le Christ oppose deux hommes : l'un bâtit sur le roc, l'autre sur le sable. Viennent la pluie, les torrents, les vents — la première maison tient, la seconde s'écroule. Or les deux hommes ont <em>entendu</em> la même parole. Ce qui les sépare n'est pas le savoir, c'est l'acte. Le premier tome donnait à entendre ; sans celui-ci, il resterait une maison de sable qu'un premier orage emporterait.</p>
+                    <p>Le roc est choisi : non l'air du temps ni la mode du moment, mais un sol que deux mille ans de civilisation ont éprouvé. Reste le plus dur, qui est aussi le plus humble — poser les pierres. Et qu'on ne s'y trompe pas : bâtir, ici, c'est d'abord démolir. Avant d'élever quoi que ce soit, il faut abattre ce qui écrase — l'État qui a tout pris, les codes qui ont tout figé, les rentes qui ont tout capté. Ce tome est un chantier au double sens du mot : un lieu où l'on abat et un lieu où l'on construit, dans la poussière et l'effort, loin des estrades où l'on se contente de parler.</p>
+                    <p>J'ai écrit, en refermant le premier tome, que le travail commençait maintenant. Le voici. Les pierres sont taillées, le plan est dressé, le sol est ferme.</p>
+                    <p>Au travail.</p>
+                    <p class="reading-end">— Fin de l'Introduction —</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lien de retour (bas de page) -->
+        <div class="intro-footer-nav">
+            <a class="intro-backlink" href="france-des-talents-tome2.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Retour à la présentation du Tome 2
+            </a>
+        </div>
+
+    </main>
+
+    <!-- FOOTER (partagé) -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; 2026 Éditions Kileton — <a href="mentions-legales.html">Mentions légales</a></p>
+                <nav class="footer-nav" aria-label="Navigation pied de page">
+                    <a href="index.html">Accueil</a>
+                    <a href="livre.html">La Verticale du Vide</a>
+                    <a href="france-des-talents.html">La France des Talents</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
