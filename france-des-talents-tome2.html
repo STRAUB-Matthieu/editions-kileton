@@ -121,6 +121,39 @@
         box-shadow: 0 8px 24px rgba(203, 176, 97, 0.4);
     }
 
+    /* Groupe de CTA (Lire / Acheter) */
+    .fdt-cta-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        justify-content: center;
+        margin-bottom: 0.4rem;
+    }
+    .fdt-btn svg { width: 16px; height: 16px; }
+    .fdt-btn small {
+        font-size: 0.6rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-left: 0.25rem;
+        opacity: 0.85;
+    }
+    .page-tome2 .fdt-btn--ghost {
+        background: transparent;
+        color: var(--gold-deep);
+        border: 1.5px solid var(--champagne);
+        box-shadow: none;
+    }
+    .page-tome2 .fdt-btn--ghost:hover {
+        background: rgba(203, 176, 97, 0.12);
+        box-shadow: 0 6px 18px rgba(203, 176, 97, 0.2);
+    }
+    .fdt-btn--soon {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
     /* ============================================================
        1 · HERO
        ============================================================ */
@@ -310,6 +343,7 @@
             gap: clamp(3rem, 6vw, 5rem);
         }
         .fdt-hero-text { text-align: left; }
+        .fdt-hero-text .fdt-cta-group { justify-content: flex-start; }
         .fdt-hero-text .divider { margin-left: 0; }
         .fdt-hero-subtitle { margin-left: 0; }
         .fdt-cover { width: min(360px, 34vw); }
@@ -411,7 +445,12 @@
                     <p class="eyebrow">Essai · Tome 2 — Le Comment</p>
                     <h1 class="fdt-hero-title">La France<br>des Talents</h1>
                     <p class="fdt-hero-subtitle">Les applications concrètes dans tous les domaines de la vie nationale</p>
-                    <a class="fdt-btn" href="france-des-talents-tome2-introduction.html">Lire le Tome 2</a>
+                    <div class="fdt-cta-group">
+                        <a class="fdt-btn" href="france-des-talents-tome2-introduction.html">Lire le Tome 2</a>
+                        <!-- ACHETER : quand le lien Amazon sera fourni, remplacer ce <span> par :
+                             <a class="fdt-btn fdt-btn--ghost" href="LIEN_AMAZON_TOME2">Acheter le Tome 2</a> -->
+                        <span class="fdt-btn fdt-btn--ghost fdt-btn--soon" role="link" aria-disabled="true">Acheter le Tome 2<small>Bientôt</small></span>
+                    </div>
                     <hr class="divider">
                 </div>
 

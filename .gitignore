@@ -1,5 +1,25 @@
 # Fichiers de prompts (tous)
 PROMPT_*.md
+PROMPTS_*.md
+
+# Documents de travail / briefs
+BRIEF_*.md
+prompt-deploy.md
+
+# Fichiers preview Claude Design (exports intermédiaires)
+La France des talents - Tome *.html
+
+# Dossiers sources (couvertures, archives) — jamais publiés
+Couverture_la_france_des_talents/
+_ARCHIVES/
+
+# Médias sources bruts (grok, doublons)
+grok-image-*.png
+grok-video-*.mp4
+assets/images/IMG_8128.JPG
+
+# Signatures mail
+signature-*.html
 
 # Instructions de déploiement
 DEPLOY_INSTRUCTIONS.md

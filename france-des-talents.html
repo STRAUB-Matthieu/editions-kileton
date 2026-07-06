@@ -127,6 +127,41 @@
         box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
     }
 
+    /* Groupe de CTA (Lire / Acheter / Écouter) */
+    .fdt-cta-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        justify-content: center;
+        margin-bottom: 0.4rem;
+    }
+    .fdt-btn svg { width: 16px; height: 16px; }
+    .fdt-btn small {
+        font-size: 0.6rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-left: 0.25rem;
+        opacity: 0.85;
+    }
+    /* Bouton secondaire (contour) */
+    .page-france .fdt-btn--ghost {
+        background: transparent;
+        color: var(--gold-deep);
+        border: 1.5px solid var(--gold);
+        box-shadow: none;
+    }
+    .page-france .fdt-btn--ghost:hover {
+        background: rgba(212, 175, 55, 0.10);
+        box-shadow: 0 6px 18px rgba(212, 175, 55, 0.18);
+    }
+    /* État « bientôt disponible » : visible mais inactif */
+    .fdt-btn--soon {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
     /* ============================================================
        1 · HERO
        ============================================================ */
@@ -327,6 +362,7 @@
             gap: clamp(3rem, 6vw, 5rem);
         }
         .fdt-hero-text { text-align: left; }
+        .fdt-hero-text .fdt-cta-group { justify-content: flex-start; }
         .fdt-hero-text .divider { margin-left: 0; }
         .fdt-hero-subtitle { margin-left: 0; }
         .fdt-cover { width: min(360px, 34vw); }
@@ -434,7 +470,18 @@
                     <p class="eyebrow">Essai · Tome 1 — Le Pourquoi</p>
                     <h1 class="fdt-hero-title">La France<br>des Talents</h1>
                     <p class="fdt-hero-subtitle">Les fondements évangéliques d'une France libre, responsable et souveraine</p>
-                    <a class="fdt-btn" href="france-des-talents-introduction.html">Lire le Tome 1</a>
+                    <div class="fdt-cta-group">
+                        <a class="fdt-btn" href="france-des-talents-introduction.html">Lire le Tome 1</a>
+                        <!-- ACHETER : quand le lien Amazon sera fourni, remplacer ce <span> par :
+                             <a class="fdt-btn fdt-btn--ghost" href="LIEN_AMAZON_TOME1">Acheter le Tome 1</a> -->
+                        <span class="fdt-btn fdt-btn--ghost fdt-btn--soon" role="link" aria-disabled="true">Acheter le Tome 1<small>Bientôt</small></span>
+                        <!-- ÉCOUTER L'ALBUM « La France des Talents » : quand le lien sera fourni, remplacer ce <span> par :
+                             <a class="fdt-btn fdt-btn--ghost" href="LIEN_ALBUM">…Écouter l'album</a> -->
+                        <span class="fdt-btn fdt-btn--ghost fdt-btn--soon" role="link" aria-disabled="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                            Écouter l'album<small>Bientôt</small>
+                        </span>
+                    </div>
                     <hr class="divider">
                 </div>
 
