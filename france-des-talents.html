@@ -6,7 +6,7 @@
     <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
     <script>document.documentElement.classList.add('js');</script>
     <title>La France des Talents — Tome 1 | Éditions Kileton</title>
-    <meta name="description" content="La France des Talents, Tome 1 — Les fondements évangéliques d'une France libre, responsable et souveraine. Un essai de Matthieu Straub, Éditions Kileton.">
+    <meta name="description" content="La France des Talents, Tome 1 : les fondements évangéliques d'une France libre, responsable et souveraine. Les paroles du Christ prises au mot comme grammaire politique. Un essai de Matthieu Straub, Éditions Kileton.">
     <link rel="canonical" href="https://editions-kileton.fr/france-des-talents.html">
 
     <!-- Open Graph -->
@@ -56,6 +56,7 @@
         "bookFormat": "Paperback",
         "inLanguage": "fr",
         "genre": ["Essai", "Politique", "Spiritualité"],
+        "numberOfPages": "17",
         "description": "Les Évangiles pris au mot comme grille de pensée politique : les fondements d'une France libre, responsable et souveraine. Premier volet d'un diptyque.",
         "image": "https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg",
         "url": "https://editions-kileton.fr/france-des-talents.html"
@@ -101,6 +102,32 @@
         letter-spacing: 0.3em;
         text-transform: uppercase;
         color: var(--gold-deep);
+    }
+
+    /* --- Titre de section (commun aux nouvelles sections) --- */
+    .page-france .section-head {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
+    }
+    .page-france .section-title {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+        line-height: 1.2;
+        color: var(--gold-deep);
+        margin: 0.75rem 0 0;
+        text-wrap: balance;
+    }
+    .page-france .section-lede {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: clamp(1.02rem, 2.4vw, 1.25rem);
+        line-height: 1.6;
+        color: var(--ink-soft);
+        max-width: 46ch;
+        margin: 1rem auto 0;
+        text-wrap: balance;
     }
 
     /* --- CTA or signature --- */
@@ -251,6 +278,7 @@
         margin: 1.75rem auto 0;
         line-height: 1.55;
     }
+    .accroche p + p { margin-top: 1rem; }
 
     /* ============================================================
        3 · PRÉSENTATION
@@ -277,9 +305,163 @@
         font-size: 1.15em;
         color: var(--gold-deep);
     }
+    /* Verset tissé dans la prose de présentation */
+    .presentation-body .verset-inline {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 1.1em;
+        color: var(--gold-deep);
+    }
 
     /* ============================================================
-       4 · EXERGUE DORÉ
+       4 · LES PAROLES QUI FONDENT (nouveau)
+       ============================================================ */
+    .paroles {
+        padding: clamp(4rem, 9vw, 6.5rem) 0;
+        background: var(--cream-alt);
+    }
+    .paroles-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.15rem;
+        max-width: 980px;
+        margin: 0 auto;
+    }
+    .parole-card {
+        background: rgba(255, 255, 255, 0.42);
+        border: 1px solid rgba(122, 94, 26, 0.20);
+        border-left: 2px solid var(--gold);
+        border-radius: 6px;
+        padding: 1.5rem 1.6rem;
+        transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .parole-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--gold);
+        box-shadow: 0 10px 30px rgba(122, 94, 26, 0.10);
+    }
+    .parole-card blockquote {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.12rem, 2.4vw, 1.32rem);
+        line-height: 1.4;
+        color: var(--gold-deep);
+        margin: 0;
+        text-wrap: balance;
+    }
+    .parole-ref {
+        display: block;
+        font-family: var(--font-sans);
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-top: 0.75rem;
+    }
+    .parole-gloss {
+        font-size: 0.98rem;
+        line-height: 1.65;
+        color: var(--ink);
+        margin: 0.85rem 0 0;
+        padding-top: 0.85rem;
+        border-top: 1px solid rgba(122, 94, 26, 0.15);
+    }
+    @media (min-width: 760px) {
+        .paroles-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    }
+
+    /* ============================================================
+       5 · LES TROIS MOUVEMENTS (nouveau)
+       ============================================================ */
+    .mouvements {
+        padding: clamp(4rem, 9vw, 6.5rem) 0;
+        background: var(--cream);
+    }
+    .mouvements-list {
+        max-width: 760px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: clamp(2rem, 4vw, 2.75rem);
+    }
+    .mouvement {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1.4rem;
+        align-items: start;
+        padding-bottom: clamp(2rem, 4vw, 2.75rem);
+        border-bottom: 1px solid rgba(122, 94, 26, 0.18);
+    }
+    .mouvements-list .mouvement:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+    .mouvement-num {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: clamp(2.1rem, 5vw, 2.9rem);
+        line-height: 1;
+        color: var(--gold);
+        opacity: 0.85;
+        min-width: 2.2ch;
+    }
+    .mouvement-title {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+        line-height: 1.25;
+        color: var(--gold-deep);
+        margin: 0 0 0.15rem;
+    }
+    .mouvement-range {
+        display: block;
+        font-family: var(--font-sans);
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-bottom: 0.9rem;
+    }
+    .mouvement-verset {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 1.12rem;
+        line-height: 1.45;
+        color: var(--gold-deep);
+        border-left: 2px solid var(--gold);
+        padding: 0.15rem 0 0.15rem 1rem;
+        margin: 0 0 1rem;
+    }
+    .mouvement-verset cite {
+        display: block;
+        font-family: var(--font-sans);
+        font-style: normal;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-top: 0.5rem;
+    }
+    .mouvement-text {
+        font-size: 1.03rem;
+        line-height: 1.8;
+        color: var(--ink);
+        margin: 0;
+    }
+    .mouvement-chapitres {
+        font-family: var(--font-sans);
+        font-size: 0.88rem;
+        line-height: 1.65;
+        color: var(--ink-soft);
+        margin: 0.9rem 0 0;
+    }
+
+    /* ============================================================
+       6 · EXERGUE DORÉ
        ============================================================ */
     .exergue {
         padding: clamp(3.5rem, 8vw, 6rem) 0;
@@ -300,7 +482,7 @@
     }
 
     /* ============================================================
-       5 · DIPTYQUE
+       7 · DIPTYQUE
        ============================================================ */
     .diptyque {
         padding: clamp(3rem, 7vw, 5rem) 0;
@@ -344,12 +526,13 @@
 
     .diptyque-note {
         max-width: 560px;
-        margin: 0 auto;
+        margin: 0 auto 2.25rem;
         text-align: center;
         font-size: 0.98rem;
         line-height: 1.7;
         color: var(--ink-soft);
     }
+    .diptyque-cta { text-align: center; }
 
     /* ============================================================
        RESPONSIVE — élargissement au-delà du mobile
@@ -373,6 +556,8 @@
        ============================================================ */
     @media (prefers-reduced-motion: reduce) {
         .fdt-cover { transform: none; }
+        .parole-card:hover,
+        .tome-chip--link:hover { transform: none; }
     }
     </style>
 </head>
@@ -462,7 +647,7 @@
                 <div class="fdt-cover-frame fade-in">
                     <picture>
                         <source srcset="assets/images/couverture-france-talents-tome1.webp" type="image/webp">
-                        <img class="fdt-cover" src="assets/images/couverture-france-talents-tome1.jpg" width="700" height="1050" loading="eager" decoding="async" alt="Première de couverture de « La France des Talents », Tome 1, par Matthieu Straub — Éditions Kileton">
+                        <img class="fdt-cover" src="assets/images/couverture-france-talents-tome1.jpg" width="700" height="1050" loading="eager" decoding="async" alt="Première de couverture de « La France des Talents », Tome 1, par Matthieu Straub, Éditions Kileton">
                     </picture>
                 </div>
 
@@ -495,6 +680,7 @@
             <div class="container fade-in">
                 <blockquote>La France se meurt&nbsp;— et nous le savons tous.</blockquote>
                 <p>Et si le remède qu'elle cherche partout dormait dans le livre qu'elle a cessé d'ouvrir&nbsp;?</p>
+                <p>Non pour la convertir. Pour la faire penser.</p>
             </div>
         </section>
 
@@ -504,8 +690,139 @@
         <section class="presentation" aria-label="Présentation du livre">
             <div class="container">
                 <div class="presentation-body fade-in">
-                    <p>Ce livre prend les Évangiles au mot — non comme une religion, mais comme la plus lucide des grammaires politiques. Il y relit ce qu'aucun parti n'ose plus formuler&nbsp;: une personne libre et responsable, jamais réduite à un numéro de dossier&nbsp;; un État ramené à ses missions vitales — propre, simple, souverain&nbsp;; une société vivante qui n'attend plus tout d'en haut pour exister.</p>
-                    <p>Ni sermon ni programme&nbsp;: une pensée. Chiffres vérifiés à l'appui, objections affrontées de face, langue de bois proscrite. Ce premier tome ne dit pas encore <em>comment</em>&nbsp;; il établit, pierre après pierre, le <em>pourquoi</em> — car on ne rebâtit pas une nation sans avoir d'abord retrouvé les raisons de la vouloir.</p>
+                    <p>Ce livre prend les Évangiles au mot, non comme une religion, mais comme la plus lucide des grammaires politiques. Il y relit ce qu'aucun parti n'ose plus formuler&nbsp;: une personne libre et responsable, jamais réduite à un numéro de dossier&nbsp;; un État ramené à ses missions vitales, propre, simple, souverain&nbsp;; une société vivante qui n'attend plus tout d'en haut pour exister.</p>
+
+                    <p>Car il faut avoir le courage de relire ce qui est écrit. Quand un homme dit à ceux qui gouvernent&nbsp;: <span class="verset-inline">«&nbsp;Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt&nbsp;»</span>, il ne fait pas de la morale. Il décrit, deux mille ans à l'avance, une administration qui empile les normes sans jamais en supporter le poids. Et quand il ajoute&nbsp;: <span class="verset-inline">«&nbsp;Il n'en sera pas ainsi parmi vous&nbsp;»</span>, il ne prêche pas l'humilité&nbsp;: il congédie la caste.</p>
+
+                    <p>Ni sermon ni programme&nbsp;: une pensée. Chiffres vérifiés à l'appui, objections affrontées de face, langue de bois proscrite. On ne trouvera ici aucun argument tiré du Ciel, aucune norme justifiée par la seule autorité de la foi. Le Christ y est convoqué comme on convoque un penseur politique, pour la puissance de ce qu'il dit, non pour ce qu'il serait.</p>
+
+                    <p>Ce premier tome ne dit pas encore <em>comment</em>&nbsp;; il établit, pierre après pierre, le <em>pourquoi</em>, car on ne rebâtit pas une nation sans avoir d'abord retrouvé les raisons de la vouloir.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             LES PAROLES QUI FONDENT — versets pivots du Tome 1
+             ============================================================ -->
+        <section class="paroles" aria-labelledby="paroles-title">
+            <div class="container">
+                <div class="section-head fade-in">
+                    <p class="eyebrow">Les paroles qui fondent</p>
+                    <h2 class="section-title" id="paroles-title">Sept phrases, et tout un ordre politique</h2>
+                    <hr class="divider divider--center">
+                    <p class="section-lede">Chacune de ces paroles ouvre un chapitre du livre. Aucune n'est citée pour édifier&nbsp;: toutes le sont pour démontrer.</p>
+                </div>
+
+                <div class="paroles-grid">
+
+                    <article class="parole-card fade-in">
+                        <blockquote>«&nbsp;Vous connaîtrez la vérité, et la vérité vous rendra libres.&nbsp;»</blockquote>
+                        <span class="parole-ref">Jean 8, 32</span>
+                        <p class="parole-gloss">Le verset matriciel de tout l'ouvrage. Pas de liberté sans vérité, donc pas de liberté sans comptes publics exacts, sans information libre, sans parole que l'on peut contredire.</p>
+                    </article>
+
+                    <article class="parole-card fade-in">
+                        <blockquote>«&nbsp;Rendez à César ce qui est à César, et à Dieu ce qui est à Dieu.&nbsp;»</blockquote>
+                        <span class="parole-ref">Matthieu 22, 21</span>
+                        <p class="parole-gloss">La première séparation des pouvoirs de l'histoire. César a un domaine, il n'a pas tous les domaines. L'État a des missions, il n'a pas tous les droits.</p>
+                    </article>
+
+                    <article class="parole-card fade-in">
+                        <blockquote>«&nbsp;Ceux qu'on regarde comme les chefs des nations les dominent. Il n'en sera pas ainsi parmi vous&nbsp;: celui qui veut être le premier, qu'il soit le serviteur de tous.&nbsp;»</blockquote>
+                        <span class="parole-ref">Marc 10, 42-44</span>
+                        <p class="parole-gloss">Le pouvoir est un service, jamais une rente. Toute la critique de la caste, des privilèges et de l'entre-soi administratif tient dans ces trois lignes.</p>
+                    </article>
+
+                    <article class="parole-card fade-in">
+                        <blockquote>«&nbsp;Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt.&nbsp;»</blockquote>
+                        <span class="parole-ref">Matthieu 23, 4</span>
+                        <p class="parole-gloss">Le procès de la complexité. Ceux qui fabriquent la norme n'en subissent jamais le poids&nbsp;; ceux qui la subissent ne l'ont jamais votée.</p>
+                    </article>
+
+                    <article class="parole-card fade-in">
+                        <blockquote>«&nbsp;J'ai eu peur, et je suis allé cacher ton talent dans la terre.&nbsp;»</blockquote>
+                        <span class="parole-ref">Matthieu 25, 25</span>
+                        <p class="parole-gloss">La parabole qui donne son titre au livre. Le seul serviteur condamné n'est pas celui qui a perdu&nbsp;: c'est celui qui n'a rien tenté. La prudence stérile est le vrai péché politique.</p>
+                    </article>
+
+                    <article class="parole-card fade-in">
+                        <blockquote>«&nbsp;Celui qui est fidèle dans les moindres choses l'est aussi dans les grandes&nbsp;; et celui qui est malhonnête dans les moindres choses l'est aussi dans les grandes.&nbsp;»</blockquote>
+                        <span class="parole-ref">Luc 16, 10</span>
+                        <p class="parole-gloss">La probité ne se divise pas. On ne tolère pas un peu de corruption comme on tolérerait un peu de fièvre. Fondement du chapitre anti-corruption.</p>
+                    </article>
+
+                    <article class="parole-card fade-in">
+                        <blockquote>«&nbsp;Je ne suis pas venu apporter la paix, mais le glaive.&nbsp;»</blockquote>
+                        <span class="parole-ref">Matthieu 10, 34</span>
+                        <p class="parole-gloss">La parole qui clôt le tome. Restaurer une nation, c'est trancher. Ce livre ne cherche pas le consensus&nbsp;: il cherche le vrai, et il sait ce que cela coûte.</p>
+                    </article>
+
+                    <article class="parole-card fade-in">
+                        <blockquote>«&nbsp;Avance en eau profonde, et jetez vos filets pour la pêche.&nbsp;»</blockquote>
+                        <span class="parole-ref">Luc 5, 4</span>
+                        <p class="parole-gloss">L'ordre donné à un homme qui avait déjà échoué toute la nuit. Il n'y a pas de redressement sans le risque de reprendre la mer. C'est l'invitation faite à la France.</p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             LES TROIS MOUVEMENTS — architecture du Tome 1
+             ============================================================ -->
+        <section class="mouvements" aria-labelledby="mouvements-title">
+            <div class="container">
+                <div class="section-head fade-in">
+                    <p class="eyebrow">L'architecture</p>
+                    <h2 class="section-title" id="mouvements-title">Trois mouvements, dix-sept chapitres</h2>
+                    <hr class="divider divider--center">
+                    <p class="section-lede">La personne, puis l'État, puis la société. On ne bâtit pas dans un autre ordre.</p>
+                </div>
+
+                <div class="mouvements-list">
+
+                    <article class="mouvement fade-in">
+                        <span class="mouvement-num" aria-hidden="true">I</span>
+                        <div>
+                            <h3 class="mouvement-title">La personne, avant tout le reste</h3>
+                            <span class="mouvement-range">Partie I · Chapitres 1 à 6</span>
+                            <blockquote class="mouvement-verset">
+                                «&nbsp;Que servirait-il à un homme de gagner le monde entier, s'il vient à perdre son âme&nbsp;?&nbsp;»
+                                <cite>Matthieu 16, 26</cite>
+                            </blockquote>
+                            <p class="mouvement-text">Avant l'État, avant la loi, avant l'économie, il y a un être irréductible que rien ne peut échanger contre autre chose. De cette irréductibilité découle tout le reste&nbsp;: la propriété, qui prolonge la personne&nbsp;; le travail, qui la révèle&nbsp;; le don libre, qui la grandit&nbsp;; la famille, qui la fait naître&nbsp;; la vérité, sans laquelle sa liberté n'est qu'un mot.</p>
+                            <p class="mouvement-chapitres">La personne libre et responsable · La propriété privée · Le travail, les talents, le risque · La charité volontaire contre la redistribution forcée · La famille comme matrice · La vérité, condition de la liberté</p>
+                        </div>
+                    </article>
+
+                    <article class="mouvement fade-in">
+                        <span class="mouvement-num" aria-hidden="true">II</span>
+                        <div>
+                            <h3 class="mouvement-title">L'État remis à sa place</h3>
+                            <span class="mouvement-range">Partie II · Chapitres 7 à 12</span>
+                            <blockquote class="mouvement-verset">
+                                «&nbsp;Il n'en sera pas ainsi parmi vous&nbsp;: celui qui veut être grand parmi vous sera votre serviteur.&nbsp;»
+                                <cite>Marc 10, 43</cite>
+                            </blockquote>
+                            <p class="mouvement-text">Le cœur régalien du livre, et sa part la plus dure. Un État réduit à ce que lui seul peut faire, et qui le fait vraiment&nbsp;: la justice, la sécurité, la défense, la monnaie. Un pouvoir qui sert et qui rend des comptes. Une complexité normative démolie, une corruption traquée, une souveraineté reprise. Ici, chaque principe porte un chiffre et une cible.</p>
+                            <p class="mouvement-chapitres">Rendre à César · Les fonctions régaliennes · Le pouvoir comme service, non comme rente · Détruire la complexité · L'anti-corruption · L'Europe des nations souveraines</p>
+                        </div>
+                    </article>
+
+                    <article class="mouvement fade-in">
+                        <span class="mouvement-num" aria-hidden="true">III</span>
+                        <div>
+                            <h3 class="mouvement-title">La société qui se relève d'elle-même</h3>
+                            <span class="mouvement-range">Partie III · Chapitres 13 à 17</span>
+                            <blockquote class="mouvement-verset">
+                                «&nbsp;Là où deux ou trois sont rassemblés en mon nom, je suis au milieu d'eux.&nbsp;»
+                                <cite>Matthieu 18, 20</cite>
+                            </blockquote>
+                            <p class="mouvement-text">Rien de grand ne descend d'en haut. L'initiative, l'association, le voisin qui relève le voisin&nbsp;: c'est là que la nation tient debout, ou nulle part. Le pauvre, le malade et l'étranger y sont regardés en face, sans angélisme et sans dureté. Et la parole y reste libre, y compris quand elle dérange, car une civilisation qui n'ose plus se dire a déjà commencé de mourir.</p>
+                            <p class="mouvement-chapitres">L'initiative individuelle · Les corps intermédiaires et la subsidiarité · Le pauvre, le malade, l'étranger · Vérité publique et liberté d'expression · Civilisation, mémoire, transmission</p>
+                        </div>
+                    </article>
+
                 </div>
             </div>
         </section>
@@ -535,6 +852,9 @@
                     </a>
                 </div>
                 <p class="diptyque-note fade-in">Premier volet d'un diptyque. Le Tome 1 pose les fondements&nbsp;; le Tome 2 en tirera les applications concrètes, domaine par domaine.</p>
+                <div class="diptyque-cta fade-in">
+                    <a class="fdt-btn" href="france-des-talents-introduction.html">Lire l'introduction du Tome 1</a>
+                </div>
             </div>
         </section>
 
