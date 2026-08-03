@@ -56,10 +56,19 @@
         "bookFormat": "Paperback",
         "inLanguage": "fr",
         "genre": ["Essai", "Politique", "Spiritualité"],
-        "numberOfPages": "17",
+        "numberOfPages": "396",
         "description": "Les Évangiles pris au mot comme grille de pensée politique : les fondements d'une France libre, responsable et souveraine. Premier volet d'un diptyque.",
         "image": "https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg",
-        "url": "https://editions-kileton.fr/france-des-talents.html"
+        "url": "https://editions-kileton.fr/france-des-talents.html",
+        "offers": {
+            "@type": "Offer",
+            "url": "https://www.amazon.fr/dp/B0HCKBF5K7",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+                "@type": "Organization",
+                "name": "Amazon.fr"
+            }
+        }
     }
     </script>
 
@@ -187,6 +196,126 @@
         opacity: 0.5;
         cursor: not-allowed;
         pointer-events: none;
+    }
+
+    /* ------------------------------------------------------------
+       ÉCOUTER L'ALBUM — menu de choix de plateforme
+       Le survol suffit (CSS pur) ; le script en bas de page n'ajoute
+       que le tactile, la touche Échap et le clic à l'extérieur.
+       ------------------------------------------------------------ */
+    .fdt-listen { position: relative; display: inline-flex; }
+    .fdt-listen-caret { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    .fdt-listen:hover .fdt-listen-caret,
+    .fdt-listen[data-open] .fdt-listen-caret { transform: rotate(180deg); }
+
+    .fdt-listen-menu {
+        position: absolute;
+        top: calc(100% + 0.55rem);
+        left: 50%;
+        transform: translateX(-50%) translateY(-8px) scale(0.97);
+        transform-origin: top center;
+        min-width: 15rem;
+        padding: 0.45rem;
+        background: rgba(255, 252, 244, 0.97);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        border: 1.5px solid var(--gold);
+        border-radius: 10px;
+        box-shadow: 0 18px 40px rgba(122, 94, 26, 0.20), 0 2px 6px rgba(122, 94, 26, 0.10);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: 40;
+        transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                    visibility 0s 0.28s;
+    }
+    /* petite flèche vers le bouton */
+    .fdt-listen-menu::before {
+        content: "";
+        position: absolute;
+        top: -7px; left: 50%; margin-left: -7px;
+        width: 12px; height: 12px;
+        background: rgba(255, 252, 244, 0.97);
+        border-left: 1.5px solid var(--gold);
+        border-top: 1.5px solid var(--gold);
+        transform: rotate(45deg);
+        border-radius: 2px 0 0 0;
+    }
+    /* zone tampon : la souris descend du bouton au menu sans le fermer */
+    .fdt-listen-menu::after {
+        content: "";
+        position: absolute;
+        top: -0.75rem; left: 0; right: 0; height: 0.75rem;
+    }
+
+    .fdt-listen:hover .fdt-listen-menu,
+    .fdt-listen:focus-within .fdt-listen-menu,
+    .fdt-listen[data-open] .fdt-listen-menu {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0) scale(1);
+        transition-delay: 0s, 0s, 0s;
+    }
+
+    .fdt-listen-item {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 0.7rem 0.85rem;
+        border-radius: 7px;
+        color: var(--ink);
+        font-family: var(--font-sans, inherit);
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        text-transform: none;
+        text-decoration: none;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: background 0.2s ease, opacity 0.3s ease,
+                    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fdt-listen:hover .fdt-listen-item,
+    .fdt-listen:focus-within .fdt-listen-item,
+    .fdt-listen[data-open] .fdt-listen-item { opacity: 1; transform: none; }
+    /* entrée en cascade */
+    .fdt-listen:hover .fdt-listen-item:nth-child(1),
+    .fdt-listen:focus-within .fdt-listen-item:nth-child(1),
+    .fdt-listen[data-open] .fdt-listen-item:nth-child(1) { transition-delay: 0.04s; }
+    .fdt-listen:hover .fdt-listen-item:nth-child(2),
+    .fdt-listen:focus-within .fdt-listen-item:nth-child(2),
+    .fdt-listen[data-open] .fdt-listen-item:nth-child(2) { transition-delay: 0.11s; }
+    .fdt-listen-item:hover { background: rgba(212, 175, 55, 0.14); }
+
+    .fdt-listen-badge {
+        flex: 0 0 auto;
+        width: 28px; height: 28px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fdt-listen-item:hover .fdt-listen-badge { transform: scale(1.12); }
+    .fdt-listen-badge svg { width: 14px; height: 14px; }
+    .fdt-listen-badge--spotify { background: #1DB954; }
+    .fdt-listen-badge--apple { background: linear-gradient(160deg, #FB5C74, #FA243C); }
+    .fdt-listen-label {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.25;
+    }
+    .fdt-listen-label small {
+        font-size: 0.68rem;
+        font-weight: 400;
+        color: var(--ink-soft);
+        letter-spacing: 0.04em;
+        margin-left: 0;
+        text-transform: none;
+        opacity: 1;
     }
 
     /* ============================================================
@@ -657,15 +786,25 @@
                     <p class="fdt-hero-subtitle">Les fondements évangéliques d'une France libre, responsable et souveraine</p>
                     <div class="fdt-cta-group">
                         <a class="fdt-btn" href="france-des-talents-introduction.html">Lire le Tome 1</a>
-                        <!-- ACHETER : quand le lien Amazon sera fourni, remplacer ce <span> par :
-                             <a class="fdt-btn fdt-btn--ghost" href="LIEN_AMAZON_TOME1">Acheter le Tome 1</a> -->
-                        <span class="fdt-btn fdt-btn--ghost fdt-btn--soon" role="link" aria-disabled="true">Acheter le Tome 1<small>Bientôt</small></span>
-                        <!-- ÉCOUTER L'ALBUM « La France des Talents » : quand le lien sera fourni, remplacer ce <span> par :
-                             <a class="fdt-btn fdt-btn--ghost" href="LIEN_ALBUM">…Écouter l'album</a> -->
-                        <span class="fdt-btn fdt-btn--ghost fdt-btn--soon" role="link" aria-disabled="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                            Écouter l'album<small>Bientôt</small>
-                        </span>
+                        <a class="fdt-btn fdt-btn--ghost" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener noreferrer" aria-label="Acheter La France des Talents, Tome 1, sur Amazon">Acheter le Tome 1</a>
+                        <!-- ÉCOUTER L'ALBUM : menu de choix de plateforme (survol, tactile, clavier) -->
+                        <div class="fdt-listen" data-listen>
+                            <button type="button" class="fdt-btn fdt-btn--ghost fdt-listen-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="listen-menu">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                                Écouter l'album
+                                <svg class="fdt-listen-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </button>
+                            <div class="fdt-listen-menu" id="listen-menu" role="menu" aria-label="Choisir une plateforme d'écoute">
+                                <a class="fdt-listen-item" role="menuitem" href="https://open.spotify.com/intl-fr/album/5jxEuRnDu4qKtd3rOFLugG" target="_blank" rel="noopener noreferrer" aria-label="Écouter l'album La France des Talents sur Spotify">
+                                    <span class="fdt-listen-badge fdt-listen-badge--spotify" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"></path></svg></span>
+                                    <span class="fdt-listen-label">Spotify<small>Écouter en streaming</small></span>
+                                </a>
+                                <a class="fdt-listen-item" role="menuitem" href="https://music.apple.com/fr/album/la-france-des-talents/6796951801" target="_blank" rel="noopener noreferrer" aria-label="Écouter l'album La France des Talents sur Apple Music">
+                                    <span class="fdt-listen-badge fdt-listen-badge--apple" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"></path></svg></span>
+                                    <span class="fdt-listen-label">Apple Music<small>Écouter en streaming</small></span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <hr class="divider">
                 </div>
@@ -875,5 +1014,33 @@
     </footer>
 
     <script src="js/main.js"></script>
+
+    <!-- Menu « Écouter l'album » : le survol est géré en CSS.
+         Ce script n'ajoute que ce que le survol ne sait pas faire :
+         le tactile, la touche Échap, et le clic à l'extérieur. -->
+    <script>
+    (function () {
+        document.querySelectorAll('[data-listen]').forEach(function (root) {
+            var trigger = root.querySelector('.fdt-listen-trigger');
+            if (!trigger) { return; }
+            var canHover = window.matchMedia('(hover: hover)').matches;
+
+            function open()   { root.setAttribute('data-open', ''); trigger.setAttribute('aria-expanded', 'true'); }
+            function close()  { root.removeAttribute('data-open');  trigger.setAttribute('aria-expanded', 'false'); }
+            function toggle() { if (root.hasAttribute('data-open')) { close(); } else { open(); } }
+
+            trigger.addEventListener('click', function (e) { e.preventDefault(); toggle(); });
+            if (canHover) {
+                root.addEventListener('mouseenter', function () { trigger.setAttribute('aria-expanded', 'true'); });
+                root.addEventListener('mouseleave', function () { close(); });
+            }
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && root.hasAttribute('data-open')) { close(); trigger.focus(); }
+            });
+            document.addEventListener('click', function (e) { if (!root.contains(e.target)) { close(); } });
+            root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) { close(); } });
+        });
+    })();
+    </script>
 </body>
 </html>
