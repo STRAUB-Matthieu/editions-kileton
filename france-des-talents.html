@@ -215,6 +215,7 @@
         transform: translateX(-50%) translateY(-8px) scale(0.97);
         transform-origin: top center;
         min-width: 15rem;
+        max-width: calc(100vw - 2rem);
         padding: 0.45rem;
         background: rgba(255, 252, 244, 0.97);
         -webkit-backdrop-filter: blur(8px);
@@ -328,7 +329,10 @@
         background:
             radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.14) 0%, transparent 55%),
             var(--cream);
-        overflow: hidden;
+        /* On clippe l'horizontale seulement : « overflow: hidden » coupait le menu
+           « Écouter l'album » dès qu'il dépassait le bas du hero, sur mobile. */
+        overflow-x: clip;
+        overflow-y: visible;
     }
 
     .fdt-hero-inner {
