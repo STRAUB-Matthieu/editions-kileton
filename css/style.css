@@ -726,7 +726,7 @@ html:not(.js) .fade-in {
     place-items: center;
     background:
         linear-gradient(rgba(11, 22, 40, 0.72), rgba(11, 22, 40, 0.82)),
-        url('../assets/images/IMG_8125.webp') center / cover no-repeat;
+        url('../assets/images/bande-annonce-thumbnail.webp') center / cover no-repeat;
 }
 .clip-responsive .yt-facade {
     position: absolute;
