@@ -17,9 +17,11 @@
     <link rel="icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Polices hébergées localement : aucun appel vers Google, aucune donnée
+         du visiteur transmise à un tiers. Voir css/fonts.css -->
+    <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/fonts.css">
     <style>
         *, *::before, *::after {
             margin: 0;
@@ -226,6 +228,64 @@
             border: 1px solid rgba(212,175,55,0.2);
         }
 
+
+        /* ------------------------------------------------------------
+           LECTEUR VIDÉO CHARGÉ AU CLIC
+           Tant que le visiteur n'a pas cliqué, aucune requête ne part
+           vers YouTube et aucun traceur n'est déposé. Le clic vaut
+           consentement éclairé : la mention le dit explicitement.
+           ------------------------------------------------------------ */
+        .yt-facade {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: grid;
+            place-items: center;
+            background:
+                linear-gradient(rgba(11, 22, 40, 0.72), rgba(11, 22, 40, 0.82)),
+                url('assets/images/IMG_8125.webp') center / cover no-repeat;
+            border: none;
+        }
+        .yt-facade iframe { width: 100%; height: 100%; border: 0; display: block; }
+        .yt-facade-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.85rem 1.6rem;
+            background: rgba(212, 175, 55, 0.95);
+            color: #16202E;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+        .yt-facade-btn:hover {
+            background: #E2C255;
+            transform: scale(1.04);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.35);
+        }
+        .yt-facade-btn svg { width: 18px; height: 18px; }
+        .yt-facade-note {
+            position: absolute;
+            left: 0; right: 0; bottom: 0.7rem;
+            margin: 0;
+            padding: 0 1rem;
+            text-align: center;
+            font-size: 0.68rem;
+            line-height: 1.4;
+            letter-spacing: 0.02em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .yt-facade.is-playing .yt-facade-note { display: none; }
+        @media (prefers-reduced-motion: reduce) {
+            .yt-facade-btn { transition-duration: 0.01ms; }
+        }
+
         .video-wrapper iframe {
             display: block;
             width: 100%;
@@ -398,13 +458,13 @@
             <!-- Section : Clip officiel -->
             <h2 class="section-label">Clip officiel</h2>
             <div class="video-wrapper">
-                <iframe
-                    src="https://www.youtube.com/embed/FnUR_KO1qzw?rel=0&modestbranding=1"
-                    title="La Verticale du Vide — Clip officiel"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    loading="lazy"
-                ></iframe>
+                <div class="yt-facade" data-yt="FnUR_KO1qzw" data-yt-title="La Verticale du Vide, clip officiel">
+                    <button type="button" class="yt-facade-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"></path></svg>
+                        Lire la vidéo
+                    </button>
+                    <p class="yt-facade-note">La lecture charge le lecteur YouTube, qui dépose des traceurs sur votre appareil.</p>
+                </div>
             </div>
 
             <hr class="divider">
@@ -443,5 +503,27 @@
         </div>
 
     </main>
+
+    <!-- Lecteur vidéo au clic : rien n'est demandé à YouTube tant que le
+         visiteur n'a pas cliqué. Le domaine youtube-nocookie limite en outre
+         les traceurs déposés une fois la lecture lancée. -->
+    <script>
+    (function () {
+        document.querySelectorAll('.yt-facade').forEach(function (box) {
+            var btn = box.querySelector('.yt-facade-btn');
+            if (!btn) { return; }
+            btn.addEventListener('click', function () {
+                var f = document.createElement('iframe');
+                f.src = 'https://www.youtube-nocookie.com/embed/' + box.dataset.yt +
+                        '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+                f.title = box.dataset.ytTitle || 'Vidéo';
+                f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+                f.setAttribute('allowfullscreen', '');
+                box.replaceChildren(f);
+                box.classList.add('is-playing');
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
