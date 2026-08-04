@@ -32,9 +32,11 @@
     <link rel="manifest" href="site.webmanifest">
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Polices hébergées localement : aucun appel vers Google, aucune donnée
+         du visiteur transmise à un tiers. Voir css/fonts.css -->
+    <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/fonts.css">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
@@ -198,6 +200,19 @@
                         <div class="book-info">
                             <h3 class="book-title">La Verticale du Vide</h3>
                             <p class="book-tagline">Entre la chute et le chant, il y a nous.</p>
+                            <span class="book-cta">Découvrir le livre <span aria-hidden="true">→</span></span>
+                        </div>
+                    </a>
+                    <a href="france-des-talents.html" class="book-card" aria-label="Découvrir La France des Talents, Tome 1">
+                        <div class="book-cover-wrapper">
+                            <picture>
+                                <source srcset="assets/images/couverture-france-talents-tome1.webp" type="image/webp">
+                                <img src="assets/images/couverture-france-talents-tome1.jpg" alt="Couverture de l'essai La France des Talents, Tome 1, par Matthieu Straub" class="book-cover" width="280" height="400" loading="lazy" decoding="async">
+                            </picture>
+                        </div>
+                        <div class="book-info">
+                            <h3 class="book-title">La France des Talents</h3>
+                            <p class="book-tagline">Tome 1 — Les Évangiles pris au mot comme grille politique.</p>
                             <span class="book-cta">Découvrir le livre <span aria-hidden="true">→</span></span>
                         </div>
                     </a>
