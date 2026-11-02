@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F7F5F1">
     <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
     <script>document.documentElement.classList.add('js');</script>
     <title>La France des Talents — Tome 1 | Éditions Kileton</title>
@@ -31,15 +32,16 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
 
-    <!-- Google Fonts -->
     <!-- Polices hébergées localement : aucun appel vers Google, aucune donnée
          du visiteur transmise à un tiers. Voir css/fonts.css -->
-    <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/fraunces-latin-full-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="css/fonts.css">
 
-    <!-- Stylesheet globale (header, drawer, footer, charte) -->
+    <!-- Feuilles de style : base du site, en-tête de la maison, puis l'univers du livre -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css?v=2">
+    <link rel="stylesheet" href="css/talents.css?v=1">
 
     <!-- JSON-LD Book -->
     <script type="application/ld+json">
@@ -55,6 +57,7 @@
             "@type": "Organization",
             "name": "Éditions Kileton"
         },
+        "isbn": "9791098457722",
         "bookFormat": "Paperback",
         "inLanguage": "fr",
         "genre": ["Essai", "Politique", "Spiritualité"],
@@ -73,637 +76,38 @@
         }
     }
     </script>
-
-    <!-- ============================================================
-         STYLES PROPRES À LA PAGE — Mode Patrimoine (crème / doré)
-         Portée limitée à .page-france : aucune collision avec la
-         feuille globale. Header / drawer / footer viennent de style.css.
-         ============================================================ -->
-    <style>
-    /* Variables spécifiques au Mode Patrimoine */
-    :root {
-        --cream:      #F7F1E1;   /* fond principal        */
-        --cream-alt:  #EFE4CB;   /* alternance de sections */
-        --gold-deep:  #7A5E1A;   /* titres sur crème (AA)  */
-        --ink:        #2C2617;   /* corps de texte         */
-        --ink-soft:   #5C523E;   /* textes secondaires     */
-    }
-
-    /* Fond et couleur de base de la page */
-    body.page-france {
-        background-color: var(--cream);
-        color: var(--ink);
-    }
-
-    /* --- Divider or signature --- */
-    .page-france .divider {
-        width: 60px;
-        height: 2px;
-        background: var(--gold);
-        border: 0;
-        margin: 1.25rem 0 0;
-    }
-    .page-france .divider--center { margin-left: auto; margin-right: auto; }
-
-    /* --- Label capitalisé --- */
-    .page-france .eyebrow {
-        font-family: var(--font-sans);
-        font-size: 0.75rem;
-        font-weight: 500;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--gold-deep);
-    }
-
-    /* --- Titre de section (commun aux nouvelles sections) --- */
-    .page-france .section-head {
-        text-align: center;
-        max-width: 640px;
-        margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
-    }
-    .page-france .section-title {
-        font-family: var(--font-serif);
-        font-weight: 600;
-        font-size: clamp(1.85rem, 4.5vw, 2.75rem);
-        line-height: 1.2;
-        color: var(--gold-deep);
-        margin: 0.75rem 0 0;
-        text-wrap: balance;
-    }
-    .page-france .section-lede {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: clamp(1.02rem, 2.4vw, 1.25rem);
-        line-height: 1.6;
-        color: var(--ink-soft);
-        max-width: 46ch;
-        margin: 1rem auto 0;
-        text-wrap: balance;
-    }
-
-    /* --- CTA or signature --- */
-    .page-france .fdt-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.95rem 2.25rem;
-        background: var(--gold);
-        color: #2A2109;
-        font-family: var(--font-sans);
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    }
-    .page-france .fdt-btn:hover {
-        background: #E2C255;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
-    }
-
-    /* Groupe de CTA (Lire / Acheter / Écouter) */
-    .fdt-cta-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.7rem;
-        justify-content: center;
-        margin-bottom: 0.4rem;
-    }
-    .fdt-btn svg { width: 16px; height: 16px; }
-    .fdt-btn small {
-        font-size: 0.6rem;
-        font-weight: 500;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        margin-left: 0.25rem;
-        opacity: 0.85;
-    }
-    /* Bouton secondaire (contour) */
-    .page-france .fdt-btn--ghost {
-        background: transparent;
-        color: var(--gold-deep);
-        border: 1.5px solid var(--gold);
-        box-shadow: none;
-    }
-    .page-france .fdt-btn--ghost:hover {
-        background: rgba(212, 175, 55, 0.10);
-        box-shadow: 0 6px 18px rgba(212, 175, 55, 0.18);
-    }
-    /* État « bientôt disponible » : visible mais inactif */
-    .fdt-btn--soon {
-        opacity: 0.5;
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    /* ------------------------------------------------------------
-       ÉCOUTER L'ALBUM — menu de choix de plateforme
-       Le survol suffit (CSS pur) ; le script en bas de page n'ajoute
-       que le tactile, la touche Échap et le clic à l'extérieur.
-       ------------------------------------------------------------ */
-    .fdt-listen { position: relative; display: inline-flex; }
-    .fdt-listen-caret { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-    .fdt-listen:hover .fdt-listen-caret,
-    .fdt-listen[data-open] .fdt-listen-caret { transform: rotate(180deg); }
-
-    .fdt-listen-menu {
-        position: absolute;
-        top: calc(100% + 0.55rem);
-        left: 50%;
-        transform: translateX(-50%) translateY(-8px) scale(0.97);
-        transform-origin: top center;
-        min-width: 15rem;
-        max-width: calc(100vw - 2rem);
-        padding: 0.45rem;
-        background: rgba(255, 252, 244, 0.97);
-        -webkit-backdrop-filter: blur(8px);
-        backdrop-filter: blur(8px);
-        border: 1.5px solid var(--gold);
-        border-radius: 10px;
-        box-shadow: 0 18px 40px rgba(122, 94, 26, 0.20), 0 2px 6px rgba(122, 94, 26, 0.10);
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        z-index: 40;
-        transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-                    visibility 0s 0.28s;
-    }
-    /* petite flèche vers le bouton */
-    .fdt-listen-menu::before {
-        content: "";
-        position: absolute;
-        top: -7px; left: 50%; margin-left: -7px;
-        width: 12px; height: 12px;
-        background: rgba(255, 252, 244, 0.97);
-        border-left: 1.5px solid var(--gold);
-        border-top: 1.5px solid var(--gold);
-        transform: rotate(45deg);
-        border-radius: 2px 0 0 0;
-    }
-    /* zone tampon : la souris descend du bouton au menu sans le fermer */
-    .fdt-listen-menu::after {
-        content: "";
-        position: absolute;
-        top: -0.75rem; left: 0; right: 0; height: 0.75rem;
-    }
-
-    .fdt-listen:hover .fdt-listen-menu,
-    .fdt-listen:focus-within .fdt-listen-menu,
-    .fdt-listen[data-open] .fdt-listen-menu {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0) scale(1);
-        transition-delay: 0s, 0s, 0s;
-    }
-
-    .fdt-listen-item {
-        display: flex;
-        align-items: center;
-        gap: 0.7rem;
-        padding: 0.7rem 0.85rem;
-        border-radius: 7px;
-        color: var(--ink);
-        font-family: var(--font-sans, inherit);
-        font-size: 0.85rem;
-        font-weight: 500;
-        letter-spacing: 0.02em;
-        text-transform: none;
-        text-decoration: none;
-        opacity: 0;
-        transform: translateY(-6px);
-        transition: background 0.2s ease, opacity 0.3s ease,
-                    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .fdt-listen:hover .fdt-listen-item,
-    .fdt-listen:focus-within .fdt-listen-item,
-    .fdt-listen[data-open] .fdt-listen-item { opacity: 1; transform: none; }
-    /* entrée en cascade */
-    .fdt-listen:hover .fdt-listen-item:nth-child(1),
-    .fdt-listen:focus-within .fdt-listen-item:nth-child(1),
-    .fdt-listen[data-open] .fdt-listen-item:nth-child(1) { transition-delay: 0.04s; }
-    .fdt-listen:hover .fdt-listen-item:nth-child(2),
-    .fdt-listen:focus-within .fdt-listen-item:nth-child(2),
-    .fdt-listen[data-open] .fdt-listen-item:nth-child(2) { transition-delay: 0.11s; }
-    .fdt-listen-item:hover { background: rgba(212, 175, 55, 0.14); }
-
-    .fdt-listen-badge {
-        flex: 0 0 auto;
-        width: 28px; height: 28px;
-        border-radius: 8px;
-        display: grid;
-        place-items: center;
-        color: #fff;
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .fdt-listen-item:hover .fdt-listen-badge { transform: scale(1.12); }
-    .fdt-listen-badge svg { width: 14px; height: 14px; }
-    .fdt-listen-badge--spotify { background: #1DB954; }
-    .fdt-listen-badge--apple { background: linear-gradient(160deg, #FB5C74, #FA243C); }
-    .fdt-listen-label {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        line-height: 1.25;
-    }
-    .fdt-listen-label small {
-        font-size: 0.68rem;
-        font-weight: 400;
-        color: var(--ink-soft);
-        letter-spacing: 0.04em;
-        margin-left: 0;
-        text-transform: none;
-        opacity: 1;
-    }
-
-    /* ============================================================
-       1 · HERO
-       ============================================================ */
-    .fdt-hero {
-        position: relative;
-        /* padding-top généreux pour dégager le header fixe */
-        padding: clamp(6rem, 11vw, 8.5rem) 0 clamp(3rem, 7vw, 5.5rem);
-        background:
-            radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.14) 0%, transparent 55%),
-            var(--cream);
-        /* On clippe l'horizontale seulement : « overflow: hidden » coupait le menu
-           « Écouter l'album » dès qu'il dépassait le bas du hero, sur mobile. */
-        overflow-x: clip;
-        overflow-y: visible;
-    }
-
-    .fdt-hero-inner {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: clamp(2.5rem, 6vw, 4.5rem);
-    }
-
-    .fdt-hero-text { text-align: center; max-width: 640px; }
-
-    .fdt-hero-title {
-        font-family: var(--font-serif);
-        font-weight: 700;
-        font-size: clamp(2.6rem, 8vw, 5rem);
-        line-height: 1.02;
-        letter-spacing: 0.01em;
-        color: var(--gold-deep);
-        margin: 1.4rem 0 0.9rem;
-        text-wrap: balance;
-    }
-
-    .fdt-hero-subtitle {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-weight: 500;
-        font-size: clamp(1.15rem, 3.2vw, 1.55rem);
-        line-height: 1.45;
-        color: var(--ink-soft);
-        max-width: 34ch;
-        margin: 0 auto 2.2rem;
-        text-wrap: balance;
-    }
-
-    /* Couverture mise en scène (ratio 2×3, ombre premium) */
-    .fdt-cover-frame { perspective: 1400px; flex-shrink: 0; }
-
-    .fdt-cover {
-        width: min(340px, 78vw);
-        aspect-ratio: 6 / 9;
-        object-fit: cover;
-        border-radius: 4px;
-        box-shadow:
-            0 25px 60px rgba(0, 0, 0, 0.25),
-            0 0 40px rgba(212, 175, 55, 0.15);
-        transform: rotateY(-6deg);
-        transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .fdt-cover:hover { transform: rotateY(0deg) scale(1.02); }
-
-    /* ============================================================
-       2 · ACCROCHE
-       ============================================================ */
-    .accroche {
-        background: var(--cream-alt);
-        padding: clamp(4rem, 10vw, 7rem) 0;
-        text-align: center;
-    }
-    .accroche blockquote {
-        font-family: var(--font-serif);
-        font-weight: 600;
-        font-size: clamp(1.9rem, 6vw, 3.4rem);
-        line-height: 1.15;
-        letter-spacing: 0.01em;
-        color: var(--gold-deep);
-        max-width: 18ch;
-        margin: 0 auto;
-        text-wrap: balance;
-    }
-    .accroche p {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: clamp(1.05rem, 2.6vw, 1.4rem);
-        color: var(--ink-soft);
-        max-width: 42ch;
-        margin: 1.75rem auto 0;
-        line-height: 1.55;
-    }
-    .accroche p + p { margin-top: 1rem; }
-
-    /* ============================================================
-       3 · PRÉSENTATION
-       ============================================================ */
-    .presentation {
-        padding: clamp(4rem, 9vw, 6.5rem) 0;
-        background: var(--cream);
-    }
-    .presentation-body {
-        max-width: 640px;
-        margin: 0 auto;
-    }
-    .presentation-body p {
-        font-size: 1.075rem;
-        line-height: 1.85;
-        color: var(--ink);
-        text-align: justify;
-        hyphens: auto;
-    }
-    .presentation-body p + p { margin-top: 1.4rem; }
-    .presentation-body em {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: 1.15em;
-        color: var(--gold-deep);
-    }
-    /* Verset tissé dans la prose de présentation */
-    .presentation-body .verset-inline {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: 1.1em;
-        color: var(--gold-deep);
-    }
-
-    /* ============================================================
-       4 · LES PAROLES QUI FONDENT (nouveau)
-       ============================================================ */
-    .paroles {
-        padding: clamp(4rem, 9vw, 6.5rem) 0;
-        background: var(--cream-alt);
-    }
-    .paroles-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.15rem;
-        max-width: 980px;
-        margin: 0 auto;
-    }
-    .parole-card {
-        background: rgba(255, 255, 255, 0.42);
-        border: 1px solid rgba(122, 94, 26, 0.20);
-        border-left: 2px solid var(--gold);
-        border-radius: 6px;
-        padding: 1.5rem 1.6rem;
-        transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-    }
-    .parole-card:hover {
-        transform: translateY(-3px);
-        border-color: var(--gold);
-        box-shadow: 0 10px 30px rgba(122, 94, 26, 0.10);
-    }
-    .parole-card blockquote {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-weight: 500;
-        font-size: clamp(1.12rem, 2.4vw, 1.32rem);
-        line-height: 1.4;
-        color: var(--gold-deep);
-        margin: 0;
-        text-wrap: balance;
-    }
-    .parole-ref {
-        display: block;
-        font-family: var(--font-sans);
-        font-size: 0.7rem;
-        font-weight: 600;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--ink-soft);
-        margin-top: 0.75rem;
-    }
-    .parole-gloss {
-        font-size: 0.98rem;
-        line-height: 1.65;
-        color: var(--ink);
-        margin: 0.85rem 0 0;
-        padding-top: 0.85rem;
-        border-top: 1px solid rgba(122, 94, 26, 0.15);
-    }
-    @media (min-width: 760px) {
-        .paroles-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
-    }
-
-    /* ============================================================
-       5 · LES TROIS MOUVEMENTS (nouveau)
-       ============================================================ */
-    .mouvements {
-        padding: clamp(4rem, 9vw, 6.5rem) 0;
-        background: var(--cream);
-    }
-    .mouvements-list {
-        max-width: 760px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: clamp(2rem, 4vw, 2.75rem);
-    }
-    .mouvement {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 1.4rem;
-        align-items: start;
-        padding-bottom: clamp(2rem, 4vw, 2.75rem);
-        border-bottom: 1px solid rgba(122, 94, 26, 0.18);
-    }
-    .mouvements-list .mouvement:last-child {
-        border-bottom: 0;
-        padding-bottom: 0;
-    }
-    .mouvement-num {
-        font-family: var(--font-serif);
-        font-weight: 700;
-        font-size: clamp(2.1rem, 5vw, 2.9rem);
-        line-height: 1;
-        color: var(--gold);
-        opacity: 0.85;
-        min-width: 2.2ch;
-    }
-    .mouvement-title {
-        font-family: var(--font-serif);
-        font-weight: 600;
-        font-size: clamp(1.35rem, 3.2vw, 1.75rem);
-        line-height: 1.25;
-        color: var(--gold-deep);
-        margin: 0 0 0.15rem;
-    }
-    .mouvement-range {
-        display: block;
-        font-family: var(--font-sans);
-        font-size: 0.7rem;
-        font-weight: 500;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--ink-soft);
-        margin-bottom: 0.9rem;
-    }
-    .mouvement-verset {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: 1.12rem;
-        line-height: 1.45;
-        color: var(--gold-deep);
-        border-left: 2px solid var(--gold);
-        padding: 0.15rem 0 0.15rem 1rem;
-        margin: 0 0 1rem;
-    }
-    .mouvement-verset cite {
-        display: block;
-        font-family: var(--font-sans);
-        font-style: normal;
-        font-size: 0.7rem;
-        font-weight: 600;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--ink-soft);
-        margin-top: 0.5rem;
-    }
-    .mouvement-text {
-        font-size: 1.03rem;
-        line-height: 1.8;
-        color: var(--ink);
-        margin: 0;
-    }
-    .mouvement-chapitres {
-        font-family: var(--font-sans);
-        font-size: 0.88rem;
-        line-height: 1.65;
-        color: var(--ink-soft);
-        margin: 0.9rem 0 0;
-    }
-
-    /* ============================================================
-       6 · EXERGUE DORÉ
-       ============================================================ */
-    .exergue {
-        padding: clamp(3.5rem, 8vw, 6rem) 0;
-        background: var(--cream-alt);
-    }
-    .exergue blockquote {
-        max-width: 640px;
-        margin: 0 auto;
-        border-left: 2px solid var(--gold);
-        padding: 0.4rem 0 0.4rem 1.75rem;
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-weight: 500;
-        font-size: clamp(1.5rem, 4.5vw, 2.35rem);
-        line-height: 1.3;
-        color: var(--gold-deep);
-        text-wrap: balance;
-    }
-
-    /* ============================================================
-       7 · DIPTYQUE
-       ============================================================ */
-    .diptyque {
-        padding: clamp(3rem, 7vw, 5rem) 0;
-        background: var(--cream);
-    }
-    .diptyque-tomes {
-        display: flex;
-        align-items: stretch;
-        justify-content: center;
-        gap: 1.25rem;
-        max-width: 620px;
-        margin: 0 auto 2rem;
-    }
-    .tome-chip {
-        flex: 1;
-        padding: 1.25rem;
-        border: 1px solid rgba(122, 94, 26, 0.28);
-        border-radius: 8px;
-        text-align: center;
-    }
-    .tome-chip .eyebrow { display: block; margin-bottom: 0.4rem; }
-    .tome-chip .tome-desc {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: 1.05rem;
-        color: var(--ink-soft);
-        line-height: 1.4;
-    }
-    .tome-chip--active { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); }
-    .tome-chip--link {
-        display: block;
-        text-decoration: none;
-        transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
-    }
-    .tome-chip--link:hover {
-        border-color: var(--gold);
-        background: rgba(212, 175, 55, 0.06);
-        transform: translateY(-3px);
-    }
-    .tome-chip--link .eyebrow { display: block; margin-bottom: 0.4rem; }
-
-    .diptyque-note {
-        max-width: 560px;
-        margin: 0 auto 2.25rem;
-        text-align: center;
-        font-size: 0.98rem;
-        line-height: 1.7;
-        color: var(--ink-soft);
-    }
-    .diptyque-cta { text-align: center; }
-
-    /* ============================================================
-       RESPONSIVE — élargissement au-delà du mobile
-       ============================================================ */
-    @media (min-width: 860px) {
-        .fdt-hero-inner {
-            flex-direction: row-reverse;
-            align-items: center;
-            justify-content: center;
-            gap: clamp(3rem, 6vw, 5rem);
-        }
-        .fdt-hero-text { text-align: left; }
-        .fdt-hero-text .fdt-cta-group { justify-content: flex-start; }
-        .fdt-hero-text .divider { margin-left: 0; }
-        .fdt-hero-subtitle { margin-left: 0; }
-        .fdt-cover { width: min(360px, 34vw); }
-    }
-
-    /* ============================================================
-       REDUCED MOTION — neutralise la mise en scène 3D de la couverture
-       ============================================================ */
-    @media (prefers-reduced-motion: reduce) {
-        .fdt-cover { transform: none; }
-        .parole-card:hover,
-        .tome-chip--link:hover { transform: none; }
-    }
-    </style>
 </head>
-
-<body class="page-france">
+<body class="home-v2 ft">
 
     <!-- HEADER / NAVIGATION -->
-    <header class="site-header" role="banner">
+    <header class="site-header on-light" role="banner">
         <nav class="nav-container" role="navigation" aria-label="Navigation principale">
-            <a href="index.html" class="logo-link" aria-label="Accueil Éditions Kileton">
-                <img src="assets/images/logo_kileton.svg?v=3" alt="Logo Éditions Kileton" class="logo" width="200" height="40">
+            <!-- Lockup de la maison : sceau-vitrail + mot KILETON dessiné + « Éditions » -->
+            <a href="index.html" class="logo-link hd-lockup" aria-label="Éditions Kileton, accueil">
+                <svg class="hd-seal" viewBox="-4 -4 108 148" aria-hidden="true" focusable="false">
+<clipPath id="hd-win-ft"><path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z"/></clipPath>
+<g clip-path="url(#hd-win-ft)">
+<polygon points="0,-30 38,-30 38,170 0,170" fill="#3155A8"/>
+<polygon points="38,-30 38,88 105.6,-30.0" fill="#D4AF37"/>
+<polygon points="38,88 105.6,-30.0 150,-30 150,189.2" fill="#B05138"/>
+<polygon points="38,88 150,189.2 38,189.2" fill="#3155A8"/>
+<g stroke="#141218" class="sl" stroke-width="5.2" stroke-linecap="round" fill="none"><line x1="38" y1="-10" x2="38" y2="150"/><line x1="38" y1="88" x2="105.6" y2="-30.0"/><line x1="38" y1="88" x2="150.0" y2="189.2"/></g>
+</g>
+<path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z" fill="none" stroke="#141218" class="sl" stroke-width="6.5" stroke-linejoin="round"/>
+<polygon points="38,81.5 44.5,88 38,94.5 31.5,88" fill="#D4AF37" stroke="#141218" class="sl" stroke-width="2.2" stroke-linejoin="round"/>
+                </svg>
+                <span class="hd-words">
+                    <svg class="hd-wordmark" viewBox="-4 -4 521 108" aria-hidden="true" focusable="false">
+<path d="M0.00,0.00h15.00v100.00h-15.00ZM15.00,56.00 L63.00,0.00 L70.00,0.00 L15.00,64.50 ZM30.00,47.00 L72.00,100.00 L52.00,100.00 L22.00,57.00 Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M89.00,0.00h15.00v100.00h-15.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M121.00,0.00h15.00v100.00h-15.00ZM121.00,95.40h54.00v4.60h-54.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M192.00,0.00h15.00v100.00h-15.00ZM192.00,0.00h52.00v4.60h-52.00ZM192.00,48.00h42.00v4.60h-42.00ZM192.00,95.40h54.00v4.60h-54.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M263.00,0.00h64.00v4.60h-64.00ZM287.50,0.00h15.00v100.00h-15.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M344.00,50.00 A41.00,50.00 0 1 0 426.00,50.00 A41.00,50.00 0 1 0 344.00,50.00 ZM359.00,50.00 A26.00,45.40 0 1 0 411.00,50.00 A26.00,45.40 0 1 0 359.00,50.00 Z" fill="currentColor" fill-rule="evenodd"/>
+<path d="M443.00,0.00h4.60v100.00h-4.60ZM508.40,0.00h4.60v100.00h-4.60ZM443.00,0.00 L462.00,0.00 L513.00,100.00 L494.00,100.00 Z" fill="currentColor" fill-rule="nonzero"/>
+                    </svg>
+                    <span class="hd-eyebrow">Éditions</span>
+                </span>
             </a>
             <!-- Navigation inline : repli accessible sans JS -->
             <ul class="nav-links">
@@ -772,240 +176,185 @@
 
     <main role="main">
 
-        <!-- ============================================================
-             HERO — label · titre · sous-titre · couverture · CTA
-             ============================================================ -->
-        <section class="fdt-hero" aria-label="Présentation du livre">
-            <div class="container fdt-hero-inner">
+        <!-- I. LE TALENT ENFOUI — la terre, le talent, puis le lys qui se tresse -->
+        <section class="ta" aria-labelledby="ta-title">
+            <div class="ta-sticky">
+                <canvas class="ta-canvas" aria-hidden="true"></canvas>
+                <div class="ta-fallback" aria-hidden="true"></div>
 
-                <!-- Couverture Tome 1 : WebP + fallback JPEG via <picture> -->
-                <div class="fdt-cover-frame fade-in">
-                    <picture>
-                        <source srcset="assets/images/couverture-france-talents-tome1.webp" type="image/webp">
-                        <img class="fdt-cover" src="assets/images/couverture-france-talents-tome1.jpg" width="700" height="1050" loading="eager" decoding="async" alt="Première de couverture de « La France des Talents », Tome 1, par Matthieu Straub, Éditions Kileton">
-                    </picture>
-                </div>
+                <blockquote class="ta-line ta-verse" data-in="0" data-out="0.2">
+                    <p>« J'ai eu peur, et je suis allé cacher ton&nbsp;talent dans la terre. »</p>
+                    <cite>Matthieu 25, 25</cite>
+                </blockquote>
 
-                <div class="fdt-hero-text fade-in">
-                    <p class="eyebrow">Essai · Tome 1 — Le Pourquoi</p>
-                    <h1 class="fdt-hero-title">La France<br>des Talents</h1>
-                    <p class="fdt-hero-subtitle">Les fondements évangéliques d'une France libre, responsable et souveraine</p>
-                    <div class="fdt-cta-group">
-                        <a class="fdt-btn" href="france-des-talents-introduction.html">Lire le Tome 1</a>
-                        <a class="fdt-btn fdt-btn--ghost" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener noreferrer" aria-label="Acheter La France des Talents, Tome 1, sur Amazon">Acheter le Tome 1</a>
-                        <!-- ÉCOUTER L'ALBUM : menu de choix de plateforme (survol, tactile, clavier) -->
-                        <div class="fdt-listen" data-listen>
-                            <button type="button" class="fdt-btn fdt-btn--ghost fdt-listen-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="listen-menu">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                                Écouter l'album
-                                <svg class="fdt-listen-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                            </button>
-                            <div class="fdt-listen-menu" id="listen-menu" role="menu" aria-label="Choisir une plateforme d'écoute">
-                                <a class="fdt-listen-item" role="menuitem" href="https://open.spotify.com/intl-fr/album/5jxEuRnDu4qKtd3rOFLugG" target="_blank" rel="noopener noreferrer" aria-label="Écouter l'album La France des Talents sur Spotify">
-                                    <span class="fdt-listen-badge fdt-listen-badge--spotify" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"></path></svg></span>
-                                    <span class="fdt-listen-label">Spotify<small>Écouter en streaming</small></span>
-                                </a>
-                                <a class="fdt-listen-item" role="menuitem" href="https://music.apple.com/fr/album/la-france-des-talents/6796951801" target="_blank" rel="noopener noreferrer" aria-label="Écouter l'album La France des Talents sur Apple Music">
-                                    <span class="fdt-listen-badge fdt-listen-badge--apple" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"></path></svg></span>
-                                    <span class="fdt-listen-label">Apple Music<small>Écouter en streaming</small></span>
-                                </a>
-                            </div>
-                        </div>
+                <p class="ta-line ta-hint" data-in="0.27" data-out="0.38" aria-hidden="true"><span>Faites tourner le talent</span></p>
+
+                <p class="ta-line ta-gift" data-in="0.42" data-out="0.57">La France a reçu des talents.</p>
+
+                <ol class="ta-parts" aria-label="Les trois mouvements du livre">
+                    <li class="ta-line ta-part ta-part-1" data-in="0.63" data-out="0.9">
+                        <span class="ta-part-num">I</span>
+                        <span class="ta-part-name">La personne, avant tout le reste</span>
+                    </li>
+                    <li class="ta-line ta-part ta-part-2" data-in="0.7" data-out="0.9">
+                        <span class="ta-part-num">II</span>
+                        <span class="ta-part-name">L'État remis à sa place</span>
+                    </li>
+                    <li class="ta-line ta-part ta-part-3" data-in="0.77" data-out="0.9">
+                        <span class="ta-part-num">III</span>
+                        <span class="ta-part-name">La société qui se relève d'elle-même</span>
+                    </li>
+                </ol>
+
+                <div class="ta-line ta-title" data-in="0.9" data-out="2">
+                    <p class="ta-eyebrow">Essai · Tome 1 — Le Pourquoi</p>
+                    <h1 id="ta-title">La France des talents</h1>
+                    <p class="ta-sub">Les Évangiles pour une France libre, responsable et&nbsp;souveraine</p>
+                    <div class="ta-actions">
+                        <a class="ft-btn ft-btn-gold" href="france-des-talents-introduction.html">Lire l'introduction</a>
+                        <a class="ft-btn ft-btn-line" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener noreferrer">Acheter le tome 1</a>
                     </div>
-                    <hr class="divider">
-                </div>
-
-            </div>
-        </section>
-
-        <!-- ============================================================
-             ACCROCHE
-             ============================================================ -->
-        <section class="accroche" aria-label="Accroche">
-            <div class="container fade-in">
-                <blockquote>La France se meurt&nbsp;— et nous le savons tous.</blockquote>
-                <p>Et si le remède qu'elle cherche partout dormait dans le livre qu'elle a cessé d'ouvrir&nbsp;?</p>
-                <p>Non pour la convertir. Pour la faire penser.</p>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             PRÉSENTATION
-             ============================================================ -->
-        <section class="presentation" aria-label="Présentation du livre">
-            <div class="container">
-                <div class="presentation-body fade-in">
-                    <p>Ce livre prend les Évangiles au mot, non comme une religion, mais comme la plus lucide des grammaires politiques. Il y relit ce qu'aucun parti n'ose plus formuler&nbsp;: une personne libre et responsable, jamais réduite à un numéro de dossier&nbsp;; un État ramené à ses missions vitales, propre, simple, souverain&nbsp;; une société vivante qui n'attend plus tout d'en haut pour exister.</p>
-
-                    <p>Car il faut avoir le courage de relire ce qui est écrit. Quand un homme dit à ceux qui gouvernent&nbsp;: <span class="verset-inline">«&nbsp;Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt&nbsp;»</span>, il ne fait pas de la morale. Il décrit, deux mille ans à l'avance, une administration qui empile les normes sans jamais en supporter le poids. Et quand il ajoute&nbsp;: <span class="verset-inline">«&nbsp;Il n'en sera pas ainsi parmi vous&nbsp;»</span>, il ne prêche pas l'humilité&nbsp;: il congédie la caste.</p>
-
-                    <p>Ni sermon ni programme&nbsp;: une pensée. Chiffres vérifiés à l'appui, objections affrontées de face, langue de bois proscrite. On ne trouvera ici aucun argument tiré du Ciel, aucune norme justifiée par la seule autorité de la foi. Le Christ y est convoqué comme on convoque un penseur politique, pour la puissance de ce qu'il dit, non pour ce qu'il serait.</p>
-
-                    <p>Ce premier tome ne dit pas encore <em>comment</em>&nbsp;; il établit, pierre après pierre, le <em>pourquoi</em>, car on ne rebâtit pas une nation sans avoir d'abord retrouvé les raisons de la vouloir.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================
-             LES PAROLES QUI FONDENT — versets pivots du Tome 1
-             ============================================================ -->
-        <section class="paroles" aria-labelledby="paroles-title">
-            <div class="container">
-                <div class="section-head fade-in">
-                    <p class="eyebrow">Les paroles qui fondent</p>
-                    <h2 class="section-title" id="paroles-title">Sept phrases, et tout un ordre politique</h2>
-                    <hr class="divider divider--center">
-                    <p class="section-lede">Chacune de ces paroles ouvre un chapitre du livre. Aucune n'est citée pour édifier&nbsp;: toutes le sont pour démontrer.</p>
-                </div>
-
-                <div class="paroles-grid">
-
-                    <article class="parole-card fade-in">
-                        <blockquote>«&nbsp;Vous connaîtrez la vérité, et la vérité vous rendra libres.&nbsp;»</blockquote>
-                        <span class="parole-ref">Jean 8, 32</span>
-                        <p class="parole-gloss">Le verset matriciel de tout l'ouvrage. Pas de liberté sans vérité, donc pas de liberté sans comptes publics exacts, sans information libre, sans parole que l'on peut contredire.</p>
-                    </article>
-
-                    <article class="parole-card fade-in">
-                        <blockquote>«&nbsp;Rendez à César ce qui est à César, et à Dieu ce qui est à Dieu.&nbsp;»</blockquote>
-                        <span class="parole-ref">Matthieu 22, 21</span>
-                        <p class="parole-gloss">La première séparation des pouvoirs de l'histoire. César a un domaine, il n'a pas tous les domaines. L'État a des missions, il n'a pas tous les droits.</p>
-                    </article>
-
-                    <article class="parole-card fade-in">
-                        <blockquote>«&nbsp;Ceux qu'on regarde comme les chefs des nations les dominent. Il n'en sera pas ainsi parmi vous&nbsp;: celui qui veut être le premier, qu'il soit le serviteur de tous.&nbsp;»</blockquote>
-                        <span class="parole-ref">Marc 10, 42-44</span>
-                        <p class="parole-gloss">Le pouvoir est un service, jamais une rente. Toute la critique de la caste, des privilèges et de l'entre-soi administratif tient dans ces trois lignes.</p>
-                    </article>
-
-                    <article class="parole-card fade-in">
-                        <blockquote>«&nbsp;Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt.&nbsp;»</blockquote>
-                        <span class="parole-ref">Matthieu 23, 4</span>
-                        <p class="parole-gloss">Le procès de la complexité. Ceux qui fabriquent la norme n'en subissent jamais le poids&nbsp;; ceux qui la subissent ne l'ont jamais votée.</p>
-                    </article>
-
-                    <article class="parole-card fade-in">
-                        <blockquote>«&nbsp;J'ai eu peur, et je suis allé cacher ton talent dans la terre.&nbsp;»</blockquote>
-                        <span class="parole-ref">Matthieu 25, 25</span>
-                        <p class="parole-gloss">La parabole qui donne son titre au livre. Le seul serviteur condamné n'est pas celui qui a perdu&nbsp;: c'est celui qui n'a rien tenté. La prudence stérile est le vrai péché politique.</p>
-                    </article>
-
-                    <article class="parole-card fade-in">
-                        <blockquote>«&nbsp;Celui qui est fidèle dans les moindres choses l'est aussi dans les grandes&nbsp;; et celui qui est malhonnête dans les moindres choses l'est aussi dans les grandes.&nbsp;»</blockquote>
-                        <span class="parole-ref">Luc 16, 10</span>
-                        <p class="parole-gloss">La probité ne se divise pas. On ne tolère pas un peu de corruption comme on tolérerait un peu de fièvre. Fondement du chapitre anti-corruption.</p>
-                    </article>
-
-                    <article class="parole-card fade-in">
-                        <blockquote>«&nbsp;Je ne suis pas venu apporter la paix, mais le glaive.&nbsp;»</blockquote>
-                        <span class="parole-ref">Matthieu 10, 34</span>
-                        <p class="parole-gloss">La parole qui clôt le tome. Restaurer une nation, c'est trancher. Ce livre ne cherche pas le consensus&nbsp;: il cherche le vrai, et il sait ce que cela coûte.</p>
-                    </article>
-
-                    <article class="parole-card fade-in">
-                        <blockquote>«&nbsp;Avance en eau profonde, et jetez vos filets pour la pêche.&nbsp;»</blockquote>
-                        <span class="parole-ref">Luc 5, 4</span>
-                        <p class="parole-gloss">L'ordre donné à un homme qui avait déjà échoué toute la nuit. Il n'y a pas de redressement sans le risque de reprendre la mer. C'est l'invitation faite à la France.</p>
-                    </article>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             LES TROIS MOUVEMENTS — architecture du Tome 1
-             ============================================================ -->
-        <section class="mouvements" aria-labelledby="mouvements-title">
-            <div class="container">
-                <div class="section-head fade-in">
-                    <p class="eyebrow">L'architecture</p>
-                    <h2 class="section-title" id="mouvements-title">Trois mouvements, dix-sept chapitres</h2>
-                    <hr class="divider divider--center">
-                    <p class="section-lede">La personne, puis l'État, puis la société. On ne bâtit pas dans un autre ordre.</p>
-                </div>
-
-                <div class="mouvements-list">
-
-                    <article class="mouvement fade-in">
-                        <span class="mouvement-num" aria-hidden="true">I</span>
-                        <div>
-                            <h3 class="mouvement-title">La personne, avant tout le reste</h3>
-                            <span class="mouvement-range">Partie I · Chapitres 1 à 6</span>
-                            <blockquote class="mouvement-verset">
-                                «&nbsp;Que servirait-il à un homme de gagner le monde entier, s'il vient à perdre son âme&nbsp;?&nbsp;»
-                                <cite>Matthieu 16, 26</cite>
-                            </blockquote>
-                            <p class="mouvement-text">Avant l'État, avant la loi, avant l'économie, il y a un être irréductible que rien ne peut échanger contre autre chose. De cette irréductibilité découle tout le reste&nbsp;: la propriété, qui prolonge la personne&nbsp;; le travail, qui la révèle&nbsp;; le don libre, qui la grandit&nbsp;; la famille, qui la fait naître&nbsp;; la vérité, sans laquelle sa liberté n'est qu'un mot.</p>
-                            <p class="mouvement-chapitres">La personne libre et responsable · La propriété privée · Le travail, les talents, le risque · La charité volontaire contre la redistribution forcée · La famille comme matrice · La vérité, condition de la liberté</p>
+        <!-- II. PIERRE APRÈS PIERRE — les sept paroles qui fondent -->
+        <section class="ps" aria-labelledby="ps-title">
+            <div class="ps-sticky">
+                <div class="ft-wrap ps-grid">
+                    <header class="ps-head">
+                        <p class="ft-kicker">Les paroles qui fondent</p>
+                        <h2 id="ps-title" class="ps-title">Pierre après pierre, le&nbsp;pourquoi</h2>
+                        <div class="ps-reading" id="ps-reading" aria-live="polite">
+                            <p class="ps-reading-hint">Touchez une pierre pour la lire.</p>
                         </div>
-                    </article>
-
-                    <article class="mouvement fade-in">
-                        <span class="mouvement-num" aria-hidden="true">II</span>
-                        <div>
-                            <h3 class="mouvement-title">L'État remis à sa place</h3>
-                            <span class="mouvement-range">Partie II · Chapitres 7 à 12</span>
-                            <blockquote class="mouvement-verset">
-                                «&nbsp;Il n'en sera pas ainsi parmi vous&nbsp;: celui qui veut être grand parmi vous sera votre serviteur.&nbsp;»
-                                <cite>Marc 10, 43</cite>
-                            </blockquote>
-                            <p class="mouvement-text">Le cœur régalien du livre, et sa part la plus dure. Un État réduit à ce que lui seul peut faire, et qui le fait vraiment&nbsp;: la justice, la sécurité, la défense, la monnaie. Un pouvoir qui sert et qui rend des comptes. Une complexité normative démolie, une corruption traquée, une souveraineté reprise. Ici, chaque principe porte un chiffre et une cible.</p>
-                            <p class="mouvement-chapitres">Rendre à César · Les fonctions régaliennes · Le pouvoir comme service, non comme rente · Détruire la complexité · L'anti-corruption · L'Europe des nations souveraines</p>
-                        </div>
-                    </article>
-
-                    <article class="mouvement fade-in">
-                        <span class="mouvement-num" aria-hidden="true">III</span>
-                        <div>
-                            <h3 class="mouvement-title">La société qui se relève d'elle-même</h3>
-                            <span class="mouvement-range">Partie III · Chapitres 13 à 17</span>
-                            <blockquote class="mouvement-verset">
-                                «&nbsp;Là où deux ou trois sont rassemblés en mon nom, je suis au milieu d'eux.&nbsp;»
-                                <cite>Matthieu 18, 20</cite>
-                            </blockquote>
-                            <p class="mouvement-text">Rien de grand ne descend d'en haut. L'initiative, l'association, le voisin qui relève le voisin&nbsp;: c'est là que la nation tient debout, ou nulle part. Le pauvre, le malade et l'étranger y sont regardés en face, sans angélisme et sans dureté. Et la parole y reste libre, y compris quand elle dérange, car une civilisation qui n'ose plus se dire a déjà commencé de mourir.</p>
-                            <p class="mouvement-chapitres">L'initiative individuelle · Les corps intermédiaires et la subsidiarité · Le pauvre, le malade, l'étranger · Vérité publique et liberté d'expression · Civilisation, mémoire, transmission</p>
-                        </div>
-                    </article>
-
+                    </header>
+                    <ol class="ps-wall" aria-label="Sept paroles des Évangiles, chacune ouvre un chapitre">
+                    <li class="ps-cell ps-cell-1">
+                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Jean 8, 32" data-full="« Vous connaîtrez la vérité, et la vérité vous rendra libres. »" data-comment="Le verset matriciel de tout l&#39;ouvrage. Pas de liberté sans vérité, donc pas de liberté sans comptes publics exacts, sans information libre, sans parole que l&#39;on peut contredire.">
+                            <span class="ps-short">« La vérité vous rendra libres. »</span>
+                            <span class="ps-ref">Jean 8, 32</span>
+                        </button>
+                    </li>
+                    <li class="ps-cell ps-cell-2">
+                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Matthieu 22, 21" data-full="« Rendez à César ce qui est à César, et à Dieu ce qui est à Dieu. »" data-comment="La première séparation des pouvoirs de l&#39;histoire. César a un domaine, il n&#39;a pas tous les domaines. L&#39;État a des missions, il n&#39;a pas tous les droits.">
+                            <span class="ps-short">« Rendez à César ce qui est à César »</span>
+                            <span class="ps-ref">Matthieu 22, 21</span>
+                        </button>
+                    </li>
+                    <li class="ps-cell ps-cell-3">
+                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Marc 10, 42-44" data-full="« Ceux qu&#39;on regarde comme les chefs des nations les dominent. Il n&#39;en sera pas ainsi parmi vous : celui qui veut être le premier, qu&#39;il soit le serviteur de tous. »" data-comment="Le pouvoir est un service, jamais une rente. Toute la critique de la caste, des privilèges et de l&#39;entre-soi administratif tient dans ces trois lignes.">
+                            <span class="ps-short">« Qu&#39;il soit le serviteur de tous. »</span>
+                            <span class="ps-ref">Marc 10, 42-44</span>
+                        </button>
+                    </li>
+                    <li class="ps-cell ps-cell-4">
+                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Matthieu 23, 4" data-full="« Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt. »" data-comment="Le procès de la complexité. Ceux qui fabriquent la norme n&#39;en subissent jamais le poids ; ceux qui la subissent ne l&#39;ont jamais votée.">
+                            <span class="ps-short">« Ils lient de pesants fardeaux »</span>
+                            <span class="ps-ref">Matthieu 23, 4</span>
+                        </button>
+                    </li>
+                    <li class="ps-cell ps-cell-5">
+                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Luc 16, 10" data-full="« Celui qui est fidèle dans les moindres choses l&#39;est aussi dans les grandes ; et celui qui est malhonnête dans les moindres choses l&#39;est aussi dans les grandes. »" data-comment="La probité ne se divise pas. On ne tolère pas un peu de corruption comme on tolérerait un peu de fièvre. Fondement du chapitre anti-corruption.">
+                            <span class="ps-short">« Fidèle dans les moindres choses »</span>
+                            <span class="ps-ref">Luc 16, 10</span>
+                        </button>
+                    </li>
+                    <li class="ps-cell ps-cell-6">
+                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Matthieu 10, 34" data-full="« Je ne suis pas venu apporter la paix, mais le glaive. »" data-comment="La parole qui clôt le tome. Restaurer une nation, c&#39;est trancher. Ce livre ne cherche pas le consensus : il cherche le vrai, et il sait ce que cela coûte.">
+                            <span class="ps-short">« Pas venu apporter la paix »</span>
+                            <span class="ps-ref">Matthieu 10, 34</span>
+                        </button>
+                    </li>
+                    <li class="ps-cell ps-cell-7">
+                        <button class="ps-stone ps-stone--key" type="button" aria-controls="ps-reading" data-ref="Matthieu 25, 25" data-full="« J&#39;ai eu peur, et je suis allé cacher ton talent dans la terre. »" data-comment="La parabole qui donne son titre au livre. Le seul serviteur condamné n&#39;est pas celui qui a perdu : c&#39;est celui qui n&#39;a rien tenté. La prudence stérile est le vrai péché politique.">
+                            <span class="ps-short">« Cacher ton talent dans la terre »</span>
+                            <span class="ps-ref">Matthieu 25, 25</span>
+                        </button>
+                    </li>
+                    </ol>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================
-             EXERGUE DORÉ
-             ============================================================ -->
-        <section class="exergue" aria-label="Citation">
-            <div class="container">
-                <blockquote class="fade-in">« La France a reçu des talents. Il est temps de cesser de les enfouir. »</blockquote>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             DIPTYQUE
-             ============================================================ -->
-        <section class="diptyque" aria-label="Le diptyque">
-            <div class="container">
-                <div class="diptyque-tomes fade-in">
-                    <div class="tome-chip tome-chip--active">
-                        <span class="eyebrow">Tome 1 — Le Pourquoi</span>
-                        <span class="tome-desc">Les fondements</span>
+        <!-- III. L'APPEL -->
+        <section class="ap" aria-labelledby="ap-title">
+            <div class="ft-wrap ap-grid">
+                <figure class="ap-cover ft-reveal">
+                    <div class="ap-cover-tilt">
+                        <picture>
+                            <source srcset="assets/images/couverture-france-talents-tome1.webp" type="image/webp">
+                            <img src="assets/images/couverture-france-talents-tome1.jpg" width="700" height="1050" loading="lazy" decoding="async" alt="Première de couverture de « La France des talents », tome 1 : une fleur de lys tressée de fibres bleues, blanches et rouges, couronnée d'une croix d'or, par Matthieu Straub, Éditions Kileton">
+                        </picture>
                     </div>
-                    <a class="tome-chip tome-chip--link" href="france-des-talents-tome2.html">
-                        <span class="eyebrow">Tome 2 — Le Comment</span>
-                        <span class="tome-desc">Les applications concrètes</span>
-                    </a>
+                </figure>
+                <div class="ap-text">
+                    <blockquote class="ap-verse ft-reveal">
+                        <p>« Avance en eau profonde, et jetez vos filets pour la pêche. »</p>
+                        <cite>Luc 5, 4</cite>
+                    </blockquote>
+                    <h2 id="ap-title" class="ap-title ft-reveal">La France a reçu des talents. Il est temps de cesser de les&nbsp;enfouir.</h2>
+                    <div class="ap-actions ft-reveal">
+                        <a class="ft-btn ft-btn-gold" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener noreferrer">Acheter le tome 1</a>
+                        <a class="ft-btn ft-btn-line" href="france-des-talents-introduction.html">Lire l'introduction</a>
+                    </div>
+                    <p class="ap-listen ft-reveal">Écouter l'album&nbsp;:
+                        <a href="https://open.spotify.com/intl-fr/album/5jxEuRnDu4qKtd3rOFLugG" target="_blank" rel="noopener noreferrer">Spotify</a>
+                        <span aria-hidden="true">·</span>
+                        <a href="https://music.apple.com/fr/album/la-france-des-talents/6796951801" target="_blank" rel="noopener noreferrer">Apple Music</a>
+                    </p>
                 </div>
-                <p class="diptyque-note fade-in">Premier volet d'un diptyque. Le Tome 1 pose les fondements&nbsp;; le Tome 2 en tirera les applications concrètes, domaine par domaine.</p>
-                <div class="diptyque-cta fade-in">
-                    <a class="fdt-btn" href="france-des-talents-introduction.html">Lire l'introduction du Tome 1</a>
-                </div>
+            </div>
+
+            <!-- Tout le texte reste là pour qui veut le lire -->
+            <div class="ft-wrap ft-narrow ap-more">
+                <details class="ft-details">
+                    <summary>Le livre en quelques pages</summary>
+                    <div class="ft-details-body">
+                        <p class="ft-lead">La France se meurt, et nous le savons tous. Et si le remède qu'elle cherche partout dormait dans le livre qu'elle a cessé d'ouvrir&nbsp;? Non pour la convertir. Pour la faire penser.</p>
+                        <p>Ce livre prend les Évangiles au mot, non comme une religion, mais comme la plus lucide des grammaires politiques. Il y relit ce qu'aucun parti n'ose plus formuler&nbsp;: une personne libre et responsable, jamais réduite à un numéro de dossier&nbsp;; un État ramené à ses missions vitales, propre, simple, souverain&nbsp;; une société vivante qui n'attend plus tout d'en haut pour exister.</p>
+                        <p>Car il faut avoir le courage de relire ce qui est écrit. Quand un homme dit à ceux qui gouvernent&nbsp;: «&nbsp;Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt&nbsp;», il ne fait pas de la morale. Il décrit, deux mille ans à l'avance, une administration qui empile les normes sans jamais en supporter le poids. Et quand il ajoute&nbsp;: «&nbsp;Il n'en sera pas ainsi parmi vous&nbsp;», il ne prêche pas l'humilité&nbsp;: il congédie la caste.</p>
+                        <p>Ni sermon ni programme&nbsp;: une pensée. Chiffres vérifiés à l'appui, objections affrontées de face, langue de bois proscrite. On ne trouvera ici aucun argument tiré du Ciel, aucune norme justifiée par la seule autorité de la foi. Le Christ y est convoqué comme on convoque un penseur politique, pour la puissance de ce qu'il dit, non pour ce qu'il serait.</p>
+                        <p>Ce premier tome ne dit pas encore <em>comment</em>&nbsp;; il établit, pierre après pierre, le <em>pourquoi</em>, car on ne rebâtit pas une nation sans avoir d'abord retrouvé les raisons de la vouloir.</p>
+                    </div>
+                </details>
+                <details class="ft-details">
+                    <summary>Trois mouvements, dix-sept chapitres</summary>
+                    <div class="ft-details-body">
+                        <p>La personne, puis l'État, puis la société. On ne bâtit pas dans un autre ordre.</p>
+                        <h3>I. La personne, avant tout le reste <small>Chapitres 1 à 6</small></h3>
+                        <blockquote>« Que servirait-il à un homme de gagner le monde entier, s'il vient à perdre son âme&nbsp;? » <cite>Matthieu 16, 26</cite></blockquote>
+                        <p>Avant l'État, avant la loi, avant l'économie, il y a un être irréductible que rien ne peut échanger contre autre chose. De cette irréductibilité découle tout le reste&nbsp;: la propriété, qui prolonge la personne&nbsp;; le travail, qui la révèle&nbsp;; le don libre, qui la grandit&nbsp;; la famille, qui la fait naître&nbsp;; la vérité, sans laquelle sa liberté n'est qu'un mot.</p>
+                        <p class="ft-chapters">La personne libre et responsable · La propriété privée · Le travail, les talents, le risque · La charité volontaire contre la redistribution forcée · La famille comme matrice · La vérité, condition de la liberté</p>
+                        <h3>II. L'État remis à sa place <small>Chapitres 7 à 12</small></h3>
+                        <blockquote>« Il n'en sera pas ainsi parmi vous&nbsp;: celui qui veut être grand parmi vous sera votre serviteur. » <cite>Marc 10, 43</cite></blockquote>
+                        <p>Le cœur régalien du livre, et sa part la plus dure. Un État réduit à ce que lui seul peut faire, et qui le fait vraiment&nbsp;: la justice, la sécurité, la défense, la monnaie. Un pouvoir qui sert et qui rend des comptes. Une complexité normative démolie, une corruption traquée, une souveraineté reprise. Ici, chaque principe porte un chiffre et une cible.</p>
+                        <p class="ft-chapters">Rendre à César · Les fonctions régaliennes · Le pouvoir comme service, non comme rente · Détruire la complexité · L'anti-corruption · L'Europe des nations souveraines</p>
+                        <h3>III. La société qui se relève d'elle-même <small>Chapitres 13 à 17</small></h3>
+                        <blockquote>« Là où deux ou trois sont rassemblés en mon nom, je suis au milieu d'eux. » <cite>Matthieu 18, 20</cite></blockquote>
+                        <p>Rien de grand ne descend d'en haut. L'initiative, l'association, le voisin qui relève le voisin&nbsp;: c'est là que la nation tient debout, ou nulle part. Le pauvre, le malade et l'étranger y sont regardés en face, sans angélisme et sans dureté. Et la parole y reste libre, y compris quand elle dérange, car une civilisation qui n'ose plus se dire a déjà commencé de mourir.</p>
+                        <p class="ft-chapters">L'initiative individuelle · Les corps intermédiaires et la subsidiarité · Le pauvre, le malade, l'étranger · Vérité publique et liberté d'expression · Civilisation, mémoire, transmission</p>
+                    </div>
+                </details>
+            </div>
+
+            <!-- Le diptyque -->
+            <div class="ft-wrap ap-diptych">
+                <p class="ft-kicker">Premier volet d'un diptyque</p>
+                <a class="ap-next" href="france-des-talents-tome2.html">
+                    <img src="assets/images/couverture-france-talents-tome2.webp" width="700" height="1050" loading="lazy" decoding="async" alt="">
+                    <span class="ap-next-text">
+                        <span class="ap-next-name">Tome 2 — Le Comment</span>
+                        <span class="ap-next-desc">Les applications concrètes, domaine par domaine&nbsp;: fiscalité, monnaie, énergie, santé, défense.</span>
+                        <span class="ap-next-cta">Découvrir le tome 2 <span aria-hidden="true">→</span></span>
+                    </span>
+                </a>
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER (partagé) — touche bleu-nuit sur la page Patrimoine -->
+    <!-- FOOTER -->
     <footer class="site-footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
@@ -1020,33 +369,8 @@
     </footer>
 
     <script src="js/main.js"></script>
-
-    <!-- Menu « Écouter l'album » : le survol est géré en CSS.
-         Ce script n'ajoute que ce que le survol ne sait pas faire :
-         le tactile, la touche Échap, et le clic à l'extérieur. -->
-    <script>
-    (function () {
-        document.querySelectorAll('[data-listen]').forEach(function (root) {
-            var trigger = root.querySelector('.fdt-listen-trigger');
-            if (!trigger) { return; }
-            var canHover = window.matchMedia('(hover: hover)').matches;
-
-            function open()   { root.setAttribute('data-open', ''); trigger.setAttribute('aria-expanded', 'true'); }
-            function close()  { root.removeAttribute('data-open');  trigger.setAttribute('aria-expanded', 'false'); }
-            function toggle() { if (root.hasAttribute('data-open')) { close(); } else { open(); } }
-
-            trigger.addEventListener('click', function (e) { e.preventDefault(); toggle(); });
-            if (canHover) {
-                root.addEventListener('mouseenter', function () { trigger.setAttribute('aria-expanded', 'true'); });
-                root.addEventListener('mouseleave', function () { close(); });
-            }
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && root.hasAttribute('data-open')) { close(); trigger.focus(); }
-            });
-            document.addEventListener('click', function (e) { if (!root.contains(e.target)) { close(); } });
-            root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) { close(); } });
-        });
-    })();
-    </script>
+    <script src="js/vendor/gsap.min.js" defer></script>
+    <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+    <script type="module" src="js/talents/talents.js?v=1"></script>
 </body>
 </html>

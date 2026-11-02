@@ -1,0 +1,807 @@
+/* ============================================
+   ÉDITIONS KILETON — La France des talents, tome 1 (accord « Patrie »)
+   Nacre et perle, bleu et rouge de France, l'or de la croix ;
+   Fraunces pour la voix, Inter pour l'appareil.
+   La page est une fouille : on creuse jusqu'au talent enfoui,
+   la lumière le dégage, et il devient la fleur de lys de la couverture.
+   Chargée après home.css (en-tête et menu de la maison), limitée à body.ft.
+   ============================================ */
+
+.ft {
+    --bleu-france: #2E4FA8;
+    --rouge-france: #C8102E;
+    --pierre: #E3DCD0;
+    --terre: #6B5A47;
+
+    background: var(--nacre);
+    color: var(--encre);
+    font-family: var(--f-text);
+}
+
+.ft main {
+    overflow-x: clip;
+}
+
+.ft .ft-wrap {
+    width: 100%;
+    max-width: calc(var(--content) + 2 * var(--gutter));
+    margin: 0 auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+}
+
+.ft .ft-narrow {
+    max-width: calc(46rem + 2 * var(--gutter));
+}
+
+.ft-kicker {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--or-bruni);
+    margin: 0 0 1.4rem;
+}
+
+/* ---------- Boutons ---------- */
+.ft-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    font-family: var(--f-text);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.ft-btn-gold {
+    background: var(--or);
+    color: var(--encre);
+}
+
+.ft-btn-gold:hover,
+.ft-btn-gold:focus-visible {
+    background: var(--or-pale);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(168, 132, 47, 0.25);
+}
+
+.ft-btn-line {
+    border: 1px solid rgba(20, 18, 24, 0.28);
+    color: var(--encre);
+}
+
+.ft-btn-line:hover,
+.ft-btn-line:focus-visible {
+    border-color: var(--bleu-france);
+    color: var(--bleu-france);
+}
+
+/* ============================================
+   I. LE TALENT ENFOUI
+   Sans WebGL ou en mouvement réduit : une ouverture simple, tout est lisible.
+   ============================================ */
+.ta-sticky {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    padding: calc(4.5rem + 12vh) var(--gutter) 14vh;
+    text-align: center;
+    overflow: hidden;
+}
+
+.ta-canvas,
+.ta-hint {
+    display: none;
+}
+
+.ta-fallback {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 60% 45% at 50% 78%, rgba(255, 243, 214, 0.9), rgba(255, 243, 214, 0) 70%),
+        linear-gradient(180deg, var(--nacre) 0%, var(--nacre) 55%, var(--perle) 100%);
+}
+
+:where(.ta-sticky > *:not(.ta-fallback):not(.ta-canvas)) {
+    position: relative;
+    z-index: 1;
+}
+
+.ta-verse {
+    margin: 0;
+    max-width: 30rem;
+}
+
+.ta-verse p {
+    margin: 0 0 0.9rem;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.45rem, 2.6vw, 2.1rem);
+    line-height: 1.28;
+    color: var(--encre);
+}
+
+.ta-verse cite,
+.ft cite {
+    font-style: normal;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--or-bruni);
+}
+
+.ta-gift {
+    margin: 0;
+    font-family: var(--f-display);
+    font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--encre);
+}
+
+.ta-parts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+}
+
+.ta-part {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.9rem;
+}
+
+.ta-part-num {
+    font-family: var(--f-display);
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--or-bruni);
+    min-width: 1.6em;
+}
+
+.ta-part-name {
+    font-family: var(--f-display);
+    font-size: clamp(1.25rem, 2.1vw, 1.7rem);
+    line-height: 1.2;
+}
+
+.ta-part-1 .ta-part-num { color: var(--bleu-france); }
+.ta-part-3 .ta-part-num { color: var(--rouge-france); }
+
+.ta-eyebrow {
+    margin: 0 0 1.2rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--or-bruni);
+}
+
+.ta-title h1 {
+    margin: 0 0 1.1rem;
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(2.6rem, 6vw, 5.2rem);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    color: var(--encre);
+}
+
+.ta-sub {
+    margin: 0 auto 2rem;
+    max-width: 24em;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--ardoise);
+}
+
+.ta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+/* --- La scène vivante : la section devient une longue fouille --- */
+.ta-live {
+    height: 640svh;
+}
+
+.ta-live .ta-sticky {
+    position: sticky;
+    top: 0;
+    display: block;
+    height: 100svh;
+    padding: 0;
+    background: var(--nacre);
+}
+
+.ta-live .ta-fallback {
+    display: none;
+}
+
+.ta-live .ta-canvas {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    touch-action: pan-y;
+    cursor: grab;
+}
+
+.ta-live .ta-canvas:active {
+    cursor: grabbing;
+}
+
+.ta-live .ta-line {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    will-change: opacity, transform;
+}
+
+.ta-live .ta-title {
+    pointer-events: auto;
+}
+
+.ta-live .ta-verse {
+    top: calc(4.5rem + 6vh);
+    left: 50%;
+    width: min(34rem, calc(100% - 2 * var(--gutter)));
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.ta-live .ta-hint {
+    display: block;
+    left: 0;
+    right: 0;
+    top: calc(4.5rem + 5vh);
+    margin: 0;
+    text-align: center;
+}
+
+.ta-hint span {
+    display: inline-block;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    background: rgba(247, 245, 241, 0.92);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--encre);
+}
+
+.ta-live .ta-gift {
+    top: calc(4.5rem + 8vh);
+    text-shadow: 0 0 14px var(--nacre), 0 0 28px var(--nacre), 0 0 2px var(--nacre);
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0 var(--gutter);
+}
+
+/* Le lys pousse à gauche, les mots se posent à droite */
+.ta-live .ta-parts {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.ta-live .ta-part {
+    left: 54%;
+    right: var(--gutter);
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.ta-live .ta-part-1 { top: 30%; }
+.ta-live .ta-part-2 { top: 44%; }
+.ta-live .ta-part-3 { top: 58%; }
+
+.ta-live .ta-title {
+    left: 54%;
+    right: var(--gutter);
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: left;
+}
+
+.ta-live .ta-title .ta-sub {
+    margin-left: 0;
+}
+
+.ta-live .ta-title .ta-actions {
+    justify-content: flex-start;
+}
+
+/* Écran en hauteur : le lys en haut, les mots en bas */
+@media (orientation: portrait) {
+    .ta-live .ta-part,
+    .ta-live .ta-title {
+        left: var(--gutter);
+        right: var(--gutter);
+        justify-content: center;
+        text-align: center;
+    }
+
+    .ta-live .ta-part-1,
+    .ta-live .ta-part-2,
+    .ta-live .ta-part-3 {
+        top: auto;
+    }
+
+    .ta-live .ta-part-1 { bottom: calc(10vh + 6.4rem); }
+    .ta-live .ta-part-2 { bottom: calc(10vh + 3.2rem); }
+    .ta-live .ta-part-3 { bottom: 10vh; }
+
+    .ta-live .ta-part-name {
+        font-size: 1.12rem;
+    }
+
+    .ta-live .ta-title {
+        top: auto;
+        bottom: max(1.5rem, 4vh);
+        transform: none;
+    }
+
+    .ta-live .ta-title h1 {
+        font-size: clamp(2.3rem, 10.5vw, 3.4rem);
+        margin-bottom: 0.7rem;
+    }
+
+    .ta-live .ta-title .ta-sub {
+        margin: 0 auto 1.3rem;
+        font-size: 1.02rem;
+    }
+
+    .ta-live .ta-title .ta-actions {
+        justify-content: center;
+    }
+
+    .ta-live .ta-eyebrow {
+        margin-bottom: 0.7rem;
+    }
+}
+
+/* ============================================
+   II. PIERRE APRÈS PIERRE
+   ============================================ */
+.ps {
+    padding: clamp(5rem, 12vh, 9rem) 0;
+    background: linear-gradient(180deg, var(--nacre) 0%, var(--perle) 100%);
+}
+
+.ps-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+}
+
+.ps-title {
+    margin: 0 0 2rem;
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 3.6vw, 3.1rem);
+    line-height: 1.05;
+}
+
+.ps-reading {
+    min-height: 15rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid rgba(20, 18, 24, 0.12);
+}
+
+.ps-reading-hint {
+    margin: 0;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--cendre);
+}
+
+.ps-reading blockquote {
+    margin: 0 0 1rem;
+}
+
+.ps-reading blockquote p {
+    margin: 0 0 0.7rem;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    line-height: 1.3;
+}
+
+.ps-comment {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--ardoise);
+    max-width: 32em;
+}
+
+/* Le mur : trois, deux, une, et la clef de voûte */
+.ps-wall {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: clamp(0.35rem, 0.8vw, 0.6rem);
+}
+
+.ps-cell { grid-column: span 2; }
+.ps-cell-1 { grid-row: 4; grid-column: 1 / 3; }
+.ps-cell-2 { grid-row: 4; grid-column: 3 / 5; }
+.ps-cell-3 { grid-row: 4; grid-column: 5 / 7; }
+.ps-cell-4 { grid-row: 3; grid-column: 2 / 4; }
+.ps-cell-5 { grid-row: 3; grid-column: 4 / 6; }
+.ps-cell-6 { grid-row: 2; grid-column: 3 / 5; }
+.ps-cell-7 { grid-row: 1; grid-column: 3 / 5; }
+
+.ps-stone {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.6rem;
+    width: 100%;
+    height: 100%;
+    min-height: clamp(6.2rem, 10vw, 7.6rem);
+    padding: clamp(0.7rem, 1.4vw, 1.1rem);
+    border: 1px solid rgba(107, 90, 71, 0.28);
+    border-radius: 3px;
+    background:
+        radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 55%),
+        linear-gradient(160deg, #EFEAE2 0%, var(--pierre) 60%, #D5CCBE 100%);
+    box-shadow: inset 0 -3px 0 rgba(107, 90, 71, 0.16), 0 10px 22px -14px rgba(20, 18, 24, 0.45);
+    color: var(--encre);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: translate 0.35s var(--ease-out), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.ps-stone:hover {
+    translate: 0 -3px;
+}
+
+.ps-stone:focus-visible {
+    outline: 2px solid var(--bleu-france);
+    outline-offset: 3px;
+}
+
+.ps-stone[aria-pressed="true"] {
+    border-color: var(--bleu-france);
+    box-shadow: inset 0 -3px 0 var(--bleu-france), 0 14px 26px -14px rgba(46, 79, 168, 0.55);
+}
+
+.ps-short {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: clamp(0.86rem, 1.25vw, 1.05rem);
+    line-height: 1.25;
+}
+
+.ps-ref {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--terre);
+}
+
+.ps-stone--key {
+    border-color: rgba(168, 132, 47, 0.6);
+    background:
+        radial-gradient(circle at 25% 15%, rgba(255, 243, 214, 0.95), rgba(255, 243, 214, 0) 60%),
+        linear-gradient(160deg, #F1DE9C 0%, var(--or) 55%, var(--or-bruni) 100%);
+    box-shadow: inset 0 -3px 0 rgba(120, 90, 20, 0.3), 0 14px 30px -12px rgba(168, 132, 47, 0.6);
+}
+
+.ps-stone--key .ps-ref {
+    color: #4A3A12;
+}
+
+@media (max-width: 899px) {
+    .ps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ps-head {
+        display: contents;
+    }
+
+    .ps-head .ft-kicker,
+    .ps-title {
+        order: -1;
+    }
+
+    .ps-title {
+        margin-bottom: 0;
+    }
+
+    .ps-reading {
+        order: 2;
+        min-height: 13rem;
+    }
+}
+
+/* ============================================
+   III. L'APPEL
+   ============================================ */
+.ap {
+    padding: clamp(5rem, 12vh, 9rem) 0 clamp(4rem, 10vh, 7rem);
+}
+
+.ap-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+}
+
+.ap-cover {
+    margin: 0;
+    perspective: 1400px;
+}
+
+.ap-cover-tilt {
+    transform: rotateY(-7deg) rotateX(2deg);
+    transition: transform 0.6s var(--ease-out);
+    box-shadow: 0 40px 70px -30px rgba(20, 18, 24, 0.45), 0 2px 6px rgba(20, 18, 24, 0.12);
+}
+
+.ap-cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.ap-verse {
+    margin: 0 0 2rem;
+}
+
+.ap-verse p {
+    margin: 0 0 0.7rem;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+    line-height: 1.35;
+    color: var(--ardoise);
+}
+
+.ap-title {
+    margin: 0 0 2.2rem;
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 3.8vw, 3.3rem);
+    line-height: 1.06;
+    max-width: 15em;
+}
+
+.ap-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 1.6rem;
+}
+
+.ap-listen {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ardoise);
+}
+
+.ap-listen a {
+    color: var(--bleu-france);
+    text-underline-offset: 3px;
+}
+
+.ap-listen span {
+    margin: 0 0.3rem;
+    color: var(--cendre);
+}
+
+/* Le texte complet, replié */
+.ap-more {
+    padding-top: clamp(4rem, 9vh, 6rem);
+}
+
+.ft-details {
+    border-top: 1px solid rgba(20, 18, 24, 0.12);
+}
+
+.ft-details:last-child {
+    border-bottom: 1px solid rgba(20, 18, 24, 0.12);
+}
+
+.ft-details summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.4rem 0;
+    font-family: var(--f-display);
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    cursor: pointer;
+    list-style: none;
+}
+
+.ft-details summary::-webkit-details-marker {
+    display: none;
+}
+
+.ft-details summary::after {
+    content: '+';
+    font-family: var(--f-text);
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: var(--or-bruni);
+    transition: transform 0.3s ease;
+}
+
+.ft-details[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.ft-details summary:focus-visible {
+    outline: 2px solid var(--bleu-france);
+    outline-offset: 4px;
+}
+
+.ft-details-body {
+    padding: 0 0 2.4rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ardoise);
+}
+
+.ft-details-body p {
+    margin: 0 0 1.1rem;
+}
+
+.ft-lead {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.45;
+    color: var(--encre);
+}
+
+.ft-details-body h3 {
+    margin: 2.2rem 0 0.8rem;
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: 1.35rem;
+    color: var(--encre);
+}
+
+.ft-details-body h3 small {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: var(--f-text);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--or-bruni);
+}
+
+.ft-details-body blockquote {
+    margin: 0 0 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--or);
+    font-family: var(--f-display);
+    font-style: italic;
+    color: var(--encre);
+}
+
+.ft-details-body blockquote cite {
+    display: block;
+    margin-top: 0.4rem;
+}
+
+.ft-chapters {
+    font-size: 0.88rem;
+    color: var(--cendre);
+}
+
+/* Le diptyque */
+.ap-diptych {
+    padding-top: clamp(4rem, 9vh, 6rem);
+    text-align: center;
+}
+
+.ap-next {
+    display: inline-grid;
+    grid-template-columns: 7rem minmax(0, 24rem);
+    gap: 1.6rem;
+    align-items: center;
+    padding: 1.2rem 1.6rem 1.2rem 1.2rem;
+    border: 1px solid rgba(20, 18, 24, 0.12);
+    border-radius: 4px;
+    background: var(--perle);
+    color: var(--encre);
+    text-align: left;
+    text-decoration: none;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease;
+}
+
+.ap-next:hover,
+.ap-next:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px -24px rgba(20, 18, 24, 0.4);
+}
+
+.ap-next img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 10px 20px -12px rgba(20, 18, 24, 0.5);
+}
+
+.ap-next-text {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.ap-next-name {
+    font-family: var(--f-display);
+    font-size: 1.3rem;
+}
+
+.ap-next-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ardoise);
+}
+
+.ap-next-cta {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bleu-france);
+}
+
+@media (max-width: 799px) {
+    .ap-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ap-cover {
+        width: min(17rem, 72%);
+        margin: 0 auto;
+    }
+
+    .ap-next {
+        grid-template-columns: 5rem minmax(0, 1fr);
+        gap: 1.1rem;
+        padding: 1rem;
+    }
+}
