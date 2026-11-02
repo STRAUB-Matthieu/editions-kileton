@@ -1,0 +1,1073 @@
+/* ============================================
+   ÉDITIONS KILETON — La Verticale du Vide (accord « Vertige »)
+   Nuit, azur profond, bleu vortex, or pâle et incandescence ;
+   Cormorant Garamond comme la quatrième de couverture, Inter pour l'appareil.
+   La page est une chute : on descend le puits de la couverture,
+   les 88 étages défilent, puis le Voile s'écarte.
+   Chargée après home.css (en-tête et menu de la maison), limitée à body.lv.
+   ============================================ */
+
+.lv {
+    --abysse: #060912;
+    --nuit: #0A1628;
+    --nuit-claire: #1B3A5C;
+    --azur-profond: #003959;
+    --vortex: #3E6E9E;
+    --azur-voile: #BAD9EF;
+    --or: #D4AF37;
+    --or-pale: #E8D48B;
+    --incandescence: #FFF3D6;
+    --ivoire: #F3EEE6;
+    --brume-nuit: #9AA7B8;
+
+    --f-serif: 'Cormorant Garamond', Georgia, serif;
+    --f-text: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    background: var(--nuit);
+    color: var(--ivoire);
+    font-family: var(--f-text);
+}
+
+.lv main {
+    overflow-x: clip;
+}
+
+.lv .lv-wrap {
+    width: 100%;
+    max-width: calc(1200px + 2 * var(--gutter));
+    margin: 0 auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+}
+
+.lv .lv-narrow {
+    max-width: calc(46rem + 2 * var(--gutter));
+}
+
+/* L'en-tête reste sombre d'un bout à l'autre : toute la page est la nuit du livre */
+.lv .site-header.scrolled {
+    background: rgba(6, 9, 18, 0.55);
+}
+
+/* ---------- Typographie commune ---------- */
+.lv-kicker {
+    font-family: var(--f-text);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin: 0 0 1.6rem;
+}
+
+.lv-num {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    margin: 0 0 1.4rem;
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--or);
+}
+
+.lv-num span {
+    font-family: var(--f-text);
+    font-style: normal;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--brume-nuit);
+}
+
+.lv-lead {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.7rem, 3.1vw, 2.55rem);
+    line-height: 1.22;
+    color: var(--or-pale);
+    margin: 0 0 1.6rem;
+    max-width: 18em;
+}
+
+.lv-body {
+    font-family: var(--f-serif);
+    font-size: clamp(1.18rem, 1.5vw, 1.32rem);
+    line-height: 1.65;
+    color: rgba(243, 238, 230, 0.86);
+    margin: 0;
+    max-width: 34em;
+}
+
+/* ---------- Boutons ---------- */
+.lv-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.85rem 1.7rem;
+    border-radius: 999px;
+    font-family: var(--f-text);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.lv-btn-gold {
+    background: var(--or);
+    color: var(--nuit);
+}
+
+.lv-btn-gold:hover,
+.lv-btn-gold:focus-visible {
+    background: var(--or-pale);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 34px rgba(212, 175, 55, 0.28);
+}
+
+.lv-btn-line {
+    border: 1px solid rgba(232, 212, 139, 0.45);
+    color: var(--or-pale);
+}
+
+.lv-btn-line:hover,
+.lv-btn-line:focus-visible {
+    border-color: var(--or-pale);
+    background: rgba(232, 212, 139, 0.08);
+}
+
+/* ============================================
+   LE FIL VERTICAL — les étages défilent jusqu'au Voile
+   ============================================ */
+.lv-gauge {
+    display: none;
+}
+
+.has-motion .lv-gauge {
+    position: fixed;
+    z-index: 40;
+    left: clamp(0.9rem, 1.6vw, 1.6rem);
+    top: 15vh;
+    bottom: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    width: 2.6rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.has-motion .lv-gauge.is-on {
+    opacity: 1;
+}
+
+.lv-gauge-end {
+    writing-mode: vertical-rl;
+    font-size: 0.56rem;
+    font-weight: 500;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: rgba(154, 167, 184, 0.75);
+    white-space: nowrap;
+}
+
+.lv-gauge-up {
+    transform: rotate(180deg);
+}
+
+.lv-gauge-line {
+    position: relative;
+    flex: 1;
+    width: 1px;
+    background: rgba(232, 212, 139, 0.18);
+}
+
+.lv-gauge-fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, var(--or-pale), var(--or));
+    transform-origin: top;
+    transform: scaleY(0);
+}
+
+.lv-gauge-floor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+}
+
+.lv-gauge-num {
+    font-family: var(--f-serif);
+    font-size: 1.45rem;
+    color: var(--or-pale);
+    font-variant-numeric: tabular-nums;
+    min-width: 2ch;
+    text-align: center;
+}
+
+.lv-gauge-unit {
+    margin-top: 0.3rem;
+    white-space: nowrap;
+    font-size: 0.5rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brume-nuit);
+}
+
+/* ============================================
+   OUVERTURE — le puits de la couverture
+   ============================================ */
+.lv-open {
+    position: relative;
+    background: var(--abysse);
+}
+
+.lv-open-sticky {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+}
+
+.has-motion .lv-open {
+    height: 290vh;
+    height: 290svh;
+}
+
+.has-motion .lv-open-sticky {
+    position: sticky;
+    top: 0;
+}
+
+.lv-tunnel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 1.6s ease;
+}
+
+.lv-open.is-live .lv-tunnel {
+    opacity: 1;
+}
+
+/* Repli sans WebGL : la spirale de lumière en dégradés */
+.lv-open-fallback {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 56%, var(--incandescence) 0, rgba(232, 212, 139, 0.85) 7%, rgba(201, 119, 46, 0.35) 22%, rgba(10, 22, 40, 0) 46%),
+        repeating-radial-gradient(circle at 50% 56%, rgba(232, 212, 139, 0.08) 0 2px, rgba(0, 0, 0, 0) 2px 26px),
+        radial-gradient(ellipse at 50% 56%, var(--nuit-claire) 0, var(--nuit) 45%, var(--abysse) 80%);
+    transition: opacity 1.6s ease;
+}
+
+.lv-open.is-live .lv-open-fallback {
+    opacity: 0;
+}
+
+.lv-open-copy {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: calc(4.5rem + 5vh) var(--gutter) 0;
+    pointer-events: none;
+}
+
+.lv-author {
+    margin: 0;
+    font-size: clamp(0.7rem, 1vw, 0.82rem);
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--or);
+}
+
+.lv-genre {
+    margin: 0.35rem 0 0.4rem;
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(243, 238, 230, 0.75);
+}
+
+.lv-title {
+    margin: 0;
+    font-family: var(--f-serif);
+    font-weight: 500;
+    font-size: clamp(2.7rem, 8.4vw, 7.4rem);
+    line-height: 0.98;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ivoire);
+    text-shadow: 0 2px 30px rgba(6, 9, 18, 0.65);
+}
+
+.lv-title span {
+    display: block;
+}
+
+.lv-tagline {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: max(7vh, 3rem);
+    margin: 0;
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+    color: var(--ivoire);
+    text-shadow: 0 1px 18px rgba(6, 9, 18, 0.8);
+}
+
+.lv-hint {
+    position: absolute;
+    z-index: 2;
+    right: var(--gutter);
+    bottom: max(7vh, 3rem);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: rgba(243, 238, 230, 0.65);
+}
+
+.lv-hint::after {
+    content: '';
+    width: 1px;
+    height: 3.2rem;
+    background: linear-gradient(to bottom, var(--or-pale), rgba(232, 212, 139, 0));
+    transform-origin: top;
+    animation: lv-fall 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes lv-fall {
+    0% { transform: scaleY(0); opacity: 1; }
+    60% { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* La lumière du fond envahit l'écran : on traverse vers la page du livre */
+.lv-flood {
+    position: absolute;
+    inset: -10%;
+    z-index: 3;
+    background: radial-gradient(circle at 50% 56%, var(--incandescence) 0, var(--incandescence) 35%, #F6E7BE 100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ============================================
+   LE LIVRE — l'aube de la quatrième, puis la nuit
+   ============================================ */
+.lv-book {
+    position: relative;
+    padding: 18vh 0 16vh;
+}
+
+.has-motion .lv-book {
+    padding-top: 46vh;
+    background: linear-gradient(180deg,
+        var(--incandescence) 0,
+        #EBD9A8 7vh,
+        #9C8A62 17vh,
+        #33405A 30vh,
+        var(--nuit) 44vh);
+}
+
+.lv-book-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+}
+
+.lv-cover {
+    margin: 0;
+    justify-self: end;
+    width: min(100%, 390px);
+    perspective: 1400px;
+}
+
+.lv-cover-tilt {
+    transform: rotateY(-9deg) rotateX(2deg);
+    transform-style: preserve-3d;
+    transition: transform 1.2s var(--ease-out);
+    box-shadow:
+        0 40px 80px rgba(3, 6, 14, 0.65),
+        0 0 70px rgba(212, 175, 55, 0.14);
+}
+
+.lv-cover-tilt img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.lv-incipit {
+    margin: 0 0 2.4rem;
+    font-family: var(--f-serif);
+    font-weight: 500;
+    font-size: clamp(1.6rem, 2.9vw, 2.35rem);
+    line-height: 1.3;
+    color: var(--ivoire);
+}
+
+.lv-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem 2rem;
+    margin: 0 0 2.6rem;
+    padding: 1.4rem 0;
+    border-top: 1px solid rgba(232, 212, 139, 0.2);
+    border-bottom: 1px solid rgba(232, 212, 139, 0.2);
+}
+
+.lv-facts dt {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brume-nuit);
+}
+
+.lv-facts dd {
+    margin: 0.3rem 0 0;
+    font-family: var(--f-serif);
+    font-size: 1.18rem;
+    color: var(--ivoire);
+}
+
+.lv-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+}
+
+/* ============================================
+   I & II — LA TOUR, LA BRISURE
+   ============================================ */
+.lv-story {
+    position: relative;
+    padding: 8vh 0 0;
+}
+
+.lv-story-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+}
+
+.lv-tower-sticky {
+    position: sticky;
+    top: 10vh;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lv-tower-svg {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    overflow: visible;
+}
+
+.lv-tower-svg .bp {
+    fill: none;
+    stroke: rgba(232, 212, 139, 0.5);
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.lv-tower-svg .bp-main {
+    stroke: var(--or-pale);
+    stroke-width: 1.5;
+}
+
+.lv-tower-svg .bp-floor {
+    stroke: rgba(232, 212, 139, 0.3);
+}
+
+.lv-tower-svg .bp-dim,
+.lv-tower-svg .bp-ground {
+    stroke: var(--vortex);
+}
+
+.lv-tower-svg .bp-glass {
+    fill: rgba(186, 217, 239, 0.1);
+    stroke: var(--azur-voile);
+    stroke-width: 1.2;
+}
+
+.lv-tower-svg .bp-label {
+    font-family: var(--f-text);
+    font-size: 8.5px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    fill: #6F93BA;
+}
+
+.lv-tower-svg .crack {
+    fill: none;
+    stroke: var(--incandescence);
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 3px rgba(255, 243, 214, 0.9));
+}
+
+.lv-tower-svg .lv-span {
+    transform-box: fill-box;
+}
+
+.lv-tower-svg .lv-span-a { transform-origin: 0% 50%; }
+.lv-tower-svg .lv-span-b { transform-origin: 100% 50%; }
+
+/* Avec animation, le plan se trace au fil de la lecture */
+.has-motion .lv-tower-svg .bp,
+.has-motion .lv-tower-svg .crack {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+}
+
+.has-motion .lv-tower-svg .bp-label {
+    opacity: 0;
+}
+
+.lv-chapter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12vh 0;
+}
+
+.has-motion .lv-chapter {
+    min-height: 110vh;
+}
+
+/* Le cœur s'arrête : le tracé bat trois fois, puis plus rien */
+.lv-pulse {
+    padding: 6vh var(--gutter) 18vh;
+    text-align: center;
+}
+
+.lv-ecg {
+    display: block;
+    width: 100%;
+    height: clamp(80px, 12vw, 130px);
+    overflow: visible;
+}
+
+.lv-ecg-line {
+    fill: none;
+    stroke: var(--or-pale);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 0 4px rgba(232, 212, 139, 0.55));
+    transition: stroke 1.2s ease, filter 1.2s ease;
+}
+
+.lv-pulse.is-flat .lv-ecg-line {
+    stroke: rgba(154, 167, 184, 0.55);
+    filter: none;
+}
+
+.lv-flat {
+    margin: 2.6rem 0 0;
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    color: var(--ivoire);
+}
+
+/* ============================================
+   III — LE VOILE
+   ============================================ */
+.lv-veil {
+    position: relative;
+    background: var(--abysse);
+}
+
+.lv-veil-sticky {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.has-motion .lv-veil {
+    height: 280vh;
+    height: 280svh;
+}
+
+.has-motion .lv-veil-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+}
+
+.lv-threads {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.lv-veil-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 34% 60% at 50% 50%, rgba(255, 243, 214, 0.55), rgba(212, 175, 55, 0.12) 45%, rgba(6, 9, 18, 0) 75%);
+    opacity: 0.6;
+}
+
+.has-motion .lv-veil-glow {
+    opacity: 0;
+}
+
+.lv-veil-text {
+    position: relative;
+    z-index: 1;
+    max-width: 40rem;
+    padding: 12vh var(--gutter);
+    text-align: center;
+}
+
+.lv-veil-text .lv-num {
+    justify-content: center;
+}
+
+.lv-veil-line {
+    margin: 0 0 1.4rem;
+    font-family: var(--f-serif);
+    font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+    line-height: 1.5;
+    color: var(--ivoire);
+    text-shadow: 0 0 24px rgba(6, 9, 18, 0.9);
+}
+
+.lv-question {
+    margin: 0;
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    line-height: 1.1;
+    color: var(--or-pale);
+    text-shadow: 0 0 40px rgba(6, 9, 18, 0.7);
+}
+
+/* ============================================
+   LE RETOUR — et le film
+   ============================================ */
+.lv-return {
+    padding: 16vh 0 12vh;
+    background: linear-gradient(180deg, var(--abysse), var(--nuit) 40%);
+}
+
+.lv-return .lv-body {
+    margin: 0 auto 10vh;
+    text-align: center;
+    font-size: clamp(1.35rem, 2.1vw, 1.7rem);
+}
+
+.lv-film {
+    max-width: 1000px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid rgba(232, 212, 139, 0.2);
+    box-shadow: 0 40px 90px rgba(3, 6, 14, 0.6), 0 0 60px rgba(62, 110, 158, 0.15);
+}
+
+.lv-film video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ============================================
+   IV — LE CHOIX, LA FISSURE
+   ============================================ */
+.lv-choice {
+    padding: 12vh 0 14vh;
+}
+
+.lv-choice-word {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 3vw, 2.4rem);
+    margin: 9vh 0 0;
+    font-family: var(--f-text);
+    font-weight: 300;
+    font-size: clamp(3rem, 9vw, 7rem);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--ivoire);
+}
+
+.lv-rule {
+    flex: 1;
+    max-width: 170px;
+    height: 1px;
+    background: linear-gradient(to right, rgba(212, 175, 55, 0), var(--or));
+}
+
+.lv-rule:last-child {
+    background: linear-gradient(to left, rgba(212, 175, 55, 0), var(--or));
+}
+
+.lv-fissure {
+    position: relative;
+    height: 62vh;
+    margin: 8vh 0 4vh;
+    display: flex;
+    justify-content: center;
+}
+
+.lv-fissure svg {
+    position: relative;
+    z-index: 1;
+    width: clamp(60px, 9vw, 120px);
+    height: 100%;
+    overflow: visible;
+}
+
+.lv-crack {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    filter: drop-shadow(0 0 6px rgba(255, 243, 214, 0.9));
+}
+
+.lv-fissure-glow {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    bottom: 10%;
+    width: min(70vw, 620px);
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(232, 212, 139, 0.32), rgba(212, 175, 55, 0.08) 45%, rgba(10, 22, 40, 0) 72%);
+}
+
+.lv-quote {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.lv-quote p {
+    margin: 0;
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    line-height: 1.45;
+    color: var(--or-pale);
+}
+
+/* ============================================
+   VOIR ET ENTENDRE
+   ============================================ */
+.lv-media {
+    padding: 12vh 0;
+    background: linear-gradient(180deg, var(--nuit), #0C1C33 50%, var(--nuit));
+}
+
+.lv-media-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+}
+
+.lv-trailer {
+    border: 1px solid rgba(232, 212, 139, 0.2);
+    box-shadow: 0 30px 70px rgba(3, 6, 14, 0.55);
+}
+
+.lv-sound-intro {
+    margin: 0 0 1.8rem;
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 1.45;
+    color: rgba(243, 238, 230, 0.85);
+}
+
+.lv .track-block {
+    align-items: flex-start;
+}
+
+.lv .track-title {
+    text-align: left;
+}
+
+.lv .soundtrack-links {
+    align-items: stretch;
+}
+
+.lv .soundtrack-btn {
+    max-width: none;
+    color: var(--ivoire);
+}
+
+/* ============================================
+   V — LES DEUX PORTES
+   ============================================ */
+.lv-doors {
+    padding: 14vh 0 16vh;
+    text-align: center;
+    background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(62, 110, 158, 0.18), rgba(10, 22, 40, 0) 70%);
+}
+
+.lv-doors .lv-num {
+    justify-content: center;
+}
+
+.lv-doors-q {
+    margin: 0 0 8vh;
+    font-family: var(--f-serif);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    line-height: 1.05;
+    color: var(--ivoire);
+}
+
+.lv-doors-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 5vw, 5rem);
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.lv-door {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: var(--ivoire);
+}
+
+.lv-door-arch {
+    position: relative;
+    width: min(230px, 78%);
+    aspect-ratio: 3 / 4.3;
+    margin-bottom: 1.4rem;
+    border: 1px solid rgba(232, 212, 139, 0.45);
+    border-radius: 50% 50% 0 0 / 34% 34% 0 0;
+    overflow: hidden;
+    background: var(--abysse);
+    transition: border-color 0.6s ease, box-shadow 0.8s ease;
+}
+
+.lv-door-light {
+    position: absolute;
+    inset: 0;
+    transition: transform 1.2s var(--ease-out), opacity 1.2s ease;
+}
+
+.lv-door-song .lv-door-light {
+    background: radial-gradient(ellipse 80% 70% at 50% 100%, var(--incandescence), var(--or-pale) 25%, rgba(212, 175, 55, 0.35) 55%, rgba(6, 9, 18, 0) 85%);
+    opacity: 0.55;
+    transform: translateY(28%);
+}
+
+.lv-door-silence .lv-door-light {
+    background:
+        radial-gradient(1px 1px at 30% 28%, rgba(243, 238, 230, 0.9), transparent),
+        radial-gradient(1px 1px at 62% 18%, rgba(243, 238, 230, 0.7), transparent),
+        radial-gradient(1px 1px at 72% 52%, rgba(243, 238, 230, 0.6), transparent),
+        radial-gradient(1px 1px at 40% 64%, rgba(243, 238, 230, 0.5), transparent),
+        radial-gradient(ellipse 80% 70% at 50% 100%, var(--vortex), var(--azur-profond) 40%, rgba(6, 9, 18, 0) 85%);
+    opacity: 0.55;
+    transform: translateY(18%);
+}
+
+.lv-door:hover .lv-door-light,
+.lv-door:focus-visible .lv-door-light {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.lv-door:hover .lv-door-arch,
+.lv-door:focus-visible .lv-door-arch {
+    border-color: var(--or-pale);
+    box-shadow: 0 0 60px rgba(232, 212, 139, 0.18);
+}
+
+.lv-door-name {
+    font-family: var(--f-serif);
+    font-size: clamp(1.8rem, 3vw, 2.3rem);
+    line-height: 1;
+}
+
+.lv-door-desc {
+    max-width: 18rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgba(243, 238, 230, 0.7);
+}
+
+.lv-door-cta {
+    margin-top: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--or);
+}
+
+.lv-store {
+    margin: 9vh 0 0;
+    font-size: 0.88rem;
+    color: rgba(243, 238, 230, 0.6);
+}
+
+.lv-store a {
+    color: var(--or-pale);
+}
+
+/* ---------- Pied de page ---------- */
+.lv .site-footer {
+    background: var(--abysse);
+    border-top: 1px solid rgba(232, 212, 139, 0.12);
+}
+
+/* ---------- Bouton musique ---------- */
+.lv #audio-toggle {
+    z-index: 45;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1100px) {
+    /* Le fil se réduit à une ligne en marge, sans libellés */
+    .has-motion .lv-gauge {
+        left: 0.45rem;
+        width: auto;
+        top: 22vh;
+        bottom: 22vh;
+    }
+
+    .lv-gauge-end,
+    .lv-gauge-floor {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .lv-book-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lv-cover {
+        justify-self: center;
+        width: min(72%, 320px);
+    }
+
+    /* Le plan de la tour passe derrière le texte */
+    .lv-story-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lv-tower {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        height: 100svh;
+        z-index: 0;
+        opacity: 0.4;
+    }
+
+    .lv-tower-sticky {
+        position: static;
+        height: 100%;
+        padding: 12vh 0 6vh;
+    }
+
+    .lv-chapters {
+        position: relative;
+        z-index: 1;
+        margin-top: -100vh;
+        margin-top: -100svh;
+    }
+
+    .lv-chapter .lv-lead,
+    .lv-chapter .lv-body {
+        text-shadow: 0 0 18px var(--nuit), 0 0 6px var(--nuit);
+    }
+
+    .lv-media-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .lv-title {
+        letter-spacing: 0.03em;
+    }
+
+    .lv-hint {
+        display: none;
+    }
+
+    .lv-tagline {
+        text-align: center;
+    }
+
+    .lv-facts {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1rem 1.2rem;
+    }
+
+    .lv-actions .lv-btn {
+        width: 100%;
+    }
+
+    .lv-choice-word .lv-rule {
+        max-width: 48px;
+    }
+
+    .lv-doors-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lv-hint::after {
+        animation: none;
+    }
+
+    .lv-cover-tilt,
+    .lv-door-light,
+    .lv-btn {
+        transition: none;
+    }
+}

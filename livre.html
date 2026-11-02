@@ -6,12 +6,13 @@
     <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
     <script>document.documentElement.classList.add('js');</script>
     <title>La Verticale du Vide — Roman de Matthieu Straub | Éditions Kileton</title>
-    <meta name="description" content="La Verticale du Vide, premier roman de Matthieu Straub. Un architecte star, une tour qui s'effondre, un voyage entre les mondes. Chute, rédemption et libre arbitre.">
+    <meta name="description" content="La Verticale du Vide, premier roman de Matthieu Straub. Thomas Vane a bâti quatre-vingt-huit étages de verre et d'acier au-dessus de Manhattan. Le soir de l'inauguration, la passerelle s'effondre et son cœur s'arrête.">
     <link rel="canonical" href="https://editions-kileton.fr/livre.html">
+    <meta name="theme-color" content="#0A1628">
 
     <!-- Open Graph -->
     <meta property="og:title" content="La Verticale du Vide — Roman de Matthieu Straub">
-    <meta property="og:description" content="Un architecte star. Une tour qui s'effondre. Un voyage entre les mondes. Découvrez le premier roman des Éditions Kileton.">
+    <meta property="og:description" content="Au commencement était la Fréquence. Et à la fin, il n'y aura que le silence ou le chant.">
     <meta property="og:image" content="https://editions-kileton.fr/assets/images/verticale-couverture.jpg">
     <meta property="og:url" content="https://editions-kileton.fr/livre.html">
     <meta property="og:type" content="book">
@@ -20,7 +21,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="La Verticale du Vide — Matthieu Straub">
-    <meta name="twitter:description" content="Un architecte star. Une tour qui s'effondre. Un voyage entre les mondes.">
+    <meta name="twitter:description" content="Au commencement était la Fréquence. Et à la fin, il n'y aura que le silence ou le chant.">
     <meta name="twitter:image" content="https://editions-kileton.fr/assets/images/verticale-couverture.jpg">
 
     <!-- Favicon -->
@@ -31,15 +32,16 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
 
-    <!-- Google Fonts -->
     <!-- Polices hébergées localement : aucun appel vers Google, aucune donnée
          du visiteur transmise à un tiers. Voir css/fonts.css -->
     <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="css/fonts.css">
 
-    <!-- Stylesheet -->
+    <!-- Feuilles de style : base du site, en-tête de la maison, puis l'univers du livre -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/verticale.css?v=5">
 
     <!-- JSON-LD Book -->
     <script type="application/ld+json">
@@ -55,10 +57,11 @@
             "@type": "Organization",
             "name": "Éditions Kileton"
         },
+        "isbn": "9791098457708",
         "bookFormat": "Paperback",
         "inLanguage": "fr",
         "genre": ["Fiction littéraire", "Spiritualité", "Thriller métaphysique"],
-        "description": "Thomas Vane, architecte star, voit sa tour s'effondrer. Au seuil de la mort, il découvre une guerre cosmique entre lumière et ténèbres. Un roman sur la chute, la rédemption et le libre arbitre.",
+        "description": "Thomas Vane a bâti quatre-vingt-huit étages de verre et d'acier au-dessus de Manhattan. Le soir de l'inauguration, la passerelle de verre s'effondre et son cœur s'arrête. De l'autre côté du Voile, la Source lui pose une seule question : rester, ou retourner réparer.",
         "image": "https://editions-kileton.fr/assets/images/verticale-couverture.jpg",
         "url": "https://editions-kileton.fr/livre.html",
         "offers": {
@@ -73,7 +76,7 @@
     }
     </script>
 </head>
-<body class="page-book">
+<body class="home-v2 page-book lv">
 
     <audio id="ambient-audio" loop preload="auto" aria-hidden="true">
       <source src="assets/audio/primordial-resonance.ogg" type="audio/ogg">
@@ -83,8 +86,32 @@
     <!-- HEADER / NAVIGATION -->
     <header class="site-header" role="banner">
         <nav class="nav-container" role="navigation" aria-label="Navigation principale">
-            <a href="index.html" class="logo-link" aria-label="Accueil Éditions Kileton">
-                <img src="assets/images/logo_kileton.svg?v=3" alt="Logo Éditions Kileton" class="logo" width="200" height="40">
+            <!-- Lockup de la maison : sceau-vitrail + mot KILETON dessiné + « Éditions » -->
+            <a href="index.html" class="logo-link hd-lockup" aria-label="Éditions Kileton, accueil">
+                <svg class="hd-seal" viewBox="-4 -4 108 148" aria-hidden="true" focusable="false">
+<clipPath id="hd-win-lv"><path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z"/></clipPath>
+<g clip-path="url(#hd-win-lv)">
+<polygon points="0,-30 38,-30 38,170 0,170" fill="#3155A8"/>
+<polygon points="38,-30 38,88 105.6,-30.0" fill="#D4AF37"/>
+<polygon points="38,88 105.6,-30.0 150,-30 150,189.2" fill="#B05138"/>
+<polygon points="38,88 150,189.2 38,189.2" fill="#3155A8"/>
+<g stroke="#141218" class="sl" stroke-width="5.2" stroke-linecap="round" fill="none"><line x1="38" y1="-10" x2="38" y2="150"/><line x1="38" y1="88" x2="105.6" y2="-30.0"/><line x1="38" y1="88" x2="150.0" y2="189.2"/></g>
+</g>
+<path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z" fill="none" stroke="#141218" class="sl" stroke-width="6.5" stroke-linejoin="round"/>
+<polygon points="38,81.5 44.5,88 38,94.5 31.5,88" fill="#D4AF37" stroke="#141218" class="sl" stroke-width="2.2" stroke-linejoin="round"/>
+                </svg>
+                <span class="hd-words">
+                    <svg class="hd-wordmark" viewBox="-4 -4 521 108" aria-hidden="true" focusable="false">
+<path d="M0.00,0.00h15.00v100.00h-15.00ZM15.00,56.00 L63.00,0.00 L70.00,0.00 L15.00,64.50 ZM30.00,47.00 L72.00,100.00 L52.00,100.00 L22.00,57.00 Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M89.00,0.00h15.00v100.00h-15.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M121.00,0.00h15.00v100.00h-15.00ZM121.00,95.40h54.00v4.60h-54.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M192.00,0.00h15.00v100.00h-15.00ZM192.00,0.00h52.00v4.60h-52.00ZM192.00,48.00h42.00v4.60h-42.00ZM192.00,95.40h54.00v4.60h-54.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M263.00,0.00h64.00v4.60h-64.00ZM287.50,0.00h15.00v100.00h-15.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M344.00,50.00 A41.00,50.00 0 1 0 426.00,50.00 A41.00,50.00 0 1 0 344.00,50.00 ZM359.00,50.00 A26.00,45.40 0 1 0 411.00,50.00 A26.00,45.40 0 1 0 359.00,50.00 Z" fill="currentColor" fill-rule="evenodd"/>
+<path d="M443.00,0.00h4.60v100.00h-4.60ZM508.40,0.00h4.60v100.00h-4.60ZM443.00,0.00 L462.00,0.00 L513.00,100.00 L494.00,100.00 Z" fill="currentColor" fill-rule="nonzero"/>
+                    </svg>
+                    <span class="hd-eyebrow">Éditions</span>
+                </span>
             </a>
             <!-- Navigation inline : repli accessible sans JS -->
             <ul class="nav-links">
@@ -151,81 +178,221 @@
         </div>
     </aside>
 
+    <!-- Le fil vertical : on descend les 88 étages jusqu'au Voile -->
+    <div class="lv-gauge" aria-hidden="true">
+        <span class="lv-gauge-end lv-gauge-up">Monter vers la rédemption</span>
+        <span class="lv-gauge-line"><span class="lv-gauge-fill"></span></span>
+        <span class="lv-gauge-floor"><span class="lv-gauge-num">88</span><span class="lv-gauge-unit">étage</span></span>
+        <span class="lv-gauge-end lv-gauge-down">Tomber dans le vide</span>
+    </div>
+
     <main role="main">
 
-        <!-- SECTION HÉROS — PRÉSENTATION DU LIVRE -->
-        <section class="hero hero-book" aria-label="Présentation du livre">
-            <canvas id="particles-canvas" aria-hidden="true"></canvas>
-            <div class="hero-book-content">
-                <div class="hero-book-cover">
-                    <picture>
-                        <source srcset="assets/images/verticale-couverture.webp" type="image/webp">
-                        <img src="assets/images/verticale-couverture.jpg" alt="Couverture du roman La Verticale du Vide — un tunnel de lumière dorée dans l'obscurité" class="cover-3d" width="775" height="1198" decoding="async">
-                    </picture>
+        <!-- OUVERTURE — le puits de la couverture : on tombe vers la lumière -->
+        <section class="lv-open" aria-labelledby="lv-title">
+            <div class="lv-open-sticky">
+                <canvas class="lv-tunnel" aria-hidden="true"></canvas>
+                <div class="lv-open-fallback" aria-hidden="true"></div>
+                <div class="lv-open-copy">
+                    <p class="lv-author">Matthieu Straub</p>
+                    <p class="lv-genre">Roman</p>
+                    <h1 id="lv-title" class="lv-title"><span>La Verticale</span> <span>du Vide</span></h1>
+                    <p class="lv-tagline">Entre la chute et le chant, il y a nous.</p>
                 </div>
-                <div class="hero-book-text">
-                    <p class="book-label">Roman</p>
-                    <h1 class="hero-book-title">La Verticale du Vide</h1>
-                    <p class="hero-book-author">Matthieu Straub</p>
-                    <p class="hero-book-quote">« Entre la chute et le chant, il y a nous. Libres de choisir. »</p>
-                </div>
+                <p class="lv-hint" aria-hidden="true"><span>Tomber</span></p>
+                <div class="lv-flood" aria-hidden="true"></div>
             </div>
         </section>
 
-        <!-- SECTION — VIDÉO PROMOTIONNELLE -->
-        <section class="section section-video fade-in" id="video">
-            <div class="container">
-                <div class="video-wrapper">
-                    <video autoplay loop muted playsinline preload="metadata" aria-label="Vidéo promotionnelle du roman La Verticale du Vide">
-                        <source src="assets/video/promo_opt.mp4" type="video/mp4">
-                        Votre navigateur ne supporte pas la lecture vidéo.
-                    </video>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION — SYNOPSIS -->
-        <section class="section section-synopsis fade-in" id="synopsis">
-            <div class="container">
-                <h2 class="section-title">Le Roman</h2>
-                <div class="section-divider"></div>
-                <div class="synopsis-text">
-                    <p>Thomas Vane a quarante-cinq ans, douze tours à son actif et un nom gravé dans le bronze sur trois continents. Architecte le plus célèbre de sa génération, il inaugure à Manhattan son chef-d'œuvre absolu : la Tour Vane, quatre-vingt-huit étages de verre et d'acier couronnés par une passerelle vertigineuse — la Skybridge — suspendue à cent mètres au-dessus du vide.</p>
-                    <p>Mais le soir de l'inauguration, le verre se brise. La Skybridge s'effondre. Et le cœur de Thomas cesse de battre.</p>
-                    <p>Ce qui aurait dû être la fin n'est qu'un commencement. Car Thomas franchit le Voile — cette membrane invisible entre le monde des vivants et l'au-delà — et découvre une guerre qui dure depuis l'aube de la création. D'un côté, la Source, fréquence primordiale dont émane toute lumière. De l'autre, l'Architecte Déchu, un ange tombé qui a jadis bâti les galaxies avant de sombrer dans le froid de son propre orgueil.</p>
-                    <p>Thomas n'est pas un simple témoin. Il est l'enjeu. Une porte vivante entre les mondes, que chaque camp veut ouvrir dans sa direction. Et au fond de son âme, un passager clandestin attend depuis toujours le moment de se révéler.</p>
-                    <p>Entre architecture vertigineuse et métaphysique brûlante, <em>La Verticale du Vide</em> est un roman sur la chute et la rédemption, le libre arbitre et la foi — une plongée dans cette verticale de néant où chacun doit choisir : le silence ou le chant.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION — BANDE-ANNONCE / CLIP VIDÉO -->
-        <section class="section section-clip fade-in" id="clip">
-            <div class="container">
-                <h2 class="section-title">Bande-annonce</h2>
-                <div class="section-divider"></div>
-                <p class="clip-subtitle">Découvrez l'univers du roman en images et en musique.</p>
-                <div class="clip-wrapper">
-                    <div class="clip-responsive">
-                        <div class="yt-facade" data-yt="FnUR_KO1qzw" data-yt-title="Bande-annonce du roman La Verticale du Vide">
-                            <button type="button" class="yt-facade-btn">
-                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"></path></svg>
-                                Lire la bande-annonce
-                            </button>
-                            <p class="yt-facade-note">La lecture charge le lecteur YouTube, qui dépose des traceurs sur votre appareil.</p>
-                        </div>
+        <!-- LE LIVRE — la couverture, l'incipit de la quatrième, l'essentiel -->
+        <section class="lv-book" id="livre" aria-labelledby="lv-book-title">
+            <div class="lv-wrap lv-book-grid">
+                <figure class="lv-cover">
+                    <div class="lv-cover-tilt">
+                        <picture>
+                            <source srcset="assets/images/verticale-couverture.webp" type="image/webp">
+                            <img src="assets/images/verticale-couverture.jpg" alt="Couverture du roman La Verticale du Vide : un homme tombe au cœur d'un tourbillon de lumière dorée, entre des façades d'immeubles vues en contre-plongée" width="775" height="1163" decoding="async" fetchpriority="high">
+                        </picture>
+                    </div>
+                </figure>
+                <div class="lv-book-text">
+                    <h2 id="lv-book-title" class="lv-kicker">Le roman</h2>
+                    <p class="lv-incipit">Au commencement était la Fréquence.<br>Et à la fin, il n'y aura que le silence ou le chant.</p>
+                    <dl class="lv-facts">
+                        <div><dt>Auteur</dt><dd>Matthieu Straub</dd></div>
+                        <div><dt>Genre</dt><dd>Thriller métaphysique</dd></div>
+                        <div><dt>Éditeur</dt><dd>Éditions Kileton, 2026</dd></div>
+                        <div><dt>ISBN</dt><dd>979-10-984577-0-8</dd></div>
+                    </dl>
+                    <div class="lv-actions">
+                        <a href="https://www.amazon.fr/dp/B0GVKPR9NH" class="lv-btn lv-btn-gold" target="_blank" rel="noopener noreferrer">Acheter sur Amazon</a>
+                        <a href="assets/pdf/extrait_verticale_du_vide.pdf?v=2" download class="lv-btn lv-btn-line">Lire le début, gratuitement</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION — ÉCOUTER LA BANDE-SON -->
-        <section class="section section-soundtrack fade-in" id="bande-son">
-            <div class="container container-narrow">
-                <h2 class="section-title">Écouter la bande-son</h2>
-                <div class="section-divider"></div>
+        <!-- I & II — La tour, puis la brisure : le plan se trace, la passerelle cède -->
+        <section class="lv-story" aria-label="L'histoire">
+            <div class="lv-wrap lv-story-grid">
+                <div class="lv-tower" aria-hidden="true">
+                    <div class="lv-tower-sticky">
+                        <svg class="lv-tower-svg" viewBox="0 0 400 900" aria-hidden="true" focusable="false">
+<g class="lv-tower-lines">
+<path class="bp bp-ground" pathLength="1" d="M24 860H376"/>
+<path class="bp bp-main" pathLength="1" d="M128 860L136 110H204L212 860"/>
+<path class="bp bp-main" pathLength="1" d="M170 110V36"/>
+<path class="bp" pathLength="1" d="M158 110L170 72L182 110"/>
+<path class="bp" pathLength="1" d="M153.0 110L149.0 860"/>
+<path class="bp" pathLength="1" d="M170.0 110L170.0 860"/>
+<path class="bp" pathLength="1" d="M187.0 110L191.0 860"/>
+<path class="bp bp-floor" pathLength="1" d="M135.6 144.1H204.4"/>
+<path class="bp bp-floor" pathLength="1" d="M135.3 178.2H204.7"/>
+<path class="bp bp-floor" pathLength="1" d="M134.9 212.3H205.1"/>
+<path class="bp bp-floor" pathLength="1" d="M134.5 246.4H205.5"/>
+<path class="bp bp-floor" pathLength="1" d="M134.2 280.5H205.8"/>
+<path class="bp bp-floor" pathLength="1" d="M133.8 314.5H206.2"/>
+<path class="bp bp-floor" pathLength="1" d="M133.5 348.6H206.5"/>
+<path class="bp bp-floor" pathLength="1" d="M133.1 382.7H206.9"/>
+<path class="bp bp-floor" pathLength="1" d="M132.7 416.8H207.3"/>
+<path class="bp bp-floor" pathLength="1" d="M132.4 450.9H207.6"/>
+<path class="bp bp-floor" pathLength="1" d="M132.0 485.0H208.0"/>
+<path class="bp bp-floor" pathLength="1" d="M131.6 519.1H208.4"/>
+<path class="bp bp-floor" pathLength="1" d="M131.3 553.2H208.7"/>
+<path class="bp bp-floor" pathLength="1" d="M130.9 587.3H209.1"/>
+<path class="bp bp-floor" pathLength="1" d="M130.5 621.4H209.5"/>
+<path class="bp bp-floor" pathLength="1" d="M130.2 655.5H209.8"/>
+<path class="bp bp-floor" pathLength="1" d="M129.8 689.5H210.2"/>
+<path class="bp bp-floor" pathLength="1" d="M129.5 723.6H210.5"/>
+<path class="bp bp-floor" pathLength="1" d="M129.1 757.7H210.9"/>
+<path class="bp bp-floor" pathLength="1" d="M128.7 791.8H211.3"/>
+<path class="bp bp-floor" pathLength="1" d="M128.4 825.9H211.6"/>
+<path class="bp bp-main" pathLength="1" d="M262 860L266 200H318L322 860"/>
+<path class="bp" pathLength="1" d="M292.0 200L292 860"/>
+<path class="bp bp-floor" pathLength="1" d="M265.7 244.0H318.3"/>
+<path class="bp bp-floor" pathLength="1" d="M265.5 288.0H318.5"/>
+<path class="bp bp-floor" pathLength="1" d="M265.2 332.0H318.8"/>
+<path class="bp bp-floor" pathLength="1" d="M264.9 376.0H319.1"/>
+<path class="bp bp-floor" pathLength="1" d="M264.7 420.0H319.3"/>
+<path class="bp bp-floor" pathLength="1" d="M264.4 464.0H319.6"/>
+<path class="bp bp-floor" pathLength="1" d="M264.1 508.0H319.9"/>
+<path class="bp bp-floor" pathLength="1" d="M263.9 552.0H320.1"/>
+<path class="bp bp-floor" pathLength="1" d="M263.6 596.0H320.4"/>
+<path class="bp bp-floor" pathLength="1" d="M263.3 640.0H320.7"/>
+<path class="bp bp-floor" pathLength="1" d="M263.1 684.0H320.9"/>
+<path class="bp bp-floor" pathLength="1" d="M262.8 728.0H321.2"/>
+<path class="bp bp-floor" pathLength="1" d="M262.5 772.0H321.5"/>
+<path class="bp bp-floor" pathLength="1" d="M262.3 816.0H321.7"/>
+<path class="bp bp-dim" pathLength="1" d="M84 110V860M78 110H90M78 860H90"/>
+</g>
+<text class="bp-label" x="70" y="485" transform="rotate(-90 70 485)" text-anchor="middle">88 étages · verre et acier</text>
+<g class="lv-bridge">
+<g class="lv-span lv-span-a"><path class="bp bp-glass" pathLength="1" d="M204 196H236V214H204Z"/><path class="bp" pathLength="1" d="M204 214L214 224L224 214L234 224"/></g>
+<g class="lv-span lv-span-b"><path class="bp bp-glass" pathLength="1" d="M236 196H266V214H236Z"/><path class="bp" pathLength="1" d="M238 224L248 214L258 224L266 216"/></g>
+</g>
+<path class="bp bp-dim" pathLength="1" d="M236 196L300 132H372"/>
+<text class="bp-label" x="372" y="124" text-anchor="end">Skybridge · +100 m</text>
+<g class="lv-cracks">
+<path class="crack" pathLength="1" d="M236 205L229 199L222 202L214 197"/>
+<path class="crack" pathLength="1" d="M236 205L244 210L251 206L259 211L265 208"/>
+<path class="crack" pathLength="1" d="M236 205L233 213L227 216"/>
+<path class="crack" pathLength="1" d="M236 205L240 198L247 197"/>
+</g>
+</svg>
+                    </div>
+                </div>
+                <div class="lv-chapters">
+                    <article class="lv-chapter" data-step="tower">
+                        <p class="lv-num">I. <span>La tour</span></p>
+                        <p class="lv-lead">Thomas Vane a bâti quatre-vingt-huit étages de verre et d'acier au-dessus de Manhattan.</p>
+                        <p class="lv-body">Son nom est gravé dans le bronze, de Dubaï à Shanghai. Mais derrière la façade, il y a les rapports falsifiés, quarante-sept enfants contaminés au cadmium, une épouse devenue une inconnue, un frère qui survit sous un pont de Brooklyn.</p>
+                    </article>
+                    <article class="lv-chapter" data-step="break">
+                        <p class="lv-num">II. <span>La brisure</span></p>
+                        <p class="lv-lead">Le soir de l'inauguration, la passerelle de verre s'effondre et son cœur s'arrête.</p>
+                    </article>
+                </div>
+            </div>
+            <div class="lv-pulse">
+                <svg class="lv-ecg" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path class="lv-ecg-line" pathLength="1" d="M0 60H60L70 54.0L80 60.0L88 60.0L93 68.0L100 12.0L107 90.0L113 60.0L127 60.0L143 48.0L157 60.0H217L227 54.9L237 60.0L245 60.0L250 66.8L257 19.2L264 85.5L270 60.0L284 60.0L300 49.8L314 60.0H374L384 56.7L394 60.0L402 60.0L407 64.4L414 33.6L421 76.5L427 60.0L441 60.0L457 53.4L471 60.0H1000"/>
+                </svg>
+                <p class="lv-flat">Quarante-cinq minutes sans pouls.</p>
+            </div>
+        </section>
 
-                <!-- Single 1 : La Verticale du Vide -->
+        <!-- III — Le Voile : une membrane de fils de lumière qui s'écarte -->
+        <section class="lv-veil" aria-labelledby="lv-veil-title">
+            <div class="lv-veil-sticky">
+                <canvas class="lv-threads" aria-hidden="true"></canvas>
+                <div class="lv-veil-glow" aria-hidden="true"></div>
+                <div class="lv-veil-text">
+                    <p class="lv-num">III. <span id="lv-veil-title">Le Voile</span></p>
+                    <p class="lv-veil-line">De l'autre côté du Voile, la Source lui fait revoir sa vie sans aucun filtre, puis lui pose une seule question&nbsp;:</p>
+                    <p class="lv-question">rester, ou retourner réparer.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Le retour, puis la vidéo du livre -->
+        <section class="lv-return" aria-label="Le retour">
+            <div class="lv-wrap lv-narrow">
+                <p class="lv-body lv-reveal">Thomas revient, porteur d'un don qui guérit ce qui est brisé, et d'une voix nouvelle au fond de sa conscience&nbsp;: le Passager.</p>
+            </div>
+            <div class="lv-wrap">
+                <div class="lv-film lv-reveal">
+                    <video autoplay loop muted playsinline preload="metadata" aria-label="Vidéo promotionnelle du roman La Verticale du Vide">
+                        <source src="assets/video/promo_opt.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </section>
+
+        <!-- IV — Le choix : la fissure par où la lumière entre -->
+        <section class="lv-choice" aria-labelledby="lv-choice-title">
+            <div class="lv-wrap lv-narrow">
+                <p class="lv-num lv-reveal">IV. <span>Le prix</span></p>
+                <p class="lv-body lv-reveal">Mais chaque miracle a un prix. Et quelque chose d'ancien l'attend, quelque chose qui a bâti les premières galaxies et qui n'a jamais pardonné aux hommes d'avoir reçu ce que lui n'a pas&nbsp;:</p>
+                <h2 id="lv-choice-title" class="lv-choice-word"><span class="lv-rule" aria-hidden="true"></span><span class="lv-choice-text">le choix.</span><span class="lv-rule" aria-hidden="true"></span></h2>
+            </div>
+            <div class="lv-fissure" aria-hidden="true">
+                <svg viewBox="0 0 200 1000" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="lv-crack-fill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#FFF3D6" stop-opacity="0"/>
+                            <stop offset=".25" stop-color="#FFF3D6"/>
+                            <stop offset=".7" stop-color="#E8D48B"/>
+                            <stop offset="1" stop-color="#D4AF37" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <path class="lv-crack" d="M100 0L104 70L96 140L108 230L94 300L103 390L97 470L110 560L92 650L104 730L98 820L106 910L100 1000L99 910L93 820L99 730L87 650L105 560L92 470L98 390L89 300L103 230L91 140L99 70Z" fill="url(#lv-crack-fill)"/>
+                </svg>
+                <div class="lv-fissure-glow"></div>
+            </div>
+            <blockquote class="lv-wrap lv-narrow lv-quote lv-reveal">
+                <p>« La fissure n'est pas un défaut.<br>La fissure est l'endroit par où la lumière entre. »</p>
+            </blockquote>
+        </section>
+
+        <!-- Bande-annonce et bande-son -->
+        <section class="lv-media" id="bande-annonce" aria-labelledby="lv-media-title">
+            <div class="lv-wrap">
+                <h2 id="lv-media-title" class="lv-kicker lv-reveal">Voir et entendre</h2>
+                <div class="lv-media-grid">
+                    <div class="lv-trailer lv-reveal">
+                        <div class="clip-responsive">
+                            <div class="yt-facade" data-yt="FnUR_KO1qzw" data-yt-title="Bande-annonce du roman La Verticale du Vide">
+                                <button type="button" class="yt-facade-btn">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"></path></svg>
+                                    Lire la bande-annonce
+                                </button>
+                                <p class="yt-facade-note">La lecture charge le lecteur YouTube, qui dépose des traceurs sur votre appareil.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lv-sound lv-reveal" id="bande-son">
+                        <p class="lv-sound-intro">La bande-son du roman&nbsp;: deux titres, la chute et la Fréquence.</p>
+                        <!-- Single 1 : La Verticale du Vide -->
                 <div class="track-block">
                     <h3 class="track-title">La Verticale du Vide</h3>
                     <div class="soundtrack-links" role="list" aria-label="Écouter La Verticale du Vide">
@@ -254,37 +421,31 @@
                         </a>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- SECTION — TÉLÉCHARGER L'EXTRAIT -->
-        <section class="section section-excerpt fade-in" id="extrait">
-            <div class="container container-narrow">
-                <div class="excerpt-box">
-                    <h2 class="excerpt-title">Lire un extrait</h2>
-                    <p class="excerpt-desc">Plongez dans les premières pages du roman. Téléchargez gratuitement le Prologue et le Chapitre 1.</p>
-                    <a href="assets/pdf/extrait_verticale_du_vide.pdf?v=2" download class="btn btn-gold btn-download" aria-label="Télécharger l'extrait gratuit du roman en PDF">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        Télécharger l'extrait gratuit (Prologue &amp; Chapitre 1)
-                    </a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION — ACHETER LE LIVRE -->
-        <section class="section section-buy fade-in" id="acheter">
-            <div class="container container-narrow">
-                <div class="buy-box">
-                    <h2 class="buy-title">Se procurer le livre</h2>
-                    <a href="https://www.amazon.fr/dp/B0GVKPR9NH" class="btn btn-buy" target="_blank" rel="noopener noreferrer" aria-label="Acheter La Verticale du Vide sur Amazon">
-                        Acheter sur Amazon
+        <!-- V — Les deux portes -->
+        <section class="lv-doors" id="acheter" aria-labelledby="lv-doors-title">
+            <div class="lv-wrap">
+                <p class="lv-num lv-reveal">V. <span>La verticale</span></p>
+                <h2 id="lv-doors-title" class="lv-doors-q lv-reveal">Le silence, ou le chant&nbsp;?</h2>
+                <div class="lv-doors-grid">
+                    <a class="lv-door lv-door-song lv-reveal" href="https://www.amazon.fr/dp/B0GVKPR9NH" target="_blank" rel="noopener noreferrer">
+                        <span class="lv-door-arch" aria-hidden="true"><span class="lv-door-light"></span></span>
+                        <span class="lv-door-name">Le chant</span>
+                        <span class="lv-door-desc">Lire tout le roman. Broché et Kindle, sur Amazon.</span>
+                        <span class="lv-door-cta">Acheter le livre <span aria-hidden="true">→</span></span>
                     </a>
-                    <p class="buy-alt">Également disponible en librairie — <a href="mailto:matthieu.straub@editions-kileton.fr">contactez-nous</a></p>
+                    <a class="lv-door lv-door-silence lv-reveal" href="assets/pdf/extrait_verticale_du_vide.pdf?v=2" download>
+                        <span class="lv-door-arch" aria-hidden="true"><span class="lv-door-light"></span></span>
+                        <span class="lv-door-name">Le silence</span>
+                        <span class="lv-door-desc">Le prologue et le premier chapitre, en PDF, gratuitement.</span>
+                        <span class="lv-door-cta">Télécharger l'extrait <span aria-hidden="true">→</span></span>
+                    </a>
                 </div>
+                <p class="lv-store lv-reveal">Également en librairie, sur commande. <a href="mailto:matthieu.straub@editions-kileton.fr">Écrire à l'éditeur</a></p>
             </div>
         </section>
 
@@ -318,6 +479,9 @@
     </button>
 
     <script src="js/main.js"></script>
+    <script src="js/vendor/gsap.min.js" defer></script>
+    <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+    <script type="module" src="js/verticale.js?v=5"></script>
 
     <!-- Lecteur vidéo au clic : rien n'est demandé à YouTube tant que le
          visiteur n'a pas cliqué. Le domaine youtube-nocookie limite en outre
