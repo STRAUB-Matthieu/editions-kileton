@@ -38,7 +38,53 @@ function updateHeader() {
 }
 window.addEventListener('scroll', updateHeader, { passive: true });
 window.addEventListener('resize', updateHeader);
+window.addEventListener('pageshow', updateHeader);
+document.addEventListener('visibilitychange', updateHeader);
 updateHeader();
+
+/* L'ouverture suit le défilement, mesurée à chaque mouvement et non une fois
+   pour toutes : Safari peut charger la page dans une fenêtre sans hauteur,
+   puis l'afficher sans signaler de redimensionnement. Des déclencheurs calculés
+   à ce moment-là croyaient l'ouverture déjà jouée (page blanche à l'arrivée). */
+let vitrail = null;
+const intro = { p: 0 };   // 0 : la pièce sombre ; 1 : la lumière a tout recouvert
+const introCopy = hero.querySelectorAll('.hv-copy, .hv-hint');
+const flood = hero.querySelector('.hv-flood');
+const floodEase = hasMotion ? gsap.parseEase('power1.inOut') : null;
+
+function clamp01(x) { return Math.min(Math.max(x, 0), 1); }
+
+function introTarget() {
+    const h = window.innerHeight || document.documentElement.clientHeight;
+    if (h < 100) return 0;
+    return clamp01(window.scrollY / (h * 0.9));
+}
+
+function renderIntro() {
+    if (!hasMotion) return;
+    const p = intro.p;
+    // Le texte d'ouverture s'efface, puis la lumière inonde la page
+    const c = clamp01(p / 0.39);
+    introCopy.forEach(function (el) {
+        el.style.opacity = (1 - c).toFixed(3);
+        el.style.transform = 'translateY(' + (-30 * c).toFixed(1) + 'px)';
+    });
+    flood.style.setProperty('--r', (floodEase(clamp01((p - 0.22) / 0.78)) * 165).toFixed(2) + '%');
+    if (vitrail) vitrail.setProgress(p);
+}
+
+if (hasMotion) {
+    const followIntro = function () {
+        gsap.to(intro, { p: introTarget(), duration: SMOOTH, ease: 'power3.out', overwrite: true, onUpdate: renderIntro });
+    };
+    intro.p = introTarget();
+    renderIntro();
+    window.addEventListener('scroll', followIntro, { passive: true });
+    window.addEventListener('resize', followIntro);
+    window.addEventListener('load', followIntro);
+    window.addEventListener('pageshow', followIntro);
+    document.addEventListener('visibilitychange', followIntro);
+}
 
 /* --- 2. Le vitrail --- */
 function webglAvailable() {
@@ -53,40 +99,14 @@ function webglAvailable() {
 const canvas = hero.querySelector('.hv-canvas');
 if (webglAvailable()) {
     import('./vitrail.js?v=3').then(function (m) {
-        const vitrail = m.initVitrail(canvas, { reducedMotion: reducedMotion });
+        vitrail = m.initVitrail(canvas, { reducedMotion: reducedMotion });
         hero.classList.add('is-live');
-        if (hasMotion) {
-            ScrollTrigger.create({
-                start: 0,
-                end: function () { return window.innerHeight * 0.9; },
-                scrub: SMOOTH,
-                onUpdate: function (self) { vitrail.setProgress(self.progress); }
-            });
-        }
+        renderIntro();
     }).catch(function () {
         hero.classList.add('no-webgl');
     });
 } else {
     hero.classList.add('no-webgl');
-}
-
-if (hasMotion) {
-    // Le texte d'ouverture s'efface, puis la lumière inonde la page
-    gsap.to('.hv-copy, .hv-hint', {
-        opacity: 0,
-        y: -30,
-        ease: 'none',
-        scrollTrigger: { start: 0, end: function () { return window.innerHeight * 0.35; }, scrub: SMOOTH }
-    });
-    gsap.fromTo('.hv-flood', { '--r': '0%' }, {
-        '--r': '165%',
-        ease: 'power1.inOut',
-        scrollTrigger: {
-            start: function () { return window.innerHeight * 0.2; },
-            end: function () { return window.innerHeight * 0.9; },
-            scrub: SMOOTH
-        }
-    });
 }
 
 /* Safari peut précharger la page en arrière-plan, fenêtre sans hauteur :
