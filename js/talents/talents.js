@@ -45,6 +45,7 @@ if (hasMotion && section) {
         frise = null;   // pas de WebGL : les paroles restent en colonne
     }
 }
+if (!frise) root.classList.remove('fr-wait');
 
 if (frise) {
     const last = panels.length - 1;

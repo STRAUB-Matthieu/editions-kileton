@@ -171,30 +171,40 @@
     gap: 0.8rem;
 }
 
-/* --- La frise vivante : une longue section, la pierre reste à l'écran --- */
-.fr-live {
+/* --- La frise vivante : une longue section, la pierre reste à l'écran.
+   .fr-wait (posée dans le <head>) cache les paroles avant même le chargement des scripts --- */
+:is(.fr-live, .fr-wait .fr) {
     height: calc(6 * 85svh + 100svh);
 }
 
-.fr-live .fr-sticky {
+:is(.fr-live, .fr-wait .fr) .fr-sticky {
     position: sticky;
     top: 0;
     height: 100svh;
     padding: 0;
-    background: #E9E4DB;
+    background:
+        radial-gradient(ellipse 120% 90% at 50% 55%, rgba(0, 0, 0, 0) 55%, rgba(60, 48, 30, 0.22) 100%),
+        radial-gradient(ellipse 60% 45% at 38% 56%, #F1ECE3, rgba(241, 236, 227, 0) 70%),
+        #E4DED4;
 }
 
-.fr-live .fr-canvas {
+:is(.fr-live, .fr-wait .fr) .fr-canvas {
     display: block;
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+:is(.fr-live, .fr-wait .fr) .fr-canvas.is-on {
+    opacity: 1;
 }
 
 /* Les paroles et le titre sont gravés dans la pierre ; le texte reste pour les lecteurs d'écran */
-.fr-live .fr-list,
-.fr-live .fr-h1 {
+:is(.fr-live, .fr-wait .fr) .fr-list,
+:is(.fr-live, .fr-wait .fr) .fr-h1 {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -204,7 +214,7 @@
     white-space: nowrap;
 }
 
-.fr-live .fr-title {
+:is(.fr-live, .fr-wait .fr) .fr-title {
     position: absolute;
     inset: 0;
     z-index: 1;
@@ -213,7 +223,7 @@
     pointer-events: none;
 }
 
-.fr-live .fr-eyebrow {
+:is(.fr-live, .fr-wait .fr) .fr-eyebrow {
     position: absolute;
     left: 0;
     right: 0;
@@ -221,7 +231,7 @@
     margin: 0;
 }
 
-.fr-live .fr-foot {
+:is(.fr-live, .fr-wait .fr) .fr-foot {
     position: absolute;
     left: var(--gutter);
     right: var(--gutter);
@@ -229,12 +239,12 @@
     pointer-events: auto;
 }
 
-.fr-live .fr-sub {
+:is(.fr-live, .fr-wait .fr) .fr-sub {
     margin-bottom: 1.4rem;
     text-shadow: 0 0 18px #EFEAE2, 0 0 4px #EFEAE2;
 }
 
-.fr-live .fr-hint {
+:is(.fr-live, .fr-wait .fr) .fr-hint {
     display: block;
     position: absolute;
     z-index: 1;
@@ -251,15 +261,15 @@
 }
 
 @media (orientation: portrait) {
-    .fr-live .fr-eyebrow {
+    :is(.fr-live, .fr-wait .fr) .fr-eyebrow {
         top: calc(14svh - 2.4rem);
     }
 
-    .fr-live .fr-foot {
+    :is(.fr-live, .fr-wait .fr) .fr-foot {
         top: 60svh;
     }
 
-    .fr-live .fr-sub {
+    :is(.fr-live, .fr-wait .fr) .fr-sub {
         font-size: 1.02rem;
     }
 }

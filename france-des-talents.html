@@ -6,6 +6,15 @@
     <meta name="theme-color" content="#F7F5F1">
     <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
     <script>document.documentElement.classList.add('js');</script>
+    <!-- La frise gravée : la pierre s'affiche tout de suite, sans montrer les paroles en clair.
+         Si la frise ne démarre pas, les paroles réapparaissent en colonne. -->
+    <script>
+        (function (d) {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.WebGLRenderingContext) return;
+            d.classList.add('fr-wait');
+            setTimeout(function () { if (!d.querySelector('.fr-live')) d.classList.remove('fr-wait'); }, 6000);
+        })(document.documentElement);
+    </script>
     <title>La France des Talents — Tome 1 | Éditions Kileton</title>
     <meta name="description" content="La France des Talents, Tome 1 : les fondements évangéliques d'une France libre, responsable et souveraine. Les paroles du Christ prises au mot comme grammaire politique. Un essai de Matthieu Straub, Éditions Kileton.">
     <link rel="canonical" href="https://editions-kileton.fr/france-des-talents.html">
@@ -36,12 +45,13 @@
          du visiteur transmise à un tiers. Voir css/fonts.css -->
     <link rel="preload" href="assets/fonts/fraunces-latin-full-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="css/fonts.css">
 
     <!-- Feuilles de style : base du site, en-tête de la maison, puis l'univers du livre -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css?v=3">
-    <link rel="stylesheet" href="css/talents.css?v=2">
+    <link rel="stylesheet" href="css/talents.css?v=3">
 
     <!-- JSON-LD Book -->
     <script type="application/ld+json">
@@ -309,6 +319,6 @@
     <script src="js/main.js"></script>
     <script src="js/vendor/gsap.min.js" defer></script>
     <script src="js/vendor/ScrollTrigger.min.js" defer></script>
-    <script type="module" src="js/talents/talents.js?v=2"></script>
+    <script type="module" src="js/talents/talents.js?v=3"></script>
 </body>
 </html>

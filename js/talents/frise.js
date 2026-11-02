@@ -396,6 +396,7 @@ export function initFrise(canvas, panels) {
     }
 
     let visible = true;
+    let shown = false;
     let raf = 0;
     function frame(now) {
         raf = 0;
@@ -415,6 +416,7 @@ export function initFrise(canvas, panels) {
         gl.uniform2f(u.uLight, -0.35 + lx * 1.7, 1.45);
         gl.uniform2f(u.uPool, 0.15 + lx * 0.7, 0.56);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
+        if (!shown && W > 1) { shown = true; canvas.classList.add('is-on'); }
         raf = requestAnimationFrame(frame);
     }
 
