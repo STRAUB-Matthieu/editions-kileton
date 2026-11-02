@@ -41,7 +41,7 @@
     <!-- Feuilles de style : base du site, en-tête de la maison, puis l'univers du livre -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css?v=2">
-    <link rel="stylesheet" href="css/talents.css?v=1">
+    <link rel="stylesheet" href="css/talents.css?v=2">
 
     <!-- JSON-LD Book -->
     <script type="application/ld+json">
@@ -176,108 +176,46 @@
 
     <main role="main">
 
-        <!-- I. LE TALENT ENFOUI — la terre, le talent, puis le lys qui se tresse -->
-        <section class="ta" aria-labelledby="ta-title">
-            <div class="ta-sticky">
-                <canvas class="ta-canvas" aria-hidden="true"></canvas>
-                <div class="ta-fallback" aria-hidden="true"></div>
+        <!-- I. LA FRISE GRAVÉE — les paroles taillées dans la pierre, puis dorées -->
+        <section class="fr" aria-labelledby="fr-title">
+            <div class="fr-sticky">
+                <canvas class="fr-canvas" aria-hidden="true"></canvas>
 
-                <blockquote class="ta-line ta-verse" data-in="0" data-out="0.2">
-                    <p>« J'ai eu peur, et je suis allé cacher ton&nbsp;talent dans la terre. »</p>
-                    <cite>Matthieu 25, 25</cite>
-                </blockquote>
-
-                <p class="ta-line ta-hint" data-in="0.27" data-out="0.38" aria-hidden="true"><span>Faites tourner le talent</span></p>
-
-                <p class="ta-line ta-gift" data-in="0.42" data-out="0.57">La France a reçu des talents.</p>
-
-                <ol class="ta-parts" aria-label="Les trois mouvements du livre">
-                    <li class="ta-line ta-part ta-part-1" data-in="0.63" data-out="0.9">
-                        <span class="ta-part-num">I</span>
-                        <span class="ta-part-name">La personne, avant tout le reste</span>
+                <ol class="fr-list" aria-label="Les paroles qui fondent le livre">
+                    <li data-engrave="« J’AI EU PEUR, ET JE SUIS ALLÉ CACHER TON TALENT DANS LA TERRE. »" data-cite="MATTHIEU · XXV · 25">
+                        <blockquote><p>«&nbsp;J'ai eu peur, et je suis allé cacher ton&nbsp;talent dans la terre.&nbsp;»</p><cite>Matthieu 25, 25</cite></blockquote>
                     </li>
-                    <li class="ta-line ta-part ta-part-2" data-in="0.7" data-out="0.9">
-                        <span class="ta-part-num">II</span>
-                        <span class="ta-part-name">L'État remis à sa place</span>
+                    <li data-engrave="« LA VÉRITÉ VOUS RENDRA LIBRES. »" data-cite="JEAN · VIII · 32">
+                        <blockquote><p>«&nbsp;La vérité vous rendra libres.&nbsp;»</p><cite>Jean 8, 32</cite></blockquote>
                     </li>
-                    <li class="ta-line ta-part ta-part-3" data-in="0.77" data-out="0.9">
-                        <span class="ta-part-num">III</span>
-                        <span class="ta-part-name">La société qui se relève d'elle-même</span>
+                    <li data-engrave="« RENDEZ À CÉSAR CE QUI EST À CÉSAR, ET À DIEU CE QUI EST À DIEU. »" data-cite="MATTHIEU · XXII · 21">
+                        <blockquote><p>«&nbsp;Rendez à César ce qui est à César, et à Dieu ce qui est à Dieu.&nbsp;»</p><cite>Matthieu 22, 21</cite></blockquote>
+                    </li>
+                    <li data-engrave="« CELUI QUI VEUT ÊTRE LE PREMIER, QU’IL SOIT LE SERVITEUR DE TOUS. »" data-cite="MARC · X · 44">
+                        <blockquote><p>«&nbsp;Celui qui veut être le premier, qu'il soit le serviteur de tous.&nbsp;»</p><cite>Marc 10, 44</cite></blockquote>
+                    </li>
+                    <li data-engrave="« JE NE SUIS PAS VENU APPORTER LA PAIX, MAIS LE GLAIVE. »" data-cite="MATTHIEU · X · 34">
+                        <blockquote><p>«&nbsp;Je ne suis pas venu apporter la paix, mais le glaive.&nbsp;»</p><cite>Matthieu 10, 34</cite></blockquote>
                     </li>
                 </ol>
 
-                <div class="ta-line ta-title" data-in="0.9" data-out="2">
-                    <p class="ta-eyebrow">Essai · Tome 1 — Le Pourquoi</p>
-                    <h1 id="ta-title">La France des talents</h1>
-                    <p class="ta-sub">Les Évangiles pour une France libre, responsable et&nbsp;souveraine</p>
-                    <div class="ta-actions">
-                        <a class="ft-btn ft-btn-gold" href="france-des-talents-introduction.html">Lire l'introduction</a>
-                        <a class="ft-btn ft-btn-line" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener noreferrer">Acheter le tome 1</a>
+                <div class="fr-title" data-engrave="LA FRANCE|DES TALENTS" data-title>
+                    <p class="fr-eyebrow">Essai · Tome 1 — Le Pourquoi</p>
+                    <h1 id="fr-title" class="fr-h1">La France des talents</h1>
+                    <div class="fr-foot">
+                        <p class="fr-sub">Les Évangiles pour une France libre, responsable et&nbsp;souveraine</p>
+                        <div class="fr-actions">
+                            <a class="ft-btn ft-btn-gold" href="france-des-talents-introduction.html">Lire l'introduction</a>
+                            <a class="ft-btn ft-btn-line" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener noreferrer">Acheter le tome 1</a>
+                        </div>
                     </div>
                 </div>
+
+                <p class="fr-hint" aria-hidden="true">Faites défiler : la parole se grave</p>
             </div>
         </section>
 
-        <!-- II. PIERRE APRÈS PIERRE — les sept paroles qui fondent -->
-        <section class="ps" aria-labelledby="ps-title">
-            <div class="ps-sticky">
-                <div class="ft-wrap ps-grid">
-                    <header class="ps-head">
-                        <p class="ft-kicker">Les paroles qui fondent</p>
-                        <h2 id="ps-title" class="ps-title">Pierre après pierre, le&nbsp;pourquoi</h2>
-                        <div class="ps-reading" id="ps-reading" aria-live="polite">
-                            <p class="ps-reading-hint">Touchez une pierre pour la lire.</p>
-                        </div>
-                    </header>
-                    <ol class="ps-wall" aria-label="Sept paroles des Évangiles, chacune ouvre un chapitre">
-                    <li class="ps-cell ps-cell-1">
-                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Jean 8, 32" data-full="« Vous connaîtrez la vérité, et la vérité vous rendra libres. »" data-comment="Le verset matriciel de tout l&#39;ouvrage. Pas de liberté sans vérité, donc pas de liberté sans comptes publics exacts, sans information libre, sans parole que l&#39;on peut contredire.">
-                            <span class="ps-short">« La vérité vous rendra libres. »</span>
-                            <span class="ps-ref">Jean 8, 32</span>
-                        </button>
-                    </li>
-                    <li class="ps-cell ps-cell-2">
-                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Matthieu 22, 21" data-full="« Rendez à César ce qui est à César, et à Dieu ce qui est à Dieu. »" data-comment="La première séparation des pouvoirs de l&#39;histoire. César a un domaine, il n&#39;a pas tous les domaines. L&#39;État a des missions, il n&#39;a pas tous les droits.">
-                            <span class="ps-short">« Rendez à César ce qui est à César »</span>
-                            <span class="ps-ref">Matthieu 22, 21</span>
-                        </button>
-                    </li>
-                    <li class="ps-cell ps-cell-3">
-                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Marc 10, 42-44" data-full="« Ceux qu&#39;on regarde comme les chefs des nations les dominent. Il n&#39;en sera pas ainsi parmi vous : celui qui veut être le premier, qu&#39;il soit le serviteur de tous. »" data-comment="Le pouvoir est un service, jamais une rente. Toute la critique de la caste, des privilèges et de l&#39;entre-soi administratif tient dans ces trois lignes.">
-                            <span class="ps-short">« Qu&#39;il soit le serviteur de tous. »</span>
-                            <span class="ps-ref">Marc 10, 42-44</span>
-                        </button>
-                    </li>
-                    <li class="ps-cell ps-cell-4">
-                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Matthieu 23, 4" data-full="« Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt. »" data-comment="Le procès de la complexité. Ceux qui fabriquent la norme n&#39;en subissent jamais le poids ; ceux qui la subissent ne l&#39;ont jamais votée.">
-                            <span class="ps-short">« Ils lient de pesants fardeaux »</span>
-                            <span class="ps-ref">Matthieu 23, 4</span>
-                        </button>
-                    </li>
-                    <li class="ps-cell ps-cell-5">
-                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Luc 16, 10" data-full="« Celui qui est fidèle dans les moindres choses l&#39;est aussi dans les grandes ; et celui qui est malhonnête dans les moindres choses l&#39;est aussi dans les grandes. »" data-comment="La probité ne se divise pas. On ne tolère pas un peu de corruption comme on tolérerait un peu de fièvre. Fondement du chapitre anti-corruption.">
-                            <span class="ps-short">« Fidèle dans les moindres choses »</span>
-                            <span class="ps-ref">Luc 16, 10</span>
-                        </button>
-                    </li>
-                    <li class="ps-cell ps-cell-6">
-                        <button class="ps-stone" type="button" aria-controls="ps-reading" data-ref="Matthieu 10, 34" data-full="« Je ne suis pas venu apporter la paix, mais le glaive. »" data-comment="La parole qui clôt le tome. Restaurer une nation, c&#39;est trancher. Ce livre ne cherche pas le consensus : il cherche le vrai, et il sait ce que cela coûte.">
-                            <span class="ps-short">« Pas venu apporter la paix »</span>
-                            <span class="ps-ref">Matthieu 10, 34</span>
-                        </button>
-                    </li>
-                    <li class="ps-cell ps-cell-7">
-                        <button class="ps-stone ps-stone--key" type="button" aria-controls="ps-reading" data-ref="Matthieu 25, 25" data-full="« J&#39;ai eu peur, et je suis allé cacher ton talent dans la terre. »" data-comment="La parabole qui donne son titre au livre. Le seul serviteur condamné n&#39;est pas celui qui a perdu : c&#39;est celui qui n&#39;a rien tenté. La prudence stérile est le vrai péché politique.">
-                            <span class="ps-short">« Cacher ton talent dans la terre »</span>
-                            <span class="ps-ref">Matthieu 25, 25</span>
-                        </button>
-                    </li>
-                    </ol>
-                </div>
-            </div>
-        </section>
-
-        <!-- III. L'APPEL -->
+        <!-- II. L'APPEL -->
         <section class="ap" aria-labelledby="ap-title">
             <div class="ft-wrap ap-grid">
                 <figure class="ap-cover ft-reveal">
@@ -371,6 +309,6 @@
     <script src="js/main.js"></script>
     <script src="js/vendor/gsap.min.js" defer></script>
     <script src="js/vendor/ScrollTrigger.min.js" defer></script>
-    <script type="module" src="js/talents/talents.js?v=1"></script>
+    <script type="module" src="js/talents/talents.js?v=2"></script>
 </body>
 </html>

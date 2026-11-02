@@ -1,13 +1,14 @@
 /* ============================================
    ÉDITIONS KILETON — La France des talents, tome 1
-   1. Le talent enfoui : on creuse, la lumière le dégage, il devient le lys
-   2. Pierre après pierre : les sept paroles tombent en place
-   3. L'appel : les mots apparaissent, la couverture suit le pointeur
-   Défilement natif ; les animations suivent en douceur (scrub).
+   1. La frise gravée : chaque parole est taillée lettre après lettre,
+      dorée, puis la frise glisse jusqu'à la suivante ; le titre clôt la frise
+   2. L'appel : les mots apparaissent, la couverture suit le pointeur
+   La frise suit la position de défilement mesurée à chaque mouvement :
+   Safari peut charger une page dans une fenêtre sans hauteur.
    Sans WebGL, sans JS ou en mouvement réduit, tout le contenu reste lisible.
    ============================================ */
 
-import { initScene } from './scene.js';
+import { initFrise } from './frise.js';
 
 const root = document.documentElement;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -23,121 +24,72 @@ if (hasMotion) {
 
 const SMOOTH = 0.9;   // secondes de rattrapage des animations sur le défilement
 
+function clamp01(x) { return Math.min(Math.max(x, 0), 1); }
 function smooth(e0, e1, x) {
-    const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
+    const t = clamp01((x - e0) / (e1 - e0));
     return t * t * (3 - 2 * t);
 }
 
-/* --- 1. Le talent enfoui --- */
-const hero = document.querySelector('.ta');
-let scene = null;
-if (hasMotion && hero) {
+/* --- 1. La frise gravée --- */
+const section = document.querySelector('.fr');
+let frise = null;
+const panels = section ? Array.prototype.map.call(section.querySelectorAll('[data-engrave]'), function (el) {
+    return { text: el.dataset.engrave, cite: el.dataset.cite || '', title: el.hasAttribute('data-title') };
+}) : [];
+
+if (hasMotion && section) {
     try {
-        scene = initScene(hero.querySelector('.ta-canvas'));
-        hero.classList.add('ta-live');
+        frise = initFrise(section.querySelector('.fr-canvas'), panels);
+        section.classList.add('fr-live');
     } catch (e) {
-        scene = null;   // pas de WebGL : l'ouverture simple reste en place
+        frise = null;   // pas de WebGL : les paroles restent en colonne
     }
 }
 
-if (scene) {
-    const S = scene.state;
-    const portrait = function () { return window.innerWidth < window.innerHeight; };
+if (frise) {
+    const last = panels.length - 1;
+    const title = section.querySelector('.fr-title');
+    const hint = section.querySelector('.fr-hint');
+    const prog = { p: 0 };
 
-    // Où pousse le lys : à gauche sur un écran large, en haut sur un téléphone
-    function layout() {
-        S.lysX = portrait() ? 0 : -0.42;
-        S.lysY = portrait() ? 0.02 : -0.42;
-        S.lysScale = 1;
-        scene.resize();
+    function target() {
+        const h = window.innerHeight || document.documentElement.clientHeight;
+        const r = section.getBoundingClientRect();
+        const run = r.height - h;
+        if (h < 100 || run <= 0) return 0;
+        return clamp01(-r.top / run);
     }
-    layout();
-    ScrollTrigger.addEventListener('refreshInit', layout);
 
-    // Le talent dort à 1,9 sous la surface ; creuser fait remonter la terre et lui avec
-    S.dig = -0.15;
-    S.coinUvY = -2.05;
-
-    const lines = Array.prototype.map.call(hero.querySelectorAll('.ta-line'), function (el) {
-        return { el: el, a: parseFloat(el.dataset.in), b: parseFloat(el.dataset.out) };
-    });
-    const EDGE = 0.035;
-    function paint(p) {
-        lines.forEach(function (l) {
-            const o = (l.a <= 0 ? 1 : smooth(l.a, l.a + EDGE, p)) * (1 - smooth(l.b - EDGE, l.b, p));
-            const dy = (1 - o) * (p < l.a + EDGE ? 18 : -18);
-            l.el.style.opacity = o.toFixed(3);
-            l.el.style.visibility = o < 0.01 ? 'hidden' : 'visible';
-            l.el.style.translate = '0 ' + dy.toFixed(1) + 'px';
+    // Chaque plaque : le ciseau, puis l'or, un temps de lecture, et la frise glisse
+    function render() {
+        const u = prog.p * panels.length;
+        const i = Math.min(Math.floor(u), last);
+        const t = clamp01(u - i);
+        frise.set({
+            panel: i,
+            carve: smooth(0.03, 0.5, t),
+            gold: smooth(0.5, 0.66, t),
+            shift: i < last ? smooth(0.8, 1, t) : 0
         });
+        const o = i === last ? smooth(0.58, 0.78, t) : 0;
+        title.style.opacity = o.toFixed(3);
+        title.style.visibility = o < 0.01 ? 'hidden' : 'visible';
+        hint.style.opacity = (1 - smooth(0.0, 0.04, prog.p)).toFixed(3);
     }
 
-    const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: SMOOTH, invalidateOnRefresh: true },
-        onUpdate: function () { paint(tl.progress()); }
-    });
-    tl.to(S, { dig: 1.5, coinUvY: -0.4, duration: 0.28 }, 0)
-        // Un temps d'arrêt : le talent est là, on peut le faire tourner
-        .to(S, { open: 1, duration: 0.18, ease: 'power1.in' }, 0.37)
-        .to(S, { coinUvY: 0.04, coinScale: 0.8, duration: 0.15, ease: 'power2.inOut' }, 0.4)
-        .to(S, { fade: 1, duration: 0.08 }, 0.55)
-        // Le talent devient la graine du lys
-        .to(S, {
-            coinX: function () { return S.lysX; },
-            coinUvY: function () { return S.lysY; },
-            coinScale: 0.22,
-            duration: 0.07,
-            ease: 'power2.inOut'
-        }, 0.6)
-        .to(S, { coinFade: 0, duration: 0.04 }, 0.66)
-        .to(S, { grow: 1, duration: 0.26 }, 0.63)
-        .to(S, { bloom: 1, duration: 0.08, ease: 'power2.out' }, 0.86)
-        .set({}, {}, 1);
-    paint(0);
+    const follow = function () {
+        gsap.to(prog, { p: target(), duration: SMOOTH, ease: 'power3.out', overwrite: true, onUpdate: render });
+    };
+    prog.p = target();
+    render();
+    window.addEventListener('scroll', follow, { passive: true });
+    window.addEventListener('resize', follow);
+    window.addEventListener('load', follow);
+    window.addEventListener('pageshow', follow);
+    document.addEventListener('visibilitychange', follow);
 }
 
-/* --- 2. Pierre après pierre --- */
-const stones = Array.prototype.slice.call(document.querySelectorAll('.ps-stone'));
-const reading = document.getElementById('ps-reading');
-
-stones.forEach(function (btn) {
-    btn.setAttribute('aria-pressed', 'false');
-    btn.addEventListener('click', function () {
-        stones.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
-        const q = document.createElement('blockquote');
-        const p = document.createElement('p');
-        p.textContent = btn.dataset.full;
-        const c = document.createElement('cite');
-        c.textContent = btn.dataset.ref;
-        q.append(p, c);
-        const note = document.createElement('p');
-        note.className = 'ps-comment';
-        note.textContent = btn.dataset.comment;
-        reading.replaceChildren(q, note);
-        if (hasMotion) gsap.from(reading.children, { opacity: 0, y: 12, duration: 0.6, stagger: 0.08, ease: 'power2.out' });
-    });
-});
-
-if (hasMotion && stones.length) {
-    // Les pierres tombent l'une après l'autre, de la base à la clef de voûte
-    gsap.timeline({
-        scrollTrigger: { trigger: '.ps-wall', start: 'top 88%', end: 'top 30%', scrub: SMOOTH }
-    }).fromTo(stones, {
-        y: function (i) { return -window.innerHeight * (0.35 + i * 0.03); },
-        rotation: function (i) { return (i % 2 ? 1 : -1) * (4 + i); },
-        opacity: 0
-    }, {
-        y: 0,
-        rotation: 0,
-        opacity: 1,
-        ease: 'power2.in',
-        duration: 1,
-        stagger: 0.35
-    });
-}
-
-/* --- 3. L'appel --- */
+/* --- 2. L'appel --- */
 if (hasMotion) {
     gsap.utils.toArray('.ft-reveal').forEach(function (el) {
         gsap.from(el, {
@@ -163,7 +115,7 @@ if (cover && !reducedMotion && !isCoarse) {
 }
 
 // Safari peut précharger la page en arrière-plan, fenêtre sans hauteur :
-// les déclencheurs sont recalculés dès qu'elle s'affiche vraiment
+// les déclencheurs de l'appel sont recalculés dès qu'elle s'affiche vraiment
 if (hasMotion) {
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     window.addEventListener('pageshow', function () { ScrollTrigger.refresh(); });
