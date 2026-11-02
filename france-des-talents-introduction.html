@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="css/fonts.css">
 
     <!-- Stylesheet globale (header, drawer, footer, charte) -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
 
     <!-- ============================================================
          STYLES PROPRES À LA PAGE — Mode Patrimoine (crème / doré)
@@ -198,8 +198,32 @@
     <!-- HEADER / NAVIGATION -->
     <header class="site-header" role="banner">
         <nav class="nav-container" role="navigation" aria-label="Navigation principale">
-            <a href="index.html" class="logo-link" aria-label="Accueil Éditions Kileton">
-                <img src="assets/images/logo_kileton.svg?v=3" alt="Logo Éditions Kileton" class="logo" width="200" height="40">
+            <!-- Lockup de la maison : sceau-vitrail + mot KILETON dessiné + « Éditions » -->
+            <a href="index.html" class="logo-link hd-lockup" aria-label="Éditions Kileton, accueil">
+                <svg class="hd-seal" viewBox="-4 -4 108 148" aria-hidden="true" focusable="false">
+<clipPath id="hd-win-0"><path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z"/></clipPath>
+<g clip-path="url(#hd-win-0)">
+<polygon points="0,-30 38,-30 38,170 0,170" fill="#3155A8"/>
+<polygon points="38,-30 38,88 105.6,-30.0" fill="#D4AF37"/>
+<polygon points="38,88 105.6,-30.0 150,-30 150,189.2" fill="#B05138"/>
+<polygon points="38,88 150,189.2 38,189.2" fill="#3155A8"/>
+<g stroke="#141218" class="sl" stroke-width="5.2" stroke-linecap="round" fill="none"><line x1="38" y1="-10" x2="38" y2="150"/><line x1="38" y1="88" x2="105.6" y2="-30.0"/><line x1="38" y1="88" x2="150.0" y2="189.2"/></g>
+</g>
+<path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z" fill="none" stroke="#141218" class="sl" stroke-width="6.5" stroke-linejoin="round"/>
+<polygon points="38,81.5 44.5,88 38,94.5 31.5,88" fill="#D4AF37" stroke="#141218" class="sl" stroke-width="2.2" stroke-linejoin="round"/>
+                </svg>
+                <span class="hd-words">
+                    <svg class="hd-wordmark" viewBox="-4 -4 521 108" aria-hidden="true" focusable="false">
+<path d="M0.00,0.00h15.00v100.00h-15.00ZM15.00,56.00 L63.00,0.00 L70.00,0.00 L15.00,64.50 ZM30.00,47.00 L72.00,100.00 L52.00,100.00 L22.00,57.00 Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M89.00,0.00h15.00v100.00h-15.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M121.00,0.00h15.00v100.00h-15.00ZM121.00,95.40h54.00v4.60h-54.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M192.00,0.00h15.00v100.00h-15.00ZM192.00,0.00h52.00v4.60h-52.00ZM192.00,48.00h42.00v4.60h-42.00ZM192.00,95.40h54.00v4.60h-54.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M263.00,0.00h64.00v4.60h-64.00ZM287.50,0.00h15.00v100.00h-15.00Z" fill="currentColor" fill-rule="nonzero"/>
+<path d="M344.00,50.00 A41.00,50.00 0 1 0 426.00,50.00 A41.00,50.00 0 1 0 344.00,50.00 ZM359.00,50.00 A26.00,45.40 0 1 0 411.00,50.00 A26.00,45.40 0 1 0 359.00,50.00 Z" fill="currentColor" fill-rule="evenodd"/>
+<path d="M443.00,0.00h4.60v100.00h-4.60ZM508.40,0.00h4.60v100.00h-4.60ZM443.00,0.00 L462.00,0.00 L513.00,100.00 L494.00,100.00 Z" fill="currentColor" fill-rule="nonzero"/>
+                    </svg>
+                    <span class="hd-eyebrow">Éditions</span>
+                </span>
             </a>
             <!-- Navigation inline : repli accessible sans JS -->
             <ul class="nav-links">
