@@ -268,13 +268,14 @@ export function initVitrail(canvas, options) {
                 vec3 P = vWorld;
                 float slab = noise(P.xz * vec2(1.4, 1.4));
                 float grain = noise(P.xz * 18.0);
-                vec3 base = vec3(0.045, 0.042, 0.05) * (0.75 + 0.35 * slab + 0.15 * grain);
+                vec3 base = vec3(0.06, 0.05, 0.046) * (0.75 + 0.35 * slab + 0.15 * grain);
                 vec3 light = transmitted(P);
                 float fall = exp(-max(P.z, 0.0) * 0.16);
                 vec3 warm = mix(light, light * vec3(1.15, 1.0, 0.82), 0.4);
                 vec3 col = base + warm * (0.55 + 0.25 * grain) * fall * uIntensity * 1.35;
                 // Fondu vers le noir en profondeur de champ
                 col *= smoothstep(13.0, 4.0, P.z) * smoothstep(-9.0, -3.5, P.x) * smoothstep(9.0, 3.5, P.x);
+                col *= 0.55 + 0.45 * smoothstep(-0.45, 0.6, P.z);
                 gl_FragColor = vec4(col, 1.0);
                 #include <tonemapping_fragment>
                 #include <colorspace_fragment>
@@ -310,7 +311,8 @@ export function initVitrail(canvas, options) {
                     if (float(i) >= uSteps) break;
                     vec3 X = ro + rd * (tStart + (float(i) + jitter) * dt);
                     if (X.y < FLOOR_Y || X.z < GLASS_Z) continue;
-                    acc += transmitted(X) * dust(X) * exp(-X.z * 0.22);
+                    float h = smoothstep(FLOOR_Y, FLOOR_Y + 1.6, X.y);
+                    acc += transmitted(X) * dust(X) * exp(-X.z * 0.22) * (0.08 + 0.92 * h);
                 }
                 acc *= dt * 0.085 * uIntensity;
                 gl_FragColor = vec4(acc, 1.0);
@@ -458,8 +460,8 @@ export function initVitrail(canvas, options) {
     function render() {
         const p = progress;
         uniforms.uIntensity.value = 1.0 + p * 1.6;
-        camera.position.set(0, 2.3 - p * 0.5, baseZ * (1 - p * 0.32));
-        camera.lookAt(camTarget.x, camTarget.y + p * 0.35, camTarget.z);
+        camera.position.set(0, 2.3, baseZ);
+        camera.lookAt(camTarget);
         uniforms.uLight.value.copy(lightNow);
         uniforms.uLight.value.y += p * 2.2;
         bounce.intensity = 30 + 45 * p;
@@ -469,6 +471,7 @@ export function initVitrail(canvas, options) {
     function tick() {
         if (!running) return;
         raf = requestAnimationFrame(tick);
+        if (progress >= 0.999) return;   // la pièce est recouverte par la lumière
         const dt = Math.min(clock.getDelta(), 0.1);
         uniforms.uTime.value += dt;
         const now = performance.now();

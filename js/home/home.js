@@ -48,7 +48,11 @@ const header = document.querySelector('.site-header');
 const hero = document.querySelector('.hv');
 
 function updateHeader() {
-    const edge = hero.offsetTop + hero.offsetHeight - 80;
+    // Avec animation, la nacre envahit l'écran avant la fin de la section :
+    // l'en-tête passe en clair dès que la lumière l'a recouvert
+    const edge = hasMotion
+        ? window.innerHeight * 0.42
+        : hero.offsetTop + hero.offsetHeight - 80;
     header.classList.toggle('on-light', window.scrollY > edge);
 }
 window.addEventListener('scroll', updateHeader, { passive: true });
@@ -72,9 +76,8 @@ if (webglAvailable()) {
         hero.classList.add('is-live');
         if (hasMotion) {
             ScrollTrigger.create({
-                trigger: hero,
-                start: 'top top',
-                end: 'bottom bottom',
+                start: 0,
+                end: function () { return window.innerHeight * 0.52; },
                 scrub: true,
                 onUpdate: function (self) { vitrail.setProgress(self.progress); }
             });
@@ -92,12 +95,16 @@ if (hasMotion) {
         opacity: 0,
         y: -50,
         ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: '35% top', scrub: true }
+        scrollTrigger: { start: 0, end: function () { return window.innerHeight * 0.15; }, scrub: true }
     });
-    gsap.fromTo('.hv-flood', { opacity: 0 }, {
-        opacity: 1,
-        ease: 'power1.in',
-        scrollTrigger: { trigger: hero, start: '30% top', end: 'bottom bottom', scrub: true }
+    gsap.fromTo('.hv-flood', { '--r': '0%' }, {
+        '--r': '165%',
+        ease: 'power2.in',
+        scrollTrigger: {
+            start: function () { return window.innerHeight * 0.14; },
+            end: function () { return window.innerHeight * 0.52; },
+            scrub: true
+        }
     });
 }
 
@@ -127,11 +134,11 @@ function splitWords(el) {
 if (hasMotion) {
     document.querySelectorAll('.mf-text p').forEach(function (p) {
         const words = splitWords(p);
-        gsap.fromTo(words, { opacity: 0.14 }, {
+        gsap.fromTo(words, { opacity: 0.2 }, {
             opacity: 1,
             ease: 'none',
             stagger: 0.08,
-            scrollTrigger: { trigger: p, start: 'top 82%', end: 'bottom 52%', scrub: true }
+            scrollTrigger: { trigger: p, start: 'top 85%', end: 'bottom 68%', scrub: true }
         });
     });
 
