@@ -31,15 +31,15 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
 
-    <!-- Google Fonts -->
     <!-- Polices hébergées localement : aucun appel vers Google, aucune donnée
-         du visiteur transmise à un tiers. Voir css/fonts.css -->
-    <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+         du visiteur transmise à un tiers. Voir css/fonts.css et css/home.css -->
+    <link rel="preload" href="assets/fonts/fraunces-latin-full-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="css/fonts.css">
 
-    <!-- Stylesheet -->
+    <!-- Stylesheets : base commune (en-tête, menu) puis accueil -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
 
     <!-- JSON-LD Organization -->
     <script type="application/ld+json">
@@ -63,7 +63,7 @@
     }
     </script>
 </head>
-<body class="page-home">
+<body class="page-home home-v2">
 
     <!-- HEADER / NAVIGATION -->
     <header class="site-header" role="banner">
@@ -138,107 +138,166 @@
 
     <main role="main">
 
-        <!-- SECTION HÉROS -->
-        <section class="hero hero-home" aria-label="Présentation">
-            <canvas id="particles-canvas" aria-hidden="true"></canvas>
-            <div class="hero-content">
-                <h1 class="hero-title">Éditions Kileton</h1>
-                <p class="hero-subtitle">Là où les mots deviennent lumière</p>
-            </div>
-        </section>
+        <!-- OUVERTURE — LE VITRAIL
+             Une scène WebGL (js/home/vitrail.js) : la lumière suit le pointeur,
+             traverse le vitrail du sceau et se projette dans la pièce.
+             Sans WebGL, le sceau en SVG prend le relais. -->
+        <section class="hv" aria-label="Présentation">
+            <div class="hv-sticky">
+                <canvas class="hv-canvas" aria-hidden="true"></canvas>
 
-        <!-- SECTION — NOTRE VISION -->
-        <section class="section section-vision fade-in" id="vision">
-            <div class="container">
-                <h2 class="section-title">Ma Vision</h2>
-                <div class="section-divider"></div>
-                <div class="vision-text">
-                    <p>Nous entrons dans une ère où n'importe qui peut transformer une idée ou un désir en réalité tangible. Les outils existent. Ce qui sépare encore un bon livre d'un livre oublié, ce n'est ni le marketing ni le format : c'est uniquement le sujet traité et l'histoire racontée.</p>
-                    <p>Kileton est né de cette conviction. La littérature n'est pas un divertissement ; elle reste le moyen le plus puissant de faire germer une idée, de faire mûrir une question, de faire apparaître une vérité. Je publie des ouvrages qui interrogent l'essentiel : le sens de l'existence, la nature de la foi, les structures invisibles qui soutiennent nos vies. Chaque livre Kileton est conçu pour laisser une empreinte durable.</p>
-                    <p>Le nom « Kileton » vient de la pierre angulaire, le fondement sur lequel tout repose. Mon ambition est simple : faire de ces livres les pierres angulaires de la réflexion et de la transformation pour ceux qui les lisent.</p>
-                </div>
-            </div>
-        </section>
+                <svg class="hv-fallback" viewBox="-4 -4 108 148" aria-hidden="true">
+                    <defs><clipPath id="hv-win"><path d="M10,135 L10,60 A52,52 0 0 1 50,9.4 A52,52 0 0 1 90,60 L90,135 Z"/></clipPath>
+                    <radialGradient id="hv-glow" cx="60%" cy="25%" r="70%"><stop offset="0" stop-color="#FFF3D6" stop-opacity=".85"/><stop offset="1" stop-color="#FFF3D6" stop-opacity="0"/></radialGradient></defs>
+                    <g clip-path="url(#hv-win)">
+                        <polygon points="0,-30 38,-30 38,170 0,170" fill="#3155A8"/>
+                        <polygon points="38,-30 38,88 106.1,-30" fill="#E8C66A"/>
+                        <polygon points="38,88 106.1,-30 150,-30 150,189.2" fill="#B05138"/>
+                        <polygon points="38,88 150,189.2 38,189.2" fill="#1A3268"/>
+                        <rect x="0" y="0" width="100" height="140" fill="url(#hv-glow)"/>
+                        <g stroke="#141218" stroke-width="5.2" stroke-linecap="round" fill="none">
+                            <line x1="38" y1="-10" x2="38" y2="150"/><line x1="38" y1="88" x2="106.1" y2="-30"/><line x1="38" y1="88" x2="150" y2="189.2"/>
+                        </g>
+                    </g>
+                    <path d="M10,135 L10,60 A52,52 0 0 1 50,9.4 A52,52 0 0 1 90,60 L90,135 Z" fill="none" stroke="#141218" stroke-width="6.5" stroke-linejoin="round"/>
+                    <polygon points="38,81.5 44.5,88 38,94.5 31.5,88" fill="#D4AF37" stroke="#141218" stroke-width="2.2" stroke-linejoin="round"/>
+                </svg>
 
-        <!-- SECTION — L'AUTEUR -->
-        <section class="section section-author fade-in" id="auteur">
-            <div class="container">
-                <h2 class="section-title">L'Auteur</h2>
-                <div class="section-divider"></div>
-                <div class="author-card">
-                    <div class="author-photo-wrapper">
-                        <picture>
-                            <source srcset="assets/images/IMG_8128.webp" type="image/webp">
-                            <img src="assets/images/IMG_8128_opt.jpg" alt="Portrait de Matthieu Straub, fondateur des Éditions Kileton" class="author-photo" width="300" height="300" loading="lazy" decoding="async">
-                        </picture>
-                    </div>
-                    <div class="author-info">
-                        <h3 class="author-name">Matthieu Straub</h3>
-                        <p class="author-role">FONDATEUR & AUTEUR</p>
-                        <p class="author-bio">Je publie pour transmettre. Nourri par le message des Évangiles et par le besoin de raconter des histoires qui survivent à la dernière page, je construis des ponts entre le visible et l'invisible.</p>
-                        <p class="author-bio">À travers Kileton, je poursuis une quête précise : comprendre ce qui transcende l'âme, pourquoi nous en possédons une, et surtout comment en mesurer la valeur et la développer ici, sur terre. Les histoires que je raconte ne sont pas « spirituelles » au sens habituel du terme. Elles sont transcendantes : elles contiennent des mécanismes qui nourrissent, réveillent et questionnent l'âme de chaque lecteur, quel qu'il soit.</p>
-                        <p class="author-bio">C'est pourquoi je m'engage à continuer à créer et à proposer des récits qui changent, transcendent et font évoluer le raisonnement et le questionnement du lecteur. Voilà ma mission.</p>
-                        <p class="author-bio">« La Verticale du Vide » est mon premier roman — une plongée entre chute et rédemption, architecture et métaphysique.</p>
+                <div class="hv-copy">
+                    <h1 class="hv-title"><span class="hv-brand">Éditions Kileton</span> Là où les mots deviennent <em>lumière</em></h1>
+                    <p class="hv-lede">Des livres qui interrogent l'essentiel : la foi, le sens, les structures invisibles qui soutiennent nos vies.</p>
+                    <div class="hv-actions">
+                        <a class="hv-cta" href="#catalogue">Découvrir les livres</a>
+                        <a class="hv-link" href="#vision">La vision de la maison</a>
                     </div>
                 </div>
+
+                <p class="hv-hint" aria-hidden="true"><span class="hv-hint-desk">Déplacez la lumière</span><span class="hv-hint-touch">La lumière traverse le sceau</span></p>
+                <div class="hv-flood" aria-hidden="true"></div>
             </div>
         </section>
 
-        <!-- SECTION — NOTRE CATALOGUE -->
-        <section class="section section-catalog fade-in" id="catalogue">
-            <div class="container">
-                <h2 class="section-title">Mon Catalogue</h2>
-                <div class="section-divider"></div>
-                <div class="catalog-grid">
-                    <a href="livre.html" class="book-card" aria-label="Découvrir La Verticale du Vide">
-                        <div class="book-cover-wrapper">
-                            <picture>
-                                <source srcset="assets/images/IMG_8125.webp" type="image/webp">
-                                <img src="assets/images/IMG_8125.jpg" alt="Couverture du roman La Verticale du Vide par Matthieu Straub" class="book-cover" width="280" height="400" loading="lazy" decoding="async">
-                            </picture>
-                        </div>
-                        <div class="book-info">
-                            <h3 class="book-title">La Verticale du Vide</h3>
-                            <p class="book-tagline">Entre la chute et le chant, il y a nous.</p>
-                            <span class="book-cta">Découvrir le livre <span aria-hidden="true">→</span></span>
-                        </div>
-                    </a>
-                    <a href="france-des-talents.html" class="book-card" aria-label="Découvrir La France des Talents, Tome 1">
-                        <div class="book-cover-wrapper">
-                            <picture>
-                                <source srcset="assets/images/couverture-france-talents-tome1.webp" type="image/webp">
-                                <img src="assets/images/couverture-france-talents-tome1.jpg" alt="Couverture de l'essai La France des Talents, Tome 1, par Matthieu Straub" class="book-cover" width="280" height="400" loading="lazy" decoding="async">
-                            </picture>
-                        </div>
-                        <div class="book-info">
-                            <h3 class="book-title">La France des Talents</h3>
-                            <p class="book-tagline">Tome 1 — Les Évangiles pris au mot comme grille politique.</p>
-                            <span class="book-cta">Découvrir le livre <span aria-hidden="true">→</span></span>
-                        </div>
-                    </a>
-                    <!-- Futurs livres : ajouter d'autres .book-card ici -->
+        <!-- LE MANIFESTE — le texte s'écrit à mesure qu'on le lit -->
+        <section class="mf" id="vision" aria-labelledby="mf-title">
+            <div class="hw">
+                <header class="mf-head">
+                    <p class="kl"><span class="kl-mark">I.</span> Ma vision</p>
+                    <h2 id="mf-title" class="visually-hidden">Ma vision</h2>
+                </header>
+                <div class="mf-text">
+                    <p>Nous entrons dans une ère où n'importe qui peut transformer une idée ou un désir en réalité tangible. Les outils existent. Ce qui sépare encore un bon livre d'un livre <span class="k">oublié</span>, ce n'est ni le marketing ni le format : c'est uniquement le <span class="k">sujet</span> traité et l'<span class="k">histoire</span> racontée.</p>
+                    <p>Kileton est né de cette conviction. La littérature n'est pas un divertissement ; elle reste le moyen le plus puissant de faire germer une idée, de faire mûrir une question, de faire apparaître une <span class="k">vérité</span>. Je publie des ouvrages qui interrogent l'essentiel : le sens de l'existence, la nature de la foi, les structures invisibles qui soutiennent nos vies. Chaque livre Kileton est conçu pour laisser une <span class="k">empreinte</span> durable.</p>
+                    <p>Le nom « Kileton » vient de la <span class="k">pierre angulaire</span>, le fondement sur lequel tout repose. Mon ambition est simple : faire de ces livres les pierres angulaires de la réflexion et de la transformation pour ceux qui les lisent.</p>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION — CONTACT -->
-        <section class="section section-contact fade-in" id="contact">
-            <div class="container">
-                <h2 class="section-title">Me contacter</h2>
-                <div class="section-divider"></div>
-                <div class="contact-items">
-                    <a href="tel:+33755639470" class="contact-item" aria-label="Appeler le 07 55 63 94 70">
-                        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                        </svg>
-                        <span>07 55 63 94 70</span>
+        <!-- LE CATALOGUE — L'ATELIER : les livres comme des objets -->
+        <section class="at" id="catalogue" aria-labelledby="at-title">
+            <div class="hw">
+                <header class="at-head">
+                    <p class="kl"><span class="kl-mark">II.</span> Le catalogue</p>
+                    <h2 id="at-title" class="at-title">Sur la table de l'atelier</h2>
+                </header>
+            </div>
+
+            <div class="at-table" data-ambiance="maison">
+                <div class="at-amb at-amb--nuit" aria-hidden="true"></div>
+                <div class="at-amb at-amb--patrie" aria-hidden="true"></div>
+                <ul class="at-books hw">
+                    <li class="at-item">
+                        <a class="at-book" href="livre.html" data-ambiance="nuit" style="--ratio:0.646; --depth:30px; --spine:#0A1628; --spine-ink:#E8D48B;">
+                            <span class="bk" aria-hidden="true">
+                                <span class="bk-face bk-front"><img src="assets/images/verticale-couverture.webp" alt="" width="775" height="1199" loading="lazy" decoding="async"></span>
+                                <span class="bk-face bk-spine"><span>La Verticale du Vide</span></span>
+                                <span class="bk-face bk-pages"></span>
+                                <span class="bk-face bk-top"></span>
+                                <span class="bk-face bk-back"></span>
+                            </span>
+                            <span class="at-meta">
+                                <span class="at-kind">Roman</span>
+                                <span class="at-name">La Verticale du Vide</span>
+                                <span class="at-tag">Entre la chute et le chant, il y a nous.</span>
+                                <span class="at-cta">Découvrir le livre <span aria-hidden="true">→</span></span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="at-item">
+                        <a class="at-book" href="france-des-talents.html" data-ambiance="patrie" style="--ratio:0.667; --depth:20px; --spine:#F7F5F1; --spine-ink:#A8842F;">
+                            <span class="bk" aria-hidden="true">
+                                <span class="bk-face bk-front"><img src="assets/images/couverture-france-talents-tome1.webp" alt="" width="700" height="1050" loading="lazy" decoding="async"></span>
+                                <span class="bk-face bk-spine"><span>La France des talents · I</span></span>
+                                <span class="bk-face bk-pages"></span>
+                                <span class="bk-face bk-top"></span>
+                                <span class="bk-face bk-back"></span>
+                            </span>
+                            <span class="at-meta">
+                                <span class="at-kind">Essai · Tome 1</span>
+                                <span class="at-name">La France des Talents</span>
+                                <span class="at-tag">Le Pourquoi : les Évangiles pris au mot comme grille politique.</span>
+                                <span class="at-cta">Découvrir le livre <span aria-hidden="true">→</span></span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="at-item">
+                        <a class="at-book" href="france-des-talents-tome2.html" data-ambiance="patrie" style="--ratio:0.667; --depth:20px; --spine:#F7F5F1; --spine-ink:#A8842F;">
+                            <span class="bk" aria-hidden="true">
+                                <span class="bk-face bk-front"><img src="assets/images/couverture-france-talents-tome2.webp" alt="" width="700" height="1050" loading="lazy" decoding="async"></span>
+                                <span class="bk-face bk-spine"><span>La France des talents · II</span></span>
+                                <span class="bk-face bk-pages"></span>
+                                <span class="bk-face bk-top"></span>
+                                <span class="bk-face bk-back"></span>
+                            </span>
+                            <span class="at-meta">
+                                <span class="at-kind">Essai · Tome 2</span>
+                                <span class="at-name">La France des Talents</span>
+                                <span class="at-tag">Le Comment : les applications concrètes.</span>
+                                <span class="at-cta">Découvrir le livre <span aria-hidden="true">→</span></span>
+                            </span>
+                        </a>
+                    </li>
+                    <!-- Futurs livres : ajouter un .at-item ici (ratio, épaisseur, couleur de tranche) -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- L'AUTEUR -->
+        <section class="au" id="auteur" aria-labelledby="au-title">
+            <div class="hw au-grid">
+                <div class="au-photo">
+                    <picture>
+                        <source srcset="assets/images/IMG_8128.webp" type="image/webp">
+                        <img src="assets/images/IMG_8128_opt.jpg" alt="Portrait de Matthieu Straub, fondateur des Éditions Kileton" width="300" height="300" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="au-text">
+                    <p class="kl"><span class="kl-mark">III.</span> L'auteur</p>
+                    <h2 id="au-title" class="au-name">Matthieu Straub</h2>
+                    <p class="au-role">Fondateur &amp; auteur</p>
+                    <p class="au-quote">Je publie pour transmettre.</p>
+                    <div class="au-bio">
+                        <p>Nourri par le message des Évangiles et par le besoin de raconter des histoires qui survivent à la dernière page, je construis des ponts entre le visible et l'invisible.</p>
+                        <p>À travers Kileton, je poursuis une quête précise : comprendre ce qui transcende l'âme, pourquoi nous en possédons une, et surtout comment en mesurer la valeur et la développer ici, sur terre. Les histoires que je raconte ne sont pas « spirituelles » au sens habituel du terme. Elles sont transcendantes : elles contiennent des mécanismes qui nourrissent, réveillent et questionnent l'âme de chaque lecteur, quel qu'il soit.</p>
+                        <p>C'est pourquoi je m'engage à continuer à créer et à proposer des récits qui changent, transcendent et font évoluer le raisonnement et le questionnement du lecteur. Voilà ma mission.</p>
+                        <p>« La Verticale du Vide » est mon premier roman — une plongée entre chute et rédemption, architecture et métaphysique.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="ct" id="contact" aria-labelledby="ct-title">
+            <div class="hw">
+                <p class="kl"><span class="kl-mark">IV.</span> Me contacter</p>
+                <h2 id="ct-title" class="ct-title">Une question, un projet, une rencontre ?</h2>
+                <div class="ct-items">
+                    <a href="mailto:matthieu.straub@editions-kileton.fr" class="ct-item">
+                        <span class="ct-label">Écrire</span>
+                        <span class="ct-value">matthieu.straub@editions-kileton.fr</span>
                     </a>
-                    <a href="mailto:matthieu.straub@editions-kileton.fr" class="contact-item" aria-label="Envoyer un email à matthieu.straub@editions-kileton.fr">
-                        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true">
-                            <rect x="2" y="4" width="20" height="16" rx="2"/>
-                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                        </svg>
-                        <span>matthieu.straub@editions-kileton.fr</span>
+                    <a href="tel:+33755639470" class="ct-item">
+                        <span class="ct-label">Appeler</span>
+                        <span class="ct-value">07 55 63 94 70</span>
                     </a>
                 </div>
             </div>
@@ -261,5 +320,10 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <!-- Animation : librairies hébergées sur le site (GSAP, Lenis), puis l'accueil -->
+    <script src="js/vendor/gsap.min.js" defer></script>
+    <script src="js/vendor/ScrollTrigger.min.js" defer></script>
+    <script src="js/vendor/lenis.min.js" defer></script>
+    <script type="module" src="js/home/home.js"></script>
 </body>
 </html>
