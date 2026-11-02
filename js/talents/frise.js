@@ -396,11 +396,11 @@ export function initFrise(canvas, panels) {
     }
 
     let visible = true;
-    let shown = false;
     let raf = 0;
     function frame(now) {
         raf = 0;
         if (!visible) return;
+        if (W < 2) resize();   // Safari peut avoir chargé la page dans une fenêtre sans hauteur
         if (isCoarse) tx = 0.42 + 0.2 * Math.sin(now * 0.00035);
         lx += (tx - lx) * 0.05;
         const i = Math.min(state.panel, panels.length - 1);
@@ -416,7 +416,6 @@ export function initFrise(canvas, panels) {
         gl.uniform2f(u.uLight, -0.35 + lx * 1.7, 1.45);
         gl.uniform2f(u.uPool, 0.15 + lx * 0.7, 0.56);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
-        if (!shown && W > 1) { shown = true; canvas.classList.add('is-on'); }
         raf = requestAnimationFrame(frame);
     }
 
@@ -431,6 +430,10 @@ export function initFrise(canvas, panels) {
         rt = setTimeout(resize, 200);
     });
     resize();
+    window.addEventListener('pageshow', resize);
+    document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) resize();
+    });
 
     // Les lettres attendent la police de la maison
     const fonts = document.fonts

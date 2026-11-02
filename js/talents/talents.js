@@ -8,7 +8,7 @@
    Sans WebGL, sans JS ou en mouvement réduit, tout le contenu reste lisible.
    ============================================ */
 
-import { initFrise } from './frise.js';
+import { initFrise } from './frise.js?v=4';
 
 const root = document.documentElement;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

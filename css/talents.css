@@ -194,12 +194,6 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-:is(.fr-live, .fr-wait .fr) .fr-canvas.is-on {
-    opacity: 1;
 }
 
 /* Les paroles et le titre sont gravés dans la pierre ; le texte reste pour les lecteurs d'écran */
