@@ -177,8 +177,8 @@ export function initVitrail(canvas, options) {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
 
-    let pixelRatio = Math.min(window.devicePixelRatio || 1, isCoarse ? 1.25 : 1.75);
-    let marchSteps = isCoarse ? 18 : 36;
+    let pixelRatio = Math.min(window.devicePixelRatio || 1, isCoarse ? 1.25 : 1.5);
+    let marchSteps = isCoarse ? 16 : 28;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#0B0A0F');

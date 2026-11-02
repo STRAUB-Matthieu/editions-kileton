@@ -145,16 +145,19 @@
 /* Avec animation, la section s'allonge : on reste dans la pièce
    le temps que la lumière monte et inonde la page */
 /* Avec animation : la pièce reste à l'écran le temps que la lumière
-   l'inonde (70 % d'écran de défilement), puis le manifeste remonte
+   l'inonde (un écran de défilement), puis le manifeste remonte
    par-dessus la nacre, sans écran vide entre les deux */
 .has-motion .hv {
-    height: 270vh;
-    height: 270svh;
+    height: 340vh;
+    height: 340svh;
 }
 
 .has-motion .mf {
-    margin-top: -135vh;
-    margin-top: -135svh;
+    margin-top: -185vh;
+    margin-top: -185svh;
+    padding-top: clamp(5rem, 14vh, 9rem);
+    /* Bord haut fondu : le manifeste se lève dans la lumière sans arête */
+    background: linear-gradient(to bottom, rgba(247, 245, 241, 0), var(--nacre) clamp(5rem, 14vh, 9rem));
     z-index: 2;
 }
 
@@ -693,6 +696,10 @@
     justify-self: start;
 }
 
+.au-photo picture {
+    display: block;
+}
+
 .au-photo picture,
 .au-photo img {
     width: 100%;
@@ -706,12 +713,11 @@
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='10 9 80 126' preserveAspectRatio='none'%3E%3Cpath d='M10,135 L10,60 A52,52 0 0 1 50,9.4 A52,52 0 0 1 90,60 L90,135 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
 
-/* Filet doré décalé derrière le portrait, sur le même arc brisé */
+/* Filet doré autour du portrait, centré sur le même arc brisé */
 .au-photo::before {
     content: '';
     position: absolute;
-    inset: 0;
-    transform: translate(16px, 16px);
+    inset: -12px -12px 0;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='10 9 80 126' preserveAspectRatio='none'%3E%3Cpath d='M10,135 L10,60 A52,52 0 0 1 50,9.4 A52,52 0 0 1 90,60 L90,135' fill='none' stroke='%23A8842F' stroke-width='1.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
     opacity: 0.75;
     pointer-events: none;
@@ -860,6 +866,7 @@
     .au-photo {
         justify-self: start;
         max-width: 300px;
+        margin-left: 12px;   /* le filet doré reste dans la marge */
     }
 
     /* Les livres glissent horizontalement, un par un */
@@ -900,7 +907,7 @@
 
     .hv-flood {
         --fx: 50%;
-        --fy: 28%;
+        --fy: 38%;
     }
 
     .hv-sticky::after {

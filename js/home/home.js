@@ -1,6 +1,6 @@
 /* ============================================
    ÉDITIONS KILETON — Accueil
-   1. Défilement fluide (Lenis) synchronisé avec GSAP ScrollTrigger
+   1. Défilement natif ; les animations suivent en douceur (GSAP ScrollTrigger)
    2. Ouverture : le vitrail 3D, chargé seulement si WebGL est disponible
    3. Manifeste : les mots s'écrivent à mesure qu'on lit
    4. Atelier : les livres pivotent vers le pointeur, la table prend
@@ -19,29 +19,10 @@ if (hasMotion) {
     root.classList.add('has-motion');
 }
 
-/* --- 1. Défilement fluide --- */
-let lenis = null;
-if (hasMotion && window.Lenis) {
-    lenis = new window.Lenis({ lerp: 0.11 });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
-
-    // Le menu latéral verrouille la page : on suspend le défilement fluide
-    new MutationObserver(function () {
-        if (document.body.classList.contains('drawer-open')) lenis.stop(); else lenis.start();
-    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
-
-    // Ancres internes : défilement doux jusqu'à la section
-    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-        link.addEventListener('click', function (e) {
-            const target = document.querySelector(link.getAttribute('href'));
-            if (!target) return;
-            e.preventDefault();
-            lenis.scrollTo(target, { offset: -40, duration: 1.4 });
-        });
-    });
-}
+/* --- 1. Défilement : natif, il suit le doigt et le pavé tactile sans retard.
+   Les animations liées au défilement sont adoucies par GSAP (scrub),
+   jamais le défilement lui-même. --- */
+const SMOOTH = 0.9;   // secondes de rattrapage des animations sur le défilement
 
 /* --- En-tête : clair dès qu'on quitte la pièce sombre --- */
 const header = document.querySelector('.site-header');
@@ -51,7 +32,7 @@ function updateHeader() {
     // Avec animation, la nacre envahit l'écran avant la fin de la section :
     // l'en-tête passe en clair dès que la lumière l'a recouvert
     const edge = hasMotion
-        ? window.innerHeight * 0.42
+        ? window.innerHeight * 0.55
         : hero.offsetTop + hero.offsetHeight - 80;
     header.classList.toggle('on-light', window.scrollY > edge);
 }
@@ -77,8 +58,8 @@ if (webglAvailable()) {
         if (hasMotion) {
             ScrollTrigger.create({
                 start: 0,
-                end: function () { return window.innerHeight * 0.52; },
-                scrub: true,
+                end: function () { return window.innerHeight * 0.9; },
+                scrub: SMOOTH,
                 onUpdate: function (self) { vitrail.setProgress(self.progress); }
             });
         }
@@ -93,17 +74,17 @@ if (hasMotion) {
     // Le texte d'ouverture s'efface, puis la lumière inonde la page
     gsap.to('.hv-copy, .hv-hint', {
         opacity: 0,
-        y: -50,
+        y: -30,
         ease: 'none',
-        scrollTrigger: { start: 0, end: function () { return window.innerHeight * 0.15; }, scrub: true }
+        scrollTrigger: { start: 0, end: function () { return window.innerHeight * 0.35; }, scrub: SMOOTH }
     });
     gsap.fromTo('.hv-flood', { '--r': '0%' }, {
         '--r': '165%',
-        ease: 'power2.in',
+        ease: 'power1.inOut',
         scrollTrigger: {
-            start: function () { return window.innerHeight * 0.14; },
-            end: function () { return window.innerHeight * 0.52; },
-            scrub: true
+            start: function () { return window.innerHeight * 0.2; },
+            end: function () { return window.innerHeight * 0.9; },
+            scrub: SMOOTH
         }
     });
 }
@@ -138,17 +119,17 @@ if (hasMotion) {
             opacity: 1,
             ease: 'none',
             stagger: 0.08,
-            scrollTrigger: { trigger: p, start: 'top 85%', end: 'bottom 68%', scrub: true }
+            scrollTrigger: { trigger: p, start: 'top 90%', end: 'bottom 55%', scrub: SMOOTH }
         });
     });
 
     gsap.utils.toArray('.at-item').forEach(function (item, i) {
         gsap.from(item, {
-            y: 70,
+            y: 36,
             opacity: 0,
-            duration: 1.1,
-            delay: i * 0.12,
-            ease: 'expo.out',
+            duration: 1.8,
+            delay: i * 0.22,
+            ease: 'power2.out',
             scrollTrigger: { trigger: '.at-books', start: 'top 85%', once: true }
         });
     });
