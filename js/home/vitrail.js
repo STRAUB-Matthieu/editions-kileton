@@ -203,7 +203,15 @@ export function initVitrail(canvas, options) {
     wallShape.lineTo(12, 12);
     wallShape.lineTo(-12, 12);
     wallShape.closePath();
-    wallShape.holes.push(archPath(new THREE.Path()));
+    // Le trou de la fenêtre, sans points en double : sinon la triangulation
+    // laisse de fines lamelles de mur en travers du vitrail
+    const holePts = [];
+    archPath(new THREE.Path()).getPoints(48).forEach(function (pt) {
+        const prev = holePts[holePts.length - 1];
+        if (!prev || prev.distanceTo(pt) > 1e-4) holePts.push(pt);
+    });
+    if (holePts[0].distanceTo(holePts[holePts.length - 1]) < 1e-4) holePts.pop();
+    wallShape.holes.push(new THREE.Path(holePts));
     const wallGeo = new THREE.ExtrudeGeometry(wallShape, { depth: WALL_DEPTH, bevelEnabled: false, curveSegments: 48 });
     const stone = stoneTexture(512);
     stone.repeat.set(0.35, 0.35);
@@ -286,7 +294,9 @@ export function initVitrail(canvas, options) {
 
     /* --- Les rayons : marche dans le volume de la pièce --- */
     const volGeo = new THREE.BoxGeometry(16, 9, 10);
-    volGeo.translate(0, FLOOR_Y + 4.5, 5 + GLASS_Z);
+    // Le fond de la boîte se tient juste devant le verre : dans le même plan,
+    // le test de profondeur hésite et raye le vitrail de bandes sombres
+    volGeo.translate(0, FLOOR_Y + 4.5, 5 + GLASS_Z + 0.05);
     const volMat = new THREE.ShaderMaterial({
         uniforms: uniforms,
         vertexShader: VERT_WORLD,

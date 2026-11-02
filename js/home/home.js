@@ -52,7 +52,7 @@ function webglAvailable() {
 
 const canvas = hero.querySelector('.hv-canvas');
 if (webglAvailable()) {
-    import('./vitrail.js').then(function (m) {
+    import('./vitrail.js?v=3').then(function (m) {
         const vitrail = m.initVitrail(canvas, { reducedMotion: reducedMotion });
         hero.classList.add('is-live');
         if (hasMotion) {
