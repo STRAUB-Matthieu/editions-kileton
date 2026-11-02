@@ -104,31 +104,306 @@
 
 /* ============================================
    EN-TÊTE — sombre dans la pièce, clair sur la nacre
+   Lockup de la maison (sceau-vitrail + KILETON dessiné),
+   bouton « Menu » sobre en Inter
    ============================================ */
+.home-v2 .site-header {
+    --hd-ink: var(--nacre);
+    --seal-lead: var(--nacre);
+    color: var(--hd-ink);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
+}
+
 .home-v2 .site-header.scrolled {
-    background: rgba(11, 10, 15, 0.55);
+    background: rgba(11, 10, 15, 0.5);
     box-shadow: none;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 .home-v2 .site-header.on-light {
-    background: rgba(247, 245, 241, 0.92);
-    box-shadow: 0 1px 0 var(--brume);
+    --hd-ink: var(--encre);
+    --seal-lead: var(--encre);
+    background: rgba(247, 245, 241, 0.88);
+    box-shadow: 0 1px 0 rgba(20, 18, 24, 0.08);
 }
 
-.home-v2 .site-header.on-light .menu-toggle {
+.home-v2 .nav-container {
+    min-height: 4.5rem;
+}
+
+.home-v2 .hd-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: inherit;
+}
+
+.home-v2 .hd-seal {
+    width: 26px;
+    height: auto;
+    flex: none;
+    overflow: visible;
+}
+
+.home-v2 .hd-seal .sl {
+    stroke: var(--seal-lead);
+    transition: stroke 0.5s ease;
+}
+
+.home-v2 .hd-words {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.home-v2 .hd-wordmark {
+    display: block;
+    height: 15px;
+    width: auto;
+}
+
+.home-v2 .hd-eyebrow {
+    font-family: var(--f-text);
+    font-size: 0.56rem;
+    font-weight: 500;
+    letter-spacing: 0.52em;
+    line-height: 1;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.home-v2 .menu-toggle {
+    gap: 0.7rem;
+    padding: 0.6rem 1.1rem 0.6rem 1rem;
+    border: 1px solid currentColor;
+    border-color: color-mix(in srgb, var(--hd-ink) 28%, transparent);
+    border-radius: 999px;
+    color: var(--hd-ink);
+    font-family: var(--f-text);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    transition: color 0.5s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.home-v2 .menu-toggle:hover,
+.home-v2 .menu-toggle:focus-visible {
+    color: var(--hd-ink);
+    border-color: var(--hd-ink);
+    background: color-mix(in srgb, var(--hd-ink) 8%, transparent);
+}
+
+/* Deux filets au lieu de trois, le second plus court */
+.home-v2 .menu-toggle-icon {
+    gap: 5px;
+}
+
+.home-v2 .menu-toggle-icon span {
+    width: 18px;
+    height: 1.5px;
+}
+
+.home-v2 .menu-toggle-icon span:nth-child(2) {
+    display: none;
+}
+
+.home-v2 .menu-toggle-icon span:nth-child(3) {
+    width: 11px;
+    transition: width 0.3s ease;
+}
+
+.home-v2 .menu-toggle:hover .menu-toggle-icon span:nth-child(3) {
+    width: 18px;
+}
+
+.home-v2 .nav-link,
+.home-v2 .site-header.on-light .nav-link {
+    color: var(--hd-ink);
+}
+
+/* ============================================
+   MENU LATÉRAL — un feuillet de nacre
+   ============================================ */
+.home-v2 .drawer-overlay {
+    background: rgba(20, 18, 24, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+
+.home-v2 .drawer-overlay.is-open {
+    transition: opacity 0.5s ease;
+}
+
+.home-v2 .drawer {
+    width: min(460px, 50vw);
+    background: var(--nacre);
     color: var(--encre);
-    border-color: rgba(20, 18, 24, 0.3);
+    box-shadow: -1px 0 0 var(--brume), -30px 0 80px rgba(20, 18, 24, 0.18);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.6s;
 }
 
-.home-v2 .site-header.on-light .menu-toggle:hover,
-.home-v2 .site-header.on-light .menu-toggle:focus-visible {
+.home-v2 .drawer.is-open {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-v2 .drawer-inner {
+    padding: 1.4rem clamp(1.5rem, 3vw, 2.5rem) 2.5rem;
+}
+
+.home-v2 .drawer-head {
+    min-height: 2.6rem;
+    margin-bottom: clamp(2.5rem, 7vh, 4rem);
+}
+
+.home-v2 .drawer-eyebrow {
+    font-family: var(--f-text);
+    font-size: 0.7rem;
+    letter-spacing: 0.32em;
+    color: var(--cendre);
+}
+
+.home-v2 .drawer-close {
+    color: var(--encre);
+    border: 1px solid rgba(20, 18, 24, 0.18);
+    margin-right: 0;
+}
+
+.home-v2 .drawer-close:hover,
+.home-v2 .drawer-close:focus-visible {
     color: var(--encre);
     border-color: var(--encre);
-    background: rgba(212, 175, 55, 0.14);
+    background: rgba(20, 18, 24, 0.05);
 }
 
-.home-v2 .site-header.on-light .nav-link {
+.home-v2 .drawer-section-title {
+    font-family: var(--f-text);
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    color: var(--cendre);
+    margin-bottom: 0.5rem;
+}
+
+.home-v2 .drawer-nav {
+    gap: 0;
+}
+
+/* Les œuvres : des lignes de sommaire, pas des cartes */
+.home-v2 .work-card {
+    padding: 1.4rem 2.5rem 1.4rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--brume);
+    border-radius: 0;
+    background: none;
     color: var(--encre);
+    transition: padding 0.4s ease;
+}
+
+.home-v2 .work-card:hover,
+.home-v2 .work-card:focus-visible {
+    border-color: var(--brume);
+    background: none;
+    transform: none;
+    box-shadow: none;
+    padding-left: 0.5rem;
+}
+
+.home-v2 .work-card-name {
+    font-family: var(--f-display);
+    font-size: clamp(1.45rem, 2.2vw, 1.75rem);
+    font-weight: 380;
+    letter-spacing: -0.01em;
+    color: var(--encre);
+    margin-bottom: 0.35rem;
+}
+
+.home-v2 .work-card-tagline {
+    font-family: var(--f-text);
+    font-size: 0.86rem;
+    font-weight: 400;
+    color: var(--ardoise);
+}
+
+.home-v2 .work-card-arrow,
+.home-v2 .work-card-chevron {
+    right: 0.25rem;
+    color: var(--lapis);
+}
+
+.home-v2 .work-card-chevron {
+    font-size: 1.1rem;
+}
+
+.home-v2 .work-subnav {
+    padding-left: 0;
+    gap: 0;
+}
+
+.home-v2 .work-group.open .work-subnav,
+.home-v2 .work-group:hover .work-subnav {
+    margin-top: 0;
+}
+
+.home-v2 .work-subitem {
+    padding: 0.9rem 1rem 0.9rem 1.25rem;
+    border: 0;
+    border-left: 2px solid var(--or);
+    border-bottom: 1px solid var(--perle);
+    border-radius: 0;
+    background: var(--perle);
+    transition: background 0.3s ease, padding 0.3s ease;
+}
+
+.home-v2 .work-subitem:hover,
+.home-v2 .work-subitem:focus-visible {
+    border-color: var(--or);
+    border-bottom-color: var(--perle);
+    background: #E5E0D8;
+    transform: none;
+    padding-left: 1.6rem;
+}
+
+.home-v2 .work-subitem-name {
+    font-family: var(--f-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--encre);
+}
+
+.home-v2 .work-subitem-desc {
+    font-family: var(--f-text);
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--cendre);
+}
+
+.home-v2 .drawer-secondary {
+    border-top: 1px solid var(--brume);
+    gap: 1rem;
+}
+
+.home-v2 .drawer-secondary a {
+    font-family: var(--f-text);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ardoise);
+}
+
+.home-v2 .drawer-secondary a:hover,
+.home-v2 .drawer-secondary a:focus-visible {
+    color: var(--vermillon);
+}
+
+@media (max-width: 1023px) {
+    .home-v2 .drawer { width: min(460px, 70vw); }
+}
+
+@media (max-width: 767px) {
+    .home-v2 .drawer { width: 100vw; }
+    .home-v2 .hd-seal { width: 24px; }
+    .home-v2 .hd-wordmark { height: 13px; }
 }
 
 /* ============================================
