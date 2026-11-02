@@ -612,13 +612,14 @@
     --fx: 68%;
     --fy: 45%;
     --r: 0%;
-    /* Le front de lumière est doré, le cœur est nacre : pas de gris en transition */
+    /* Le front de lumière est doré, le cœur est nacre : pas de gris en transition.
+       Au-delà du front, le dégradé est transparent : sans masque CSS, que Safari
+       ignorait (la couche dorée couvrait alors tout l'écran dès l'arrivée) */
     background: radial-gradient(circle at var(--fx) var(--fy),
         var(--nacre) calc(var(--r) - 24%),
         var(--incandescence) calc(var(--r) - 12%),
-        #E8C66A var(--r));
-    -webkit-mask: radial-gradient(circle at var(--fx) var(--fy), #000 calc(var(--r) - 10%), transparent var(--r));
-    mask: radial-gradient(circle at var(--fx) var(--fy), #000 calc(var(--r) - 10%), transparent var(--r));
+        #E8C66A calc(var(--r) - 5%),
+        rgba(232, 198, 106, 0) var(--r));
 }
 
 .has-motion .hv-flood {

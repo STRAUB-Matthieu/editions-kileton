@@ -89,6 +89,15 @@ if (hasMotion) {
     });
 }
 
+/* Safari peut précharger la page en arrière-plan, fenêtre sans hauteur :
+   les déclencheurs sont recalculés dès qu'elle s'affiche vraiment */
+if (hasMotion) {
+    window.addEventListener('pageshow', function () { ScrollTrigger.refresh(); });
+    document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) ScrollTrigger.refresh();
+    });
+}
+
 /* --- 3. Le manifeste --- */
 function splitWords(el) {
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);

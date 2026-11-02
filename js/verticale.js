@@ -399,6 +399,12 @@ if (cover && !reducedMotion && !isCoarse) {
     cover.addEventListener('pointerleave', function () { tilt.style.transform = ''; });
 }
 
+// Safari peut précharger la page en arrière-plan, fenêtre sans hauteur :
+// les déclencheurs sont recalculés dès qu'elle s'affiche vraiment
 if (hasMotion) {
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+    window.addEventListener('pageshow', function () { ScrollTrigger.refresh(); });
+    document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) ScrollTrigger.refresh();
+    });
 }
