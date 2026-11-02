@@ -622,7 +622,9 @@
         rgba(232, 198, 106, 0) var(--r));
 }
 
-.has-motion .hv-flood {
+/* La couche n'apparaît qu'une fois la lumière partie (voir home.js) :
+   au rayon nul, Safari peint ce dégradé dégénéré tout en nacre */
+.has-motion .hv-flood.is-on {
     opacity: 1;
 }
 

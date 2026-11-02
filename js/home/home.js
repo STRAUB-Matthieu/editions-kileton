@@ -69,7 +69,10 @@ function renderIntro() {
         el.style.opacity = (1 - c).toFixed(3);
         el.style.transform = 'translateY(' + (-30 * c).toFixed(1) + 'px)';
     });
-    flood.style.setProperty('--r', (floodEase(clamp01((p - 0.22) / 0.78)) * 165).toFixed(2) + '%');
+    const r = floodEase(clamp01((p - 0.22) / 0.78)) * 165;
+    flood.style.setProperty('--r', r.toFixed(2) + '%');
+    // Au rayon nul, Safari peint le dégradé tout en nacre : la couche reste cachée
+    flood.classList.toggle('is-on', r > 0.5);
     if (vitrail) vitrail.setProgress(p);
 }
 
