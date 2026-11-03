@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 108 148" role="img" aria-label="KILETON — sceau">
+<title>KILETON — sceau</title>
+<clipPath id="win-custom"><path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z"/></clipPath>
+<g clip-path="url(#win-custom)">
+<polygon points="0,-30 38,-30 38,170 0,170" fill="#003959"/>
+<polygon points="38,-30 38,88 105.6,-30.0" fill="#FFF3D6"/>
+<polygon points="38,88 105.6,-30.0 150,-30 150,189.2" fill="#3E6E9E"/>
+<polygon points="38,88 150,189.2 38,189.2" fill="#003959"/>
+<g stroke="#E8D48B" stroke-width="5.2" stroke-linecap="round" fill="none"><line x1="38" y1="-10" x2="38" y2="150"/><line x1="38" y1="88" x2="105.6" y2="-30.0"/><line x1="38" y1="88" x2="150.0" y2="189.2"/></g>
+</g>
+<path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z" fill="none" stroke="#E8D48B" stroke-width="6.5" stroke-linejoin="round"/>
+<polygon points="38,81.5 44.5,88 38,94.5 31.5,88" fill="#FFF3D6" stroke="#E8D48B" stroke-width="2.2" stroke-linejoin="round"/>
+</svg>

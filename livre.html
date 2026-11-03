@@ -1,49 +1,225 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
-    <script>document.documentElement.classList.add('js');</script>
-    <title>La Verticale du Vide — Roman de Matthieu Straub | Éditions Kileton</title>
-    <meta name="description" content="La Verticale du Vide, premier roman de Matthieu Straub. Thomas Vane a bâti quatre-vingt-huit étages de verre et d'acier au-dessus de Manhattan. Le soir de l'inauguration, la passerelle s'effondre et son cœur s'arrête.">
-    <link rel="canonical" href="https://editions-kileton.fr/livre.html">
-    <meta name="theme-color" content="#0A1628">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Open Graph -->
+<title>La Verticale du Vide — Roman de Matthieu Straub | Éditions Kileton</title>
+<meta name="description" content="La Verticale du Vide, roman de Matthieu Straub, Éditions Kileton. Une chute de quatre-vingts mètres, sur « Primordial Resonance ». Chaque exemplaire finance Imiter pour grandir.">
+<!--
+  La Verticale du Vide — page défilante
+  Reprise de la page du livre sur editions-kileton.fr : la tour, la brisure, le pouls, le Voile, la fissure, le choix ;
+  tout ce qui est image est calculé ici (Three.js pour la passerelle, WebGL pour le reste), sans photo ni vidéo.
+
+  Une seule horloge T (secondes) :
+  - lecture automatique : T = temps de la bande-son (media/bande.*), jouée d'un seul tenant ; la page défile seule jusqu'à l'achat ;
+  - défilement à la main : T se lit dans la position de la page ; le son continue sans saut.
+  La bande-son (outils/introduction.py) : 30 s d'introduction composée avec la matière du morceau, puis « Primordial Resonance » intact à 30,0,
+  sur le début du pouls (l'électrocardiogramme).
+  Deux temps de scène : la passerelle et la chute suivent t3(T), accéléré ×1,5 pendant la marche puis en temps réel à partir
+  de la fissure, de sorte que la chute s'achève (t3 = 18,6) quand le morceau entre ; tout ce qui suit suit t = T − 15.
+  Accents du morceau, en temps de scène : 18,60 · 22,57 · 28,17 · 32,34 · 33,19 · 34,16 · 38,44 (il retombe dans le calme) · 42,41.
+  Le défilement entre deux scènes dure 1,05 s et finit sur le début de la scène suivante.
+
+  Scènes (temps de scène)
+  0  —     (t3) Sur la passerelle de verre, face à la tour d'en face ; le titre (immobile au seuil, puis il s'avance).
+  1  T = 9 Thomas Vane a bâti quatre-vingt-huit étages (la page de titre est courte, ce texte reste longtemps).
+  2  8,50  (t3) Le soir de l'inauguration : il regarde ses pieds ; le verre se fend (impacts 9,0 · 10,3 · 11,4).
+  3  12,80 (t3) Elle cède : le plancher se creuse, les éclats lâchent, la caméra tombe avec eux.
+  4  15,00 (t)  Le morceau entre : le pouls, trois battements, puis la ligne reste plate.
+  5  20,33 (t)  Le Voile : on traverse des voiles de soie qui s'écartent ; derrière, la Source.
+  6  28,17 La Source : le dernier voile s'ouvre sur un puits de lumière dont les anneaux sont une fréquence ;
+           ils l'aspirent, puis s'inversent (il choisit de retourner) et l'éloignent.
+  7  32,34 Le Passager : un fragment reste avec lui. Il émet la Fréquence : la poussière de lumière se range sur ses
+           lignes de résonance (figures de Chladni), mode après mode, sur les frappes ; puis tout se resserre en une seule
+           corde qui vibre, avec un cœur qui bat : le Passager n'a pas de visage, il est une note tenue — la verticale.
+  8  38,44 La fissure : la corde s'immobilise et s'ouvre ; c'est par elle que la lumière entre.
+  9  42,41 Le livre : la verticale passe derrière la couverture ; Réparer, Imiter pour grandir, le chant ou le silence.
+  Rendu image par image : window.seek(t) ; ?t=12.3 fige l'instant.
+-->
+<style>
+@font-face{font-family:'Cormorant Garamond';font-weight:400;font-style:normal;font-display:block;src:url(assets/fonts/cormorant-garamond-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-weight:400;font-style:italic;font-display:block;src:url(assets/fonts/cormorant-garamond-latin-400-italic.woff2) format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-weight:500;font-style:normal;font-display:block;src:url(assets/fonts/cormorant-garamond-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-weight:500;font-style:italic;font-display:block;src:url(assets/fonts/cormorant-garamond-latin-500-italic.woff2) format('woff2')}
+@font-face{font-family:'Cormorant Garamond';font-weight:600;font-style:normal;font-display:block;src:url(assets/fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-weight:300;font-display:block;src:url(assets/fonts/inter-latin-300-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-weight:400;font-display:block;src:url(assets/fonts/inter-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-weight:500;font-display:block;src:url(assets/fonts/inter-latin-500-normal.woff2) format('woff2')}
+
+:root{
+  --abysse:#060912; --nuit:#0A1628; --nuit-claire:#1B3A5C; --azur:#003959; --vortex:#3E6E9E;
+  --or:#D4AF37; --or-pale:#E8D48B; --incandescence:#FFF3D6; --braise:#C9772E;
+  --nacre:#F7F5F1; --nacre-2:rgba(247,245,241,.74); --nacre-3:rgba(247,245,241,.5);
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  --vh:100vh;
+}
+@supports (height:100svh){:root{--vh:100svh}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto;background:var(--abysse);scrollbar-width:thin;scrollbar-color:rgba(232,212,139,.35) var(--abysse)}
+html::-webkit-scrollbar{width:6px} html::-webkit-scrollbar-track{background:var(--abysse)} html::-webkit-scrollbar-thumb{background:rgba(232,212,139,.35)}
+body{background:var(--abysse);color:var(--nacre);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--or-pale);color:var(--abysse)}
+a{color:inherit}
+:focus-visible{outline:1px solid var(--or-pale);outline-offset:4px}
+
+#gl,#g3{position:fixed;inset:0;width:100vw;height:var(--vh);display:block}
+#gl{z-index:0} #g3{z-index:1}
+.no-gl #gl,.no-gl #g3{display:none}
+.no-gl body{background:linear-gradient(180deg,var(--nuit),var(--abysse))}
+
+/* En-tête : la signature de la maison */
+.tete{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;
+  padding:clamp(14px,2.6vh,26px) clamp(18px,3.4vw,52px);pointer-events:none}
+.tete>*{pointer-events:auto}
+.marque{display:flex;align-items:center;gap:12px;text-decoration:none}
+.marque .sceau{height:34px;width:auto;display:block}
+.marque .mot{height:11px;width:auto;display:block;opacity:.92}
+.tete nav{display:flex;gap:10px;align-items:center}
+.pastille{font:500 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--or-pale);
+  border:1px solid rgba(232,212,139,.45);padding:11px 16px;background:rgba(6,9,18,.35);cursor:pointer;transition:background .25s,color .25s}
+.pastille:hover{background:var(--or-pale);color:var(--abysse)}
+.son{width:38px;height:38px;padding:0;display:grid;place-items:center}
+.son svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.4}
+.son .barre{display:none} .son.muet .barre{display:inline} .son.muet .onde{display:none}
+
+/* La jauge : les étages, de la rédemption au vide */
+.jauge{position:fixed;left:clamp(16px,2.4vw,36px);top:16vh;bottom:12vh;width:60px;z-index:4;pointer-events:none;
+  display:flex;flex-direction:column;align-items:flex-start;transition:opacity .6s}
+.jauge .bout{font:500 9px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--nacre-3);writing-mode:vertical-rl;transform:rotate(180deg)}
+.jauge .fil{position:relative;flex:1;width:1px;background:rgba(232,212,139,.18);margin:14px 0}
+.jauge .rempli{position:absolute;left:0;top:0;width:1px;background:var(--or-pale)}
+.jauge .etage{position:absolute;left:12px;transform:translateY(-50%);white-space:nowrap}
+.jauge .num{display:block;font:500 22px/1 var(--serif);color:var(--or-pale);font-variant-numeric:tabular-nums}
+.jauge .unite{display:block;font:500 8px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--nacre-3);margin-top:4px}
+
+/* Scènes : chacune reste à l'écran pendant que sa musique joue, puis la suivante la pousse */
+.sc{position:relative;height:calc(var(--vh)*2);z-index:2}
+.sc.fin{height:calc(var(--vh)*1.6)}
+.pin{position:sticky;top:0;height:var(--vh);overflow:hidden}
+.l{display:block;white-space:nowrap;overflow:hidden;padding:.06em 0 .1em;margin:-.06em 0 -.1em}
+.l>span{display:inline-block}
+
+.ouv{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:4vh;
+  background:radial-gradient(ellipse 62% 46% at 50% 50%,rgba(6,9,18,.62),rgba(6,9,18,0) 72%)}
+.ouv .sceau{height:clamp(54px,8vh,78px);width:auto;margin-bottom:24px}
+.auteur{font:500 12px/1 var(--sans);letter-spacing:.42em;text-transform:uppercase;color:var(--or-pale);margin-bottom:22px}
+.titre{font:500 clamp(46px,8.4vw,128px)/.94 var(--serif);text-transform:uppercase;letter-spacing:.03em;color:var(--nacre);text-shadow:0 2px 30px rgba(6,9,18,.7)}
+.devise{font:400 italic clamp(19px,1.9vw,28px)/1.3 var(--serif);color:var(--nacre-2);margin-top:26px;text-shadow:0 1px 20px rgba(6,9,18,.8)}
+.lancer{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.btn{display:inline-flex;align-items:center;gap:12px;font:500 12px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;text-decoration:none;
+  padding:17px 26px;border:1px solid rgba(232,212,139,.6);color:var(--or-pale);background:rgba(6,9,18,.45);cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.btn:hover{background:var(--or-pale);color:var(--abysse)}
+.btn.or{background:var(--or-pale);color:var(--abysse);border-color:var(--or-pale)}
+.btn.or:hover{background:var(--incandescence);border-color:var(--incandescence)}
+.btn svg{width:12px;height:12px;fill:currentColor}
+.ou{font:400 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--nacre-3)}
+
+.recit{position:absolute;left:clamp(84px,11vw,190px);bottom:clamp(70px,16vh,180px);font:500 clamp(24px,4.1vw,74px)/1.04 var(--serif);
+  letter-spacing:-.005em;color:var(--nacre);text-shadow:0 1px 26px rgba(6,9,18,.75)}
+.recit em{font-style:italic;font-weight:400}
+.recit.haut{bottom:auto;top:clamp(90px,17vh,190px)}
+
+.pouls{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ecg{width:min(1100px,86vw);height:120px;overflow:visible;margin-bottom:5vh}
+.ecg path{fill:none;stroke:var(--or-pale);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.ecg circle{fill:var(--incandescence)}
+.pouls .grand{font:500 clamp(30px,4.6vw,78px)/1.04 var(--serif)}
+.pouls .petit{font:400 italic clamp(17px,1.5vw,24px)/1.3 var(--serif);color:var(--nacre-2);margin-top:22px}
+
+.voile{display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:15vh 20px 11vh}
+.voile .phrase{font:500 clamp(22px,2.6vw,42px)/1.18 var(--serif);color:var(--nacre);text-shadow:0 1px 24px rgba(6,9,18,.75)}
+.voile .question{font:400 italic clamp(36px,5.6vw,96px)/1.0 var(--serif);color:var(--or-pale);margin-top:26px;text-shadow:0 2px 30px rgba(6,9,18,.7)}
+
+.source{display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:13vh 20px 11vh}
+.source .phrase{font:500 clamp(22px,2.6vw,42px)/1.18 var(--serif);color:var(--nacre);text-shadow:0 1px 24px rgba(6,9,18,.8)}
+.source .question{font:400 italic clamp(36px,5.6vw,96px)/1.0 var(--serif);color:var(--or-pale);text-shadow:0 2px 30px rgba(6,9,18,.75)}
+.voile .bas{font:400 italic clamp(22px,2.4vw,38px)/1.2 var(--serif);color:var(--or-pale);text-shadow:0 2px 26px rgba(6,9,18,.7)}
+.passager{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;align-items:center;column-gap:clamp(260px,calc(62vh + 30px),760px);padding:0 4vw 7vh}
+.passager .g,.passager .d{font:400 clamp(20px,2vw,36px)/1.16 var(--serif);color:var(--nacre);text-shadow:0 1px 24px rgba(6,9,18,.8)}
+.passager .g{text-align:right;justify-self:end} .passager .d{justify-self:start}
+.passager .voix{grid-column:2;justify-self:start;align-self:start;margin-top:-20vh;font:400 italic clamp(20px,2vw,32px)/1.35 var(--serif);color:var(--or-pale);text-shadow:0 2px 26px rgba(6,9,18,.8)}
+.passager .voix .l:first-child>span{color:var(--nacre-2)}
+.fissure{display:grid;grid-template-columns:1fr 1fr;align-items:center;column-gap:clamp(70px,14vw,240px)}
+.fissure p{font:400 italic clamp(26px,3.3vw,58px)/1.08 var(--serif);color:var(--nacre);text-shadow:0 1px 24px rgba(6,9,18,.7)}
+.fissure .g{text-align:right;justify-self:end} .fissure .d{justify-self:start}
+
+/* Réparer : où va l'argent du livre */
+.final .c1{font:500 clamp(30px,3.2vw,54px)/1.04 var(--serif);color:var(--nacre)}
+.final .c2{font:300 clamp(15px,1.1vw,18px)/1.6 var(--sans);color:var(--nacre-2);margin-top:clamp(16px,2.6vh,26px);max-width:32em}
+.final .c2 b{font-weight:500;color:var(--or-pale)}
+.final .c3{font:400 italic clamp(22px,2vw,34px)/1.15 var(--serif);color:var(--or-pale);margin-top:clamp(16px,2.6vh,26px)}
+
+.final{display:grid;grid-template-columns:auto minmax(0,40rem);align-items:center;justify-content:center;column-gap:clamp(40px,7vw,120px);padding:84px clamp(84px,9vw,150px) 40px}
+.couv{height:min(66vh,620px);aspect-ratio:3552/5040;position:relative}
+.couv .masque{position:absolute;inset:0;overflow:hidden}
+.couv img{width:100%;height:100%;display:block;box-shadow:0 34px 80px rgba(0,0,0,.65),0 8px 20px rgba(0,0,0,.4)}
+.portes{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2.4vw,36px);margin-top:clamp(22px,3.4vh,38px)}
+.porte{position:relative;padding:26px 0 0;border-top:1px solid rgba(232,212,139,.3)}
+.porte h3{font:500 clamp(24px,2.1vw,34px)/1 var(--serif);color:var(--or-pale)}
+.porte p{font:400 14px/1.6 var(--sans);color:var(--nacre-2);margin:12px 0 22px;max-width:30ch}
+.porte.silence h3{color:var(--nacre)}
+.meta{font:400 12px/1.7 var(--sans);letter-spacing:.06em;color:var(--nacre-3);margin-top:clamp(24px,3.6vh,36px)}
+.meta a{text-underline-offset:3px}
+.signature{display:flex;align-items:center;gap:14px;margin-top:clamp(18px,3vh,28px);text-decoration:none}
+.signature .sceau{height:40px;width:auto} .signature .mot{height:12px;width:auto}
+
+.reprendre{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:6;opacity:0;pointer-events:none;transition:opacity .4s}
+.reprendre.on{opacity:1;pointer-events:auto}
+
+@media (max-aspect-ratio:1/1){
+  .jauge{left:10px;width:44px}
+  .jauge .num{font-size:17px}
+  .marque .mot{display:none}
+  .recit{left:54px;right:16px;bottom:15vh;font-size:clamp(22px,6.3vw,40px)}
+  .recit.haut{top:15vh}
+  .fissure{grid-template-columns:1fr;row-gap:40vh;justify-items:center;text-align:center}
+  .passager{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;padding:13vh 20px 10vh;row-gap:0}
+  .passager .g,.passager .d{justify-self:center;text-align:center;font-size:clamp(19px,5vw,28px)}
+  .passager .g{align-self:start} .passager .d{align-self:end;margin-bottom:5vh}
+  .passager .voix{grid-column:1;justify-self:center;text-align:center;margin-top:0;font-size:clamp(17px,4.4vw,24px)}
+  .source .question{font-size:clamp(26px,6.6vw,44px)}
+  .source .phrase{font-size:clamp(19px,4.8vw,28px)}
+  .fissure .g,.fissure .d{justify-self:center;text-align:center}
+  .final .c1{font-size:clamp(24px,6.6vw,34px)}
+  .final .c2{font-size:13.5px;margin-top:12px}
+  .final .c3{font-size:clamp(19px,5.2vw,26px);margin-top:12px}
+  .final .portes{margin-top:18px}
+  .porte{padding-top:16px}
+  .final{grid-template-columns:1fr;justify-items:center;text-align:center;padding:70px 22px 18px;row-gap:14px;align-content:center}
+  .couv{height:21vh}
+  .portes{grid-template-columns:1fr 1fr;text-align:left}
+  .porte p{font-size:12.5px;margin:8px 0 14px}
+  .porte .btn{padding:13px 14px;font-size:10.5px;letter-spacing:.14em}
+  .signature{display:none}
+  .voile .question{font-size:clamp(26px,6.6vw,44px)}
+  .voile .phrase{font-size:clamp(19px,4.8vw,28px)}
+  .tete .pastille.achat{display:none}
+}
+@media (prefers-reduced-motion:reduce){ .l>span{transform:none!important} }
+</style>
+<link rel="canonical" href="https://editions-kileton.fr/livre.html">
+<meta name="theme-color" content="#0A1628">
+<!-- Open Graph -->
     <meta property="og:title" content="La Verticale du Vide — Roman de Matthieu Straub">
     <meta property="og:description" content="Au commencement était la Fréquence. Et à la fin, il n'y aura que le silence ou le chant.">
     <meta property="og:image" content="https://editions-kileton.fr/assets/images/verticale-couverture.jpg">
     <meta property="og:url" content="https://editions-kileton.fr/livre.html">
     <meta property="og:type" content="book">
     <meta property="og:locale" content="fr_FR">
-
-    <!-- Twitter Card -->
+<!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="La Verticale du Vide — Matthieu Straub">
     <meta name="twitter:description" content="Au commencement était la Fréquence. Et à la fin, il n'y aura que le silence ou le chant.">
     <meta name="twitter:image" content="https://editions-kileton.fr/assets/images/verticale-couverture.jpg">
-
-    <!-- Favicon -->
+<!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
-
-    <!-- Polices hébergées localement : aucun appel vers Google, aucune donnée
-         du visiteur transmise à un tiers. Voir css/fonts.css -->
-    <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="css/fonts.css">
-
-    <!-- Feuilles de style : base du site, en-tête de la maison, puis l'univers du livre -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/home.css?v=4">
-    <link rel="stylesheet" href="css/verticale.css?v=5">
-
-    <!-- JSON-LD Book -->
+<!-- JSON-LD Book -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -75,311 +251,159 @@
         }
     }
     </script>
+<style>
+/* Bloc conservé de l'ancienne page : le clip de la musique et la bande-son, sous l'achat du livre */
+.ecouter{position:relative;z-index:3;padding:14vh 0 0;background:linear-gradient(180deg,rgba(6,9,18,0),var(--abysse) 14vh)}
+.ecouter .lv-media{padding:4vh 0 12vh}
+.ecouter .lv-wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+.ecouter .lv-kicker{font:500 11px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--or-pale);margin:0 0 3.2vh}
+.ecouter .lv-media-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:center}
+.ecouter .lv-trailer{border:1px solid rgba(232,212,139,.2);box-shadow:0 30px 70px rgba(3,6,14,.55)}
+.ecouter .clip-responsive{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
+.ecouter .yt-facade{position:absolute;inset:0;display:grid;place-items:center;
+  background:linear-gradient(rgba(11,22,40,.72),rgba(11,22,40,.82)),url('assets/images/bande-annonce-thumbnail.webp') center/cover no-repeat}
+.ecouter .yt-facade iframe{width:100%;height:100%;border:0;display:block}
+.ecouter .yt-facade-btn{display:inline-flex;align-items:center;gap:.7rem;padding:.85rem 1.6rem;background:rgba(212,175,55,.95);color:#16202E;
+  font:600 .82rem/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;border:0;border-radius:999px;cursor:pointer;transition:transform .3s,box-shadow .3s,background .3s}
+.ecouter .yt-facade-btn:hover{background:#E2C255;transform:scale(1.04);box-shadow:0 10px 30px rgba(212,175,55,.35)}
+.ecouter .yt-facade-btn svg{width:18px;height:18px}
+.ecouter .yt-facade-note{position:absolute;left:0;right:0;bottom:.7rem;padding:0 1rem;text-align:center;font-size:.68rem;line-height:1.4;color:rgba(255,255,255,.7)}
+.ecouter .yt-facade.is-playing .yt-facade-note{display:none}
+.ecouter .lv-sound-intro{margin:0 0 1.8rem;font:italic 400 1.3rem/1.45 var(--serif);color:var(--nacre-2)}
+.ecouter .track-block{display:flex;flex-direction:column;align-items:flex-start;width:100%}
+.ecouter .track-block--spaced{margin-top:1.5rem}
+.ecouter .track-title{font:italic 400 clamp(1.05rem,3.5vw,1.25rem)/1.2 var(--serif);color:var(--or-pale);margin:0 0 .75rem}
+.ecouter .soundtrack-links{display:flex;flex-direction:column;align-items:stretch;gap:.5rem;width:100%}
+.ecouter .soundtrack-btn{display:flex;align-items:center;gap:.75rem;padding:.85rem 1.25rem;background:rgba(27,58,92,.4);border:1px solid rgba(212,175,55,.3);
+  border-radius:8px;color:var(--nacre);text-decoration:none;font:400 .95rem/1.2 var(--sans);transition:background .3s,border-color .3s,transform .3s,box-shadow .3s}
+.ecouter .soundtrack-btn:hover{background:rgba(27,58,92,.7);border-color:var(--or);transform:translateY(-2px);box-shadow:0 4px 20px rgba(212,175,55,.15)}
+.ecouter .soundtrack-btn svg{flex-shrink:0;width:20px;height:20px}
+.ecouter .pied{border-top:1px solid rgba(232,212,139,.14);padding:26px clamp(20px,5vw,64px);text-align:center;font:400 12px/1.6 var(--sans);color:var(--nacre-3)}
+.ecouter .pied a{color:var(--nacre-2);text-underline-offset:3px}
+@media (max-width:900px){.ecouter .lv-media-grid{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.ecouter .soundtrack-btn,.ecouter .yt-facade-btn{transition:none}}
+</style>
 </head>
-<body class="home-v2 page-book lv">
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<canvas id="g3" aria-hidden="true"></canvas>
 
-    <audio id="ambient-audio" loop preload="auto" aria-hidden="true">
-      <source src="assets/audio/primordial-resonance.ogg" type="audio/ogg">
-      <source src="assets/audio/primordial-resonance.mp3" type="audio/mpeg">
-    </audio>
+<header class="tete">
+  <a class="marque" href="https://editions-kileton.fr/" aria-label="Éditions Kileton, accueil"><img class="sceau" src="assets/verticale/sceau.svg" alt=""><img class="mot" src="assets/verticale/wordmark.svg" alt=""></a>
+  <nav>
+    <a class="pastille achat" href="https://www.amazon.fr/dp/B0GVKPR9NH" target="_blank" rel="noopener noreferrer">Acheter le livre</a>
+    <button class="pastille son muet" id="son-btn" type="button" aria-label="Activer le son">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path class="onde" d="M11 5.5c1 1.4 1 3.6 0 5M13 3.8c1.9 2.4 1.9 6 0 8.4"/><path class="barre" d="M11 6l4 4M15 6l-4 4"/></svg>
+    </button>
+  </nav>
+</header>
 
-    <!-- HEADER / NAVIGATION -->
-    <header class="site-header" role="banner">
-        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
-            <!-- Lockup de la maison : sceau-vitrail + mot KILETON dessiné + « Éditions » -->
-            <a href="index.html" class="logo-link hd-lockup" aria-label="Éditions Kileton, accueil">
-                <svg class="hd-seal" viewBox="-4 -4 108 148" aria-hidden="true" focusable="false">
-<clipPath id="hd-win-lv"><path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z"/></clipPath>
-<g clip-path="url(#hd-win-lv)">
-<polygon points="0,-30 38,-30 38,170 0,170" fill="#3155A8"/>
-<polygon points="38,-30 38,88 105.6,-30.0" fill="#D4AF37"/>
-<polygon points="38,88 105.6,-30.0 150,-30 150,189.2" fill="#B05138"/>
-<polygon points="38,88 150,189.2 38,189.2" fill="#3155A8"/>
-<g stroke="#141218" class="sl" stroke-width="5.2" stroke-linecap="round" fill="none"><line x1="38" y1="-10" x2="38" y2="150"/><line x1="38" y1="88" x2="105.6" y2="-30.0"/><line x1="38" y1="88" x2="150.0" y2="189.2"/></g>
-</g>
-<path d="M10,135 L10,60 A52,52 0 0 1 50.00,9.40 A52,52 0 0 1 90,60 L90,135 Z" fill="none" stroke="#141218" class="sl" stroke-width="6.5" stroke-linejoin="round"/>
-<polygon points="38,81.5 44.5,88 38,94.5 31.5,88" fill="#D4AF37" stroke="#141218" class="sl" stroke-width="2.2" stroke-linejoin="round"/>
-                </svg>
-                <span class="hd-words">
-                    <svg class="hd-wordmark" viewBox="-4 -4 521 108" aria-hidden="true" focusable="false">
-<path d="M0.00,0.00h15.00v100.00h-15.00ZM15.00,56.00 L63.00,0.00 L70.00,0.00 L15.00,64.50 ZM30.00,47.00 L72.00,100.00 L52.00,100.00 L22.00,57.00 Z" fill="currentColor" fill-rule="nonzero"/>
-<path d="M89.00,0.00h15.00v100.00h-15.00Z" fill="currentColor" fill-rule="nonzero"/>
-<path d="M121.00,0.00h15.00v100.00h-15.00ZM121.00,95.40h54.00v4.60h-54.00Z" fill="currentColor" fill-rule="nonzero"/>
-<path d="M192.00,0.00h15.00v100.00h-15.00ZM192.00,0.00h52.00v4.60h-52.00ZM192.00,48.00h42.00v4.60h-42.00ZM192.00,95.40h54.00v4.60h-54.00Z" fill="currentColor" fill-rule="nonzero"/>
-<path d="M263.00,0.00h64.00v4.60h-64.00ZM287.50,0.00h15.00v100.00h-15.00Z" fill="currentColor" fill-rule="nonzero"/>
-<path d="M344.00,50.00 A41.00,50.00 0 1 0 426.00,50.00 A41.00,50.00 0 1 0 344.00,50.00 ZM359.00,50.00 A26.00,45.40 0 1 0 411.00,50.00 A26.00,45.40 0 1 0 359.00,50.00 Z" fill="currentColor" fill-rule="evenodd"/>
-<path d="M443.00,0.00h4.60v100.00h-4.60ZM508.40,0.00h4.60v100.00h-4.60ZM443.00,0.00 L462.00,0.00 L513.00,100.00 L494.00,100.00 Z" fill="currentColor" fill-rule="nonzero"/>
-                    </svg>
-                    <span class="hd-eyebrow">Éditions</span>
-                </span>
-            </a>
-            <!-- Navigation inline : repli accessible sans JS -->
-            <ul class="nav-links">
-                <li><a href="index.html" class="nav-link">Accueil</a></li>
-                <li><a href="livre.html" class="nav-link active" aria-current="page">La Verticale du Vide</a></li>
-                <li><a href="france-des-talents.html" class="nav-link">La France des Talents</a></li>
-            </ul>
-            <!-- Déclencheur unique du menu latéral (révélé par JS) -->
-            <button class="menu-toggle" type="button" aria-label="Ouvrir le menu de navigation" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-drawer">
-                <span class="menu-toggle-icon" aria-hidden="true">
-                    <span></span><span></span><span></span>
-                </span>
-                <span class="menu-toggle-label">Menu</span>
-            </button>
-        </nav>
-    </header>
+<div class="jauge" aria-hidden="true">
+  <span class="bout">Monter vers la rédemption</span>
+  <span class="fil"><span class="rempli"></span><span class="etage"><span class="num">23</span><span class="unite">étage</span></span></span>
+  <span class="bout">Tomber dans le vide</span>
+</div>
 
-    <!-- MENU LATÉRAL (DRAWER) — navigation principale, Mode Nuit -->
-    <div class="drawer-overlay"></div>
-    <aside id="site-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Menu de navigation" aria-hidden="true" tabindex="-1">
-        <div class="drawer-inner">
-            <div class="drawer-head">
-                <p class="drawer-eyebrow">Éditions Kileton</p>
-                <button class="drawer-close" type="button" aria-label="Fermer le menu">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-
-            <nav class="drawer-nav" aria-label="Les œuvres">
-                <p class="drawer-section-title">Les œuvres</p>
-
-                <a class="work-card" href="livre.html">
-                    <span class="work-card-name">La Verticale du Vide</span>
-                    <span class="work-card-tagline">Roman — entre la chute et le chant, il y a nous</span>
-                    <span class="work-card-arrow" aria-hidden="true">→</span>
-                </a>
-
-                <div class="work-group">
-                    <button class="work-card work-card--parent" type="button" aria-expanded="false" aria-controls="fdt-subnav">
-                        <span class="work-card-name">La France des Talents</span>
-                        <span class="work-card-tagline">Essai — le pourquoi et le comment d'une France libre et souveraine</span>
-                        <span class="work-card-chevron" aria-hidden="true">&#9662;</span>
-                    </button>
-                    <div class="work-subnav" id="fdt-subnav">
-                        <a class="work-subitem" href="france-des-talents.html">
-                            <span class="work-subitem-name">Tome 1 — Le Pourquoi</span>
-                            <span class="work-subitem-desc">Les fondements</span>
-                        </a>
-                        <a class="work-subitem" href="france-des-talents-tome2.html">
-                            <span class="work-subitem-name">Tome 2 — Le Comment</span>
-                            <span class="work-subitem-desc">Les applications concrètes</span>
-                        </a>
-                    </div>
-                </div>
-            </nav>
-
-            <nav class="drawer-secondary" aria-label="Liens secondaires">
-                <a href="index.html">Accueil</a>
-                <a href="index.html#contact">Me contacter</a>
-            </nav>
-        </div>
-    </aside>
-
-    <!-- Le fil vertical : on descend les 88 étages jusqu'au Voile -->
-    <div class="lv-gauge" aria-hidden="true">
-        <span class="lv-gauge-end lv-gauge-up">Monter vers la rédemption</span>
-        <span class="lv-gauge-line"><span class="lv-gauge-fill"></span></span>
-        <span class="lv-gauge-floor"><span class="lv-gauge-num">88</span><span class="lv-gauge-unit">étage</span></span>
-        <span class="lv-gauge-end lv-gauge-down">Tomber dans le vide</span>
+<main>
+  <section class="sc" aria-labelledby="titre">
+    <div class="pin ouv">
+      <img class="sceau" src="assets/verticale/sceau.svg" alt="">
+      <p class="auteur">Matthieu Straub</p>
+      <h1 class="titre" id="titre"><span class="l"><span>La Verticale</span></span><span class="l"><span>du Vide</span></span></h1>
+      <p class="devise">Entre la chute et le chant, il y a nous.</p>
+      <div class="lancer" id="lancer">
+        <button class="btn" id="go" type="button"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Tomber, avec le son</button>
+        <span class="ou">ou faites défiler</span>
+      </div>
     </div>
+  </section>
 
-    <main role="main">
+  <section class="sc" aria-label="La tour">
+    <div class="pin"><p class="recit" data-a="1">
+      <span class="l"><span>Thomas Vane a bâti</span></span><span class="l"><span>quatre-vingt-huit étages</span></span><span class="l"><span>de verre et d'acier</span></span><span class="l"><span>au-dessus de Manhattan.</span></span>
+    </p></div>
+  </section>
 
-        <!-- OUVERTURE — le puits de la couverture : on tombe vers la lumière -->
-        <section class="lv-open" aria-labelledby="lv-title">
-            <div class="lv-open-sticky">
-                <canvas class="lv-tunnel" aria-hidden="true"></canvas>
-                <div class="lv-open-fallback" aria-hidden="true"></div>
-                <div class="lv-open-copy">
-                    <p class="lv-author">Matthieu Straub</p>
-                    <p class="lv-genre">Roman</p>
-                    <h1 id="lv-title" class="lv-title"><span>La Verticale</span> <span>du Vide</span></h1>
-                    <p class="lv-tagline">Entre la chute et le chant, il y a nous.</p>
-                </div>
-                <p class="lv-hint" aria-hidden="true"><span>Tomber</span></p>
-                <div class="lv-flood" aria-hidden="true"></div>
-            </div>
-        </section>
+  <section class="sc" aria-label="La brisure">
+    <div class="pin"><p class="recit" data-a="2">
+      <span class="l"><span>Le soir de l'inauguration,</span></span><span class="l"><span>il traverse la passerelle</span></span><span class="l"><span>de verre.</span></span>
+    </p></div>
+  </section>
 
-        <!-- LE LIVRE — la couverture, l'incipit de la quatrième, l'essentiel -->
-        <section class="lv-book" id="livre" aria-labelledby="lv-book-title">
-            <div class="lv-wrap lv-book-grid">
-                <figure class="lv-cover">
-                    <div class="lv-cover-tilt">
-                        <picture>
-                            <source srcset="assets/images/verticale-couverture.webp" type="image/webp">
-                            <img src="assets/images/verticale-couverture.jpg" alt="Couverture du roman La Verticale du Vide : un homme tombe au cœur d'un tourbillon de lumière dorée, entre des façades d'immeubles vues en contre-plongée" width="775" height="1163" decoding="async" fetchpriority="high">
-                        </picture>
-                    </div>
-                </figure>
-                <div class="lv-book-text">
-                    <h2 id="lv-book-title" class="lv-kicker">Le roman</h2>
-                    <p class="lv-incipit">Au commencement était la Fréquence.<br>Et à la fin, il n'y aura que le silence ou le chant.</p>
-                    <dl class="lv-facts">
-                        <div><dt>Auteur</dt><dd>Matthieu Straub</dd></div>
-                        <div><dt>Genre</dt><dd>Thriller métaphysique</dd></div>
-                        <div><dt>Éditeur</dt><dd>Éditions Kileton, 2026</dd></div>
-                        <div><dt>ISBN</dt><dd>979-10-984577-0-8</dd></div>
-                    </dl>
-                    <div class="lv-actions">
-                        <a href="https://www.amazon.fr/dp/B0GVKPR9NH" class="lv-btn lv-btn-gold" target="_blank" rel="noopener noreferrer">Acheter sur Amazon</a>
-                        <a href="assets/pdf/extrait_verticale_du_vide.pdf?v=2" download class="lv-btn lv-btn-line">Lire le début, gratuitement</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <section class="sc" aria-label="La chute">
+    <div class="pin"><p class="recit haut" data-a="3">
+      <span class="l"><span><em>Elle cède.</em></span></span>
+    </p></div>
+  </section>
 
-        <!-- I & II — La tour, puis la brisure : le plan se trace, la passerelle cède -->
-        <section class="lv-story" aria-label="L'histoire">
-            <div class="lv-wrap lv-story-grid">
-                <div class="lv-tower" aria-hidden="true">
-                    <div class="lv-tower-sticky">
-                        <svg class="lv-tower-svg" viewBox="0 0 400 900" aria-hidden="true" focusable="false">
-<g class="lv-tower-lines">
-<path class="bp bp-ground" pathLength="1" d="M24 860H376"/>
-<path class="bp bp-main" pathLength="1" d="M128 860L136 110H204L212 860"/>
-<path class="bp bp-main" pathLength="1" d="M170 110V36"/>
-<path class="bp" pathLength="1" d="M158 110L170 72L182 110"/>
-<path class="bp" pathLength="1" d="M153.0 110L149.0 860"/>
-<path class="bp" pathLength="1" d="M170.0 110L170.0 860"/>
-<path class="bp" pathLength="1" d="M187.0 110L191.0 860"/>
-<path class="bp bp-floor" pathLength="1" d="M135.6 144.1H204.4"/>
-<path class="bp bp-floor" pathLength="1" d="M135.3 178.2H204.7"/>
-<path class="bp bp-floor" pathLength="1" d="M134.9 212.3H205.1"/>
-<path class="bp bp-floor" pathLength="1" d="M134.5 246.4H205.5"/>
-<path class="bp bp-floor" pathLength="1" d="M134.2 280.5H205.8"/>
-<path class="bp bp-floor" pathLength="1" d="M133.8 314.5H206.2"/>
-<path class="bp bp-floor" pathLength="1" d="M133.5 348.6H206.5"/>
-<path class="bp bp-floor" pathLength="1" d="M133.1 382.7H206.9"/>
-<path class="bp bp-floor" pathLength="1" d="M132.7 416.8H207.3"/>
-<path class="bp bp-floor" pathLength="1" d="M132.4 450.9H207.6"/>
-<path class="bp bp-floor" pathLength="1" d="M132.0 485.0H208.0"/>
-<path class="bp bp-floor" pathLength="1" d="M131.6 519.1H208.4"/>
-<path class="bp bp-floor" pathLength="1" d="M131.3 553.2H208.7"/>
-<path class="bp bp-floor" pathLength="1" d="M130.9 587.3H209.1"/>
-<path class="bp bp-floor" pathLength="1" d="M130.5 621.4H209.5"/>
-<path class="bp bp-floor" pathLength="1" d="M130.2 655.5H209.8"/>
-<path class="bp bp-floor" pathLength="1" d="M129.8 689.5H210.2"/>
-<path class="bp bp-floor" pathLength="1" d="M129.5 723.6H210.5"/>
-<path class="bp bp-floor" pathLength="1" d="M129.1 757.7H210.9"/>
-<path class="bp bp-floor" pathLength="1" d="M128.7 791.8H211.3"/>
-<path class="bp bp-floor" pathLength="1" d="M128.4 825.9H211.6"/>
-<path class="bp bp-main" pathLength="1" d="M262 860L266 200H318L322 860"/>
-<path class="bp" pathLength="1" d="M292.0 200L292 860"/>
-<path class="bp bp-floor" pathLength="1" d="M265.7 244.0H318.3"/>
-<path class="bp bp-floor" pathLength="1" d="M265.5 288.0H318.5"/>
-<path class="bp bp-floor" pathLength="1" d="M265.2 332.0H318.8"/>
-<path class="bp bp-floor" pathLength="1" d="M264.9 376.0H319.1"/>
-<path class="bp bp-floor" pathLength="1" d="M264.7 420.0H319.3"/>
-<path class="bp bp-floor" pathLength="1" d="M264.4 464.0H319.6"/>
-<path class="bp bp-floor" pathLength="1" d="M264.1 508.0H319.9"/>
-<path class="bp bp-floor" pathLength="1" d="M263.9 552.0H320.1"/>
-<path class="bp bp-floor" pathLength="1" d="M263.6 596.0H320.4"/>
-<path class="bp bp-floor" pathLength="1" d="M263.3 640.0H320.7"/>
-<path class="bp bp-floor" pathLength="1" d="M263.1 684.0H320.9"/>
-<path class="bp bp-floor" pathLength="1" d="M262.8 728.0H321.2"/>
-<path class="bp bp-floor" pathLength="1" d="M262.5 772.0H321.5"/>
-<path class="bp bp-floor" pathLength="1" d="M262.3 816.0H321.7"/>
-<path class="bp bp-dim" pathLength="1" d="M84 110V860M78 110H90M78 860H90"/>
-</g>
-<text class="bp-label" x="70" y="485" transform="rotate(-90 70 485)" text-anchor="middle">88 étages · verre et acier</text>
-<g class="lv-bridge">
-<g class="lv-span lv-span-a"><path class="bp bp-glass" pathLength="1" d="M204 196H236V214H204Z"/><path class="bp" pathLength="1" d="M204 214L214 224L224 214L234 224"/></g>
-<g class="lv-span lv-span-b"><path class="bp bp-glass" pathLength="1" d="M236 196H266V214H236Z"/><path class="bp" pathLength="1" d="M238 224L248 214L258 224L266 216"/></g>
-</g>
-<path class="bp bp-dim" pathLength="1" d="M236 196L300 132H372"/>
-<text class="bp-label" x="372" y="124" text-anchor="end">Skybridge · +100 m</text>
-<g class="lv-cracks">
-<path class="crack" pathLength="1" d="M236 205L229 199L222 202L214 197"/>
-<path class="crack" pathLength="1" d="M236 205L244 210L251 206L259 211L265 208"/>
-<path class="crack" pathLength="1" d="M236 205L233 213L227 216"/>
-<path class="crack" pathLength="1" d="M236 205L240 198L247 197"/>
-</g>
-</svg>
-                    </div>
-                </div>
-                <div class="lv-chapters">
-                    <article class="lv-chapter" data-step="tower">
-                        <p class="lv-num">I. <span>La tour</span></p>
-                        <p class="lv-lead">Thomas Vane a bâti quatre-vingt-huit étages de verre et d'acier au-dessus de Manhattan.</p>
-                        <p class="lv-body">Son nom est gravé dans le bronze, de Dubaï à Shanghai. Mais derrière la façade, il y a les rapports falsifiés, quarante-sept enfants contaminés au cadmium, une épouse devenue une inconnue, un frère qui survit sous un pont de Brooklyn.</p>
-                    </article>
-                    <article class="lv-chapter" data-step="break">
-                        <p class="lv-num">II. <span>La brisure</span></p>
-                        <p class="lv-lead">Le soir de l'inauguration, la passerelle de verre s'effondre et son cœur s'arrête.</p>
-                    </article>
-                </div>
-            </div>
-            <div class="lv-pulse">
-                <svg class="lv-ecg" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-                    <path class="lv-ecg-line" pathLength="1" d="M0 60H60L70 54.0L80 60.0L88 60.0L93 68.0L100 12.0L107 90.0L113 60.0L127 60.0L143 48.0L157 60.0H217L227 54.9L237 60.0L245 60.0L250 66.8L257 19.2L264 85.5L270 60.0L284 60.0L300 49.8L314 60.0H374L384 56.7L394 60.0L402 60.0L407 64.4L414 33.6L421 76.5L427 60.0L441 60.0L457 53.4L471 60.0H1000"/>
-                </svg>
-                <p class="lv-flat">Quarante-cinq minutes sans pouls.</p>
-            </div>
-        </section>
+  <section class="sc" aria-label="Le pouls">
+    <div class="pin pouls">
+      <svg class="ecg" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path id="ecg-trait" d=""/><circle id="ecg-pointe" r="2.6" cx="0" cy="60"/></svg>
+      <p class="grand" data-a="4"><span class="l"><span>…et son cœur s'arrête.</span></span></p>
+    </div>
+  </section>
 
-        <!-- III — Le Voile : une membrane de fils de lumière qui s'écarte -->
-        <section class="lv-veil" aria-labelledby="lv-veil-title">
-            <div class="lv-veil-sticky">
-                <canvas class="lv-threads" aria-hidden="true"></canvas>
-                <div class="lv-veil-glow" aria-hidden="true"></div>
-                <div class="lv-veil-text">
-                    <p class="lv-num">III. <span id="lv-veil-title">Le Voile</span></p>
-                    <p class="lv-veil-line">De l'autre côté du Voile, la Source lui fait revoir sa vie sans aucun filtre, puis lui pose une seule question&nbsp;:</p>
-                    <p class="lv-question">rester, ou retourner réparer.</p>
-                </div>
-            </div>
-        </section>
+  <section class="sc" aria-label="Le Voile">
+    <div class="pin voile">
+      <p class="phrase" data-a="5" data-d=".3"><span class="l"><span>De l'autre côté du Voile,</span></span></p>
+      <p class="bas" data-a="5" data-d="3.6"><span class="l"><span>il n'y a que la Lumière.</span></span></p>
+    </div>
+  </section>
 
-        <!-- Le retour, puis la vidéo du livre -->
-        <section class="lv-return" aria-label="Le retour">
-            <div class="lv-wrap lv-narrow">
-                <p class="lv-body lv-reveal">Thomas revient, porteur d'un don qui guérit ce qui est brisé, et d'une voix nouvelle au fond de sa conscience&nbsp;: le Passager.</p>
-            </div>
+  <section class="sc" aria-label="La Source">
+    <div class="pin source">
+      <p class="phrase" data-a="6" data-d=".2"><span class="l"><span>La Source lui pose une seule question&nbsp;:</span></span></p>
+      <p class="question" data-a="6" data-d="1.1"><span class="l"><span>rester, ou retourner réparer.</span></span></p>
+    </div>
+  </section>
+
+  <section class="sc" aria-label="Le Passager">
+    <div class="pin passager">
+      <p class="g" data-a="7" data-d=".2"><span class="l"><span>Un fragment</span></span><span class="l"><span>de la Fréquence originelle,</span></span></p>
+      <p class="d" data-a="7" data-d="1.15"><span class="l"><span>un passager clandestin</span></span><span class="l"><span>dans sa propre conscience.</span></span></p>
+      <p class="voix" data-a="7" data-d="2.75"><span class="l"><span>— Qui es-tu&nbsp;?</span></span><span class="l"><span>— Tu le sais déjà.</span></span></p>
+    </div>
+  </section>
+
+  <section class="sc" aria-label="La fissure">
+    <div class="pin fissure">
+      <p class="g" data-a="8"><span class="l"><span>« La fissure</span></span><span class="l"><span>n'est pas un défaut.</span></span></p>
+      <p class="d" data-a="8" data-d=".9"><span class="l"><span>Elle est l'endroit par où</span></span><span class="l"><span>la lumière entre. »</span></span></p>
+    </div>
+  </section>
+
+  <section class="sc fin" aria-labelledby="choix">
+    <div class="pin final">
+      <div class="couv f" data-t="42.5"><div class="masque"><img src="assets/verticale/couverture.jpg" alt="Couverture de La Verticale du Vide, de Matthieu Straub, aux Éditions Kileton : un homme tombe au cœur d'un tourbillon de lumière, entre des façades vues en contre-plongée"></div></div>
+      <div>
+        <h2 class="c1" id="choix" data-a="9" data-d=".45"><span class="l"><span>Réparer, c'est aussi</span></span><span class="l"><span>la raison de ce livre.</span></span></h2>
+        <p class="c2 f" data-t="43.75">Chaque exemplaire vendu finance <b>Imiter pour grandir</b>, qui crée une école pour accompagner les enfants autistes vers l'autonomie.</p>
+        <p class="c3" data-a="9" data-d="2.3"><span class="l"><span>Acheter ce roman,</span></span><span class="l"><span>c'est financer une école.</span></span></p>
+        <div class="portes">
+          <div class="porte f" data-t="45.35">
+            <h3>Le chant</h3>
+            <p>Tout le roman, broché ou Kindle.</p>
+            <a class="btn or" href="https://www.amazon.fr/dp/B0GVKPR9NH" target="_blank" rel="noopener noreferrer">Acheter le livre</a>
+          </div>
+          <div class="porte silence f" data-t="46.15">
+            <h3>Le silence</h3>
+            <p>Le prologue et le premier chapitre, gratuitement.</p>
+            <a class="btn" href="https://editions-kileton.fr/assets/pdf/extrait_verticale_du_vide.pdf" target="_blank" rel="noopener noreferrer">Lire le début</a>
+          </div>
+        </div>
+        <p class="meta f" data-t="46.95">Thriller métaphysique · ISBN 979-10-984577-0-8 · Également en librairie, sur commande. <a href="https://editions-kileton.fr/livre.html">La page du livre</a></p>
+        <a class="signature f" data-t="47.75" href="https://editions-kileton.fr/" aria-label="Éditions Kileton"><img class="sceau" src="assets/verticale/sceau.svg" alt=""><img class="mot" src="assets/verticale/wordmark.svg" alt=""></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="ecouter">
+<section class="lv-media" id="bande-annonce" aria-labelledby="lv-media-title">
             <div class="lv-wrap">
-                <div class="lv-film lv-reveal">
-                    <video autoplay loop muted playsinline preload="metadata" aria-label="Vidéo promotionnelle du roman La Verticale du Vide">
-                        <source src="assets/video/promo_opt.mp4" type="video/mp4">
-                    </video>
-                </div>
-            </div>
-        </section>
-
-        <!-- IV — Le choix : la fissure par où la lumière entre -->
-        <section class="lv-choice" aria-labelledby="lv-choice-title">
-            <div class="lv-wrap lv-narrow">
-                <p class="lv-num lv-reveal">IV. <span>Le prix</span></p>
-                <p class="lv-body lv-reveal">Mais chaque miracle a un prix. Et quelque chose d'ancien l'attend, quelque chose qui a bâti les premières galaxies et qui n'a jamais pardonné aux hommes d'avoir reçu ce que lui n'a pas&nbsp;:</p>
-                <h2 id="lv-choice-title" class="lv-choice-word"><span class="lv-rule" aria-hidden="true"></span><span class="lv-choice-text">le choix.</span><span class="lv-rule" aria-hidden="true"></span></h2>
-            </div>
-            <div class="lv-fissure" aria-hidden="true">
-                <svg viewBox="0 0 200 1000" preserveAspectRatio="none">
-                    <defs>
-                        <linearGradient id="lv-crack-fill" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0" stop-color="#FFF3D6" stop-opacity="0"/>
-                            <stop offset=".25" stop-color="#FFF3D6"/>
-                            <stop offset=".7" stop-color="#E8D48B"/>
-                            <stop offset="1" stop-color="#D4AF37" stop-opacity="0"/>
-                        </linearGradient>
-                    </defs>
-                    <path class="lv-crack" d="M100 0L104 70L96 140L108 230L94 300L103 390L97 470L110 560L92 650L104 730L98 820L106 910L100 1000L99 910L93 820L99 730L87 650L105 560L92 470L98 390L89 300L103 230L91 140L99 70Z" fill="url(#lv-crack-fill)"/>
-                </svg>
-                <div class="lv-fissure-glow"></div>
-            </div>
-            <blockquote class="lv-wrap lv-narrow lv-quote lv-reveal">
-                <p>« La fissure n'est pas un défaut.<br>La fissure est l'endroit par où la lumière entre. »</p>
-            </blockquote>
-        </section>
-
-        <!-- Bande-annonce et bande-son -->
-        <section class="lv-media" id="bande-annonce" aria-labelledby="lv-media-title">
-            <div class="lv-wrap">
-                <h2 id="lv-media-title" class="lv-kicker lv-reveal">Voir et entendre</h2>
+                <h2 id="lv-media-title" class="lv-kicker">Voir et entendre</h2>
                 <div class="lv-media-grid">
-                    <div class="lv-trailer lv-reveal">
+                    <div class="lv-trailer">
                         <div class="clip-responsive">
                             <div class="yt-facade" data-yt="FnUR_KO1qzw" data-yt-title="Bande-annonce du roman La Verticale du Vide">
                                 <button type="button" class="yt-facade-btn">
@@ -390,7 +414,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="lv-sound lv-reveal" id="bande-son">
+                    <div class="lv-sound" id="bande-son">
                         <p class="lv-sound-intro">La bande-son du roman&nbsp;: deux titres, la chute et la Fréquence.</p>
                         <!-- Single 1 : La Verticale du Vide -->
                 <div class="track-block">
@@ -425,84 +449,461 @@
                 </div>
             </div>
         </section>
+<footer class="pied">&copy; 2026 Éditions Kileton — <a href="mentions-legales.html">Mentions légales</a></footer>
+</div>
 
-        <!-- V — Les deux portes -->
-        <section class="lv-doors" id="acheter" aria-labelledby="lv-doors-title">
-            <div class="lv-wrap">
-                <p class="lv-num lv-reveal">V. <span>La verticale</span></p>
-                <h2 id="lv-doors-title" class="lv-doors-q lv-reveal">Le silence, ou le chant&nbsp;?</h2>
-                <div class="lv-doors-grid">
-                    <a class="lv-door lv-door-song lv-reveal" href="https://www.amazon.fr/dp/B0GVKPR9NH" target="_blank" rel="noopener noreferrer">
-                        <span class="lv-door-arch" aria-hidden="true"><span class="lv-door-light"></span></span>
-                        <span class="lv-door-name">Le chant</span>
-                        <span class="lv-door-desc">Lire tout le roman. Broché et Kindle, sur Amazon.</span>
-                        <span class="lv-door-cta">Acheter le livre <span aria-hidden="true">→</span></span>
-                    </a>
-                    <a class="lv-door lv-door-silence lv-reveal" href="assets/pdf/extrait_verticale_du_vide.pdf?v=2" download>
-                        <span class="lv-door-arch" aria-hidden="true"><span class="lv-door-light"></span></span>
-                        <span class="lv-door-name">Le silence</span>
-                        <span class="lv-door-desc">Le prologue et le premier chapitre, en PDF, gratuitement.</span>
-                        <span class="lv-door-cta">Télécharger l'extrait <span aria-hidden="true">→</span></span>
-                    </a>
-                </div>
-                <p class="lv-store lv-reveal">Également en librairie, sur commande. <a href="mailto:matthieu.straub@editions-kileton.fr">Écrire à l'éditeur</a></p>
-            </div>
-        </section>
+<button class="btn reprendre" id="reprendre" type="button">Reprendre le défilement</button>
 
-    </main>
+<audio id="son" preload="auto"><source src="assets/verticale/bande.ogg" type="audio/ogg"><source src="assets/verticale/bande.mp3" type="audio/mpeg"></audio>
 
-    <!-- FOOTER -->
-    <footer class="site-footer" role="contentinfo">
-        <div class="container">
-            <div class="footer-content">
-                <p class="footer-copyright">&copy; 2026 Éditions Kileton — <a href="mentions-legales.html">Mentions légales</a></p>
-                <nav class="footer-nav" aria-label="Navigation pied de page">
-                    <a href="index.html">Accueil</a>
-                    <a href="livre.html">La Verticale du Vide</a>
-                    <a href="france-des-talents.html">La France des Talents</a>
-                </nav>
-            </div>
-        </div>
-    </footer>
+<script id="frag" type="x-shader/x-fragment">#version 300 es
+precision highp float;
+out vec4 o;
+uniform vec2 uRes; uniform float uT;
+uniform float uDust, uVoile, uZc, uSrc, uFiss, uFissF, uFissX, uFinal, uFinalX, uCoupe;
+uniform float uTun, uPh, uRecul, uFrag, uCym, uMode, uCorde, uVib, uVibT, uHar, uCoeur;
 
-    <button id="audio-toggle" aria-label="Activer / couper la musique d'ambiance" title="Musique d'ambiance">
-      <svg id="icon-sound-on" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-      </svg>
-      <svg id="icon-sound-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none;">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-        <line x1="23" y1="9" x2="17" y2="15"></line>
-        <line x1="17" y1="9" x2="23" y2="15"></line>
-      </svg>
-    </button>
+const vec3 NUIT=vec3(.039,.086,.157), ABY=vec3(.024,.035,.071), AZP=vec3(0.,.224,.349), VOR=vec3(.243,.431,.62);
+const vec3 ORP=vec3(.91,.83,.545), OR=vec3(.83,.686,.216), INC=vec3(1.,.953,.839), BRAISE=vec3(.788,.467,.18);
+const float PI=3.14159265;
 
-    <script src="js/main.js"></script>
-    <script src="js/vendor/gsap.min.js" defer></script>
-    <script src="js/vendor/ScrollTrigger.min.js" defer></script>
-    <script type="module" src="js/verticale.js?v=6"></script>
+float h12(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}
+vec2 h22(vec2 p){vec3 q=fract(vec3(p.xyx)*vec3(.1031,.1030,.0973));q+=dot(q,q.yzx+33.33);return fract((q.xx+q.yz)*q.zy);}
+float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h12(i),h12(i+vec2(1,0)),f.x),mix(h12(i+vec2(0,1)),h12(i+1.),f.x),f.y);}
+float fbm(vec2 p){float s=0.,a=.5;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a*=.5;}return s;}
 
-    <!-- Lecteur vidéo au clic : rien n'est demandé à YouTube tant que le
-         visiteur n'a pas cliqué. Le domaine youtube-nocookie limite en outre
-         les traceurs déposés une fois la lecture lancée. -->
-    <script>
-    (function () {
-        document.querySelectorAll('.yt-facade').forEach(function (box) {
-            var btn = box.querySelector('.yt-facade-btn');
-            if (!btn) { return; }
-            btn.addEventListener('click', function () {
-                var f = document.createElement('iframe');
-                f.src = 'https://www.youtube-nocookie.com/embed/' + box.dataset.yt +
-                        '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
-                f.title = box.dataset.ytTitle || 'Vidéo';
-                f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-                f.setAttribute('allowfullscreen', '');
-                box.replaceChildren(f);
-                box.classList.add('is-playing');
-            });
-        });
-    })();
-    </script>
+// ——— Poussière suspendue ———
+vec3 poussiere(vec2 s, float a){
+  vec3 c=vec3(0);
+  for(int l=0;l<3;l++){
+    float fl=float(l), sc=26.+fl*22.;
+    vec2 p=s*sc+vec2(fl*13.,-uT*(.25+fl*.12));
+    vec2 i=floor(p), f=fract(p)-.5; vec2 o=h22(i)-.5;
+    float hh=h12(i+fl*5.);
+    float dd=length(f-o*.7)*sc/uRes.y*900.;
+    c+=ORP*step(.82,hh)*exp(-dd*dd*(.6+fl*.5))*(.35-fl*.08)*(.6+.4*sin(uT*1.3+hh*40.));
+  }
+  return c*a;
+}
+
+// ——— Le Voile : des voiles de soie, en profondeur, éclairés par-derrière ———
+// La Source, loin derrière : un cœur blanc, un or, une braise large.
+vec3 source(vec2 s){
+  float r=length((s-vec2(0.,.02))*vec2(1.,1.15));
+  return (INC*1.3*exp(-r*r*60.)+ORP*.55*exp(-r*6.)+BRAISE*.22*exp(-r*2.1))*uSrc;
+}
+// la même lumière, diffusée par la soie (plus large, plus douce)
+vec3 diffuse(vec2 s){
+  float r=length((s-vec2(0.,.02))*vec2(1.,1.1));
+  return (INC*.45*exp(-r*r*3.5)+ORP*.5*exp(-r*1.7)+BRAISE*.28*exp(-r*.75)+AZP*.08)*uSrc;
+}
+// hauteur du tissu : plis verticaux, plus serrés quand on l'écarte, et une houle lente qui le traverse
+float plis(float x, float y, float g, float i){
+  float t=uT;
+  float w=.55*sin(.6*y+t*.33+i*1.7)+.25*sin(1.7*y-t*.21+i);
+  float h=.030*sin(12.*x*g+w+i*2.1)+.013*sin(25.*x*g+1.4*w+i*4.3+.45*y)+.005*sin(49.*x*g-.8*w+i*.7+.9*y)+.0022*sin(97.*x*g+.6*w+i);
+  h+=.055*sin(2.1*x-t*.75+y*1.15+i)*(.65+.35*sin(t*.29+i*2.));
+  return h;
+}
+vec3 voile(vec2 s){
+  vec3 col=ABY*.7+source(s);
+  vec2 cam=vec2(.05*sin(uT*.23),.025*sin(uT*.17+1.));
+  for(int k=0;k<5;k++){
+    float fi=float(4-k);                      // du plus lointain au plus proche
+    float d=.9+fi*.75-uZc;
+    if(d<.07) continue;
+    float sc=d*1.25;
+    vec2 q=s*sc+cam+vec2(.09*sin(fi*2.3),0.);
+    // le voile s'écarte quand on s'approche ; son bord libre ondule
+    float ouv=.025+1.15*smoothstep(1.75,.22,d);
+    float edge=ouv+.034*sin(q.y*2.2+uT*.55+fi*1.9)+.014*sin(q.y*5.7-uT*.85+fi)+.006*sin(q.y*13.+uT*1.3+fi*3.);
+    float m=abs(q.x)-edge;
+    float px=sc/uRes.y*1.6;
+    float cov=smoothstep(-px,px,m);
+    if(cov<=0.) continue;
+    float g=mix(1.,2.5,smoothstep(.1,1.,ouv))*(1.+.9*exp(-max(m,0.)*3.));
+    float x=max(m,0.), y=q.y, e=.0035;
+    float h=plis(x,y,g,fi), hx=plis(x+e,y,g,fi), hy=plis(x,y+e,g,fi);
+    vec3 n=normalize(vec3(-(hx-h)/e*sign(q.x), -(hy-h)/e, 1.));
+    float cs=clamp(n.z,0.,1.);
+    // organza : presque transparent de face, opaque là où le pli se présente par la tranche
+    float opt=.42/max(cs,.11)*(1.+.08*(vn(vec2(x*140.,y*2.5+fi))-.5));
+    float a=(1.-exp(-opt))*cov*smoothstep(.07,.38,d)*uVoile;
+    vec3 glow=mix(col,diffuse(s),.55);
+    vec3 teinte=mix(vec3(1.,.94,.82),vec3(.90,.92,.98),.3*fract(fi*.37+.2));
+    float rim=pow(1.-cs,2.4);
+    vec3 fl=normalize(vec3(-.35*sign(q.x),.55,.75));
+    vec3 c=glow*teinte*(.30+.70*cs)*.85          // la lumière traverse et se diffuse
+          +glow*teinte*(rim*1.4+pow(1.-cs,7.)*2.4)  // la tranche des plis s'allume, d'un fil clair
+          +ORP*.085*max(dot(n,fl),0.)*uSrc        // la Source, renvoyée par la soie d'à côté
+          +AZP*.05*(.5+.5*n.y)+NUIT*.04;          // un peu de nuit sur la face
+    c+=glow*exp(-max(m,0.)*55./sc)*cov*.55;       // l'ourlet accroche la lumière
+    col=col*(1.-a)+c*a;
+  }
+  return col;
+}
+
+// ——— La Source, dévoilée : un puits de lumière dont les anneaux sont une fréquence ———
+// des filaments en perspective (plus serrés vers le cœur), jamais un cercle parfait ; uPh les fait couler
+vec3 puits(vec2 s){
+  vec2 q=(s-vec2(0.,.02/uRecul))*uRecul*vec2(1.,1.12);
+  float r=length(q), a=atan(q.y,q.x), z=log(max(r,.003));
+  float ph=z*1.35+uPh+a/6.2832*1.25+.05*sin(a*3.+uT*.21);        // deux bras : le tourbillon de la couverture, à peine
+  float fil=.5+.5*fbm(q/max(r,1e-3)*1.6+vec2(z*.9, z*3.1+uPh*.6));   // sans couture à l'angle ±π
+  float freq=1.35/max(r,1e-3)*uRecul/uRes.y*8.;                   // finesse à l'écran : on efface ce qui crénellerait
+  float l=pow(.5+.5*cos(ph*6.2832*1.6),46.)*smoothstep(.42,.86,fil)*smoothstep(.5,.12,freq);
+  float l2=pow(.5+.5*cos(ph*6.2832*3.2+1.7),70.)*smoothstep(.5,.92,fil)*smoothstep(.25,.06,freq)*.75;
+  float att=exp(-r*1.25)*smoothstep(.0,.08,r);
+  vec3 c=mix(BRAISE*.9,ORP,exp(-r*1.6))*(l+l2)*att*1.5;
+  c+=(INC*1.7*exp(-r*r*420.)+ORP*.42*exp(-r*7.5)+BRAISE*.2*exp(-r*1.9))/(1.+.25*(uRecul-1.));
+  return c*uTun;
+}
+
+// ——— Le Passager : la Fréquence rendue visible ———
+// Chladni : sur une plaque qui vibre, le sable se range sur les lignes qui ne bougent pas
+float chl(vec2 p, vec2 m){ return cos(m.x*PI*p.x)*cos(m.y*PI*p.y)-cos(m.y*PI*p.x)*cos(m.x*PI*p.y); }
+vec2 mode_(float i){ return i<.5?vec2(1.,3.):i<1.5?vec2(2.,5.):i<2.5?vec2(3.,7.):vec2(1.,9.); }
+float plaque(vec2 p){
+  float i0=floor(uMode), f=smoothstep(0.,1.,fract(uMode));
+  return mix(chl(p,mode_(i0)),chl(p,mode_(i0+1.)),f);
+}
+vec3 cymatique(vec2 s){
+  if(uCym<=0.) return vec3(0);
+  float k=1.+3.*uCorde;                                            // à la fin, tout se resserre vers la verticale
+  float Rc=min(.3,.4*uRes.x/uRes.y);                                // la plaque tient dans l'écran, même en portrait
+  vec2 p=s/Rc*vec2(k,1.);
+  float e=.004, c=plaque(p);
+  vec2 gr=vec2(plaque(p+vec2(e,0.))-c, plaque(p+vec2(0.,e))-c)/e;
+  float d=abs(c)/max(length(gr),.6)*Rc;                          // distance (écran) à la ligne nodale
+  vec2 fc=gl_FragCoord.xy;
+  float g1=h12(floor(fc/1.6)), g2=h12(floor(fc/1.6)+37.+floor(uT*9.));
+  float grain=step(.6,mix(g1,g2,.35));                             // le sable tremble un peu sur la plaque
+  float large=mix(.045,.0045,smoothstep(0.,1.,uCym))*Rc/.3;             // les grains se rassemblent
+  float sable=exp(-d*d/(large*large))*grain;
+  float R=length(s*vec2(1.,1.05))/Rc;
+  float bord=smoothstep(1.15,.7,R);
+  vec3 c3=mix(ORP,INC,.35)*sable*.95+ORP*exp(-d/.005)*.11;
+  return c3*bord*uCym;
+}
+// la corde : une seule note, tenue entre deux points ; on voit sa position et la trace qu'elle laisse dans l'œil
+vec3 corde(vec2 s){
+  float H=uRes.x<uRes.y?.25:.42, y=s.y, px=1.3/uRes.y;          // en portrait, elle tient entre les deux textes
+  float u=clamp((y+H)/(2.*H),0.,1.);
+  float env=sin(PI*u)+.45*uHar*sin(3.*PI*u)*cos(uVibT*1.7+1.);
+  float A=uVib*.055*env;
+  float xi=A*cos(uVibT);
+  float bout=smoothstep(H+.012,H-.02,abs(y));
+  float ligne=exp(-.5*pow((s.x-xi)/px,2.));
+  float aA=abs(A)+px;
+  float trace=.45*px/sqrt(max(aA*aA-s.x*s.x,px*px*3.))*smoothstep(aA+px,aA-px,abs(s.x));
+  vec3 c=(INC*ligne*.95+ORP*min(trace,.9))*bout;
+  c+=mix(BRAISE,ORP,.6)*exp(-abs(s.x-xi)*26.)*.085*bout;          // la lumière qu'elle jette autour
+  c+=ORP*.9*exp(-length(vec2(s.x,abs(y)-H))*900.);                // ses deux points d'attache
+  return c*uCorde;
+}
+// le fragment : ce qui reste avec lui quand la Source s'éloigne ; il bat sur les frappes du morceau
+vec3 fragment(vec2 s){
+  float r=length(s*vec2(1.,1.25));
+  float b=.75+1.1*uCoeur;
+  return (INC*exp(-r*r*2200./b)*1.4*b+ORP*exp(-r*30.)*.22*b+BRAISE*exp(-r*9.)*.05*b)*uFrag;
+}
+
+// ——— La fissure : la corde s'immobilise et s'ouvre ———
+vec3 fissure(vec2 s){
+  float ly=s.y, f=uFissF;
+  float jag=(.0045+.006*fbm(vec2(ly*7.,3.))+.003*fbm(vec2(ly*31.,9.)))*smoothstep(.62,.2,abs(ly));
+  float w=mix(.0012,jag,f);
+  float xc=uFissX+(.035*(fbm(vec2(ly*2.6,1.7))-.5)+.012*(fbm(vec2(ly*11.,5.))-.5))*f;
+  float ax=abs(s.x-xc);
+  float dedans=1.-smoothstep(w-.003,w+.004,ax);
+  float rel=clamp(ax/max(w,1e-3),0.,1.);
+  float rais=.8+.2*fbm(vec2((s.x-xc)*40.,ly*1.5-uT*.08));
+  vec3 src=mix(BRAISE*.55,ORP*.95,smoothstep(1.,.35,rel))*rais;
+  src=mix(src,INC*1.15,smoothstep(.75,0.,rel)*f+exp(-length(vec2(s.x-xc,ly)*vec2(1.6,1.1))*5.)*(1.-f));
+  float bouts=mix(1.,smoothstep(.55,.15,abs(ly)),f);
+  vec3 lum=src*dedans*bouts;
+  lum+=mix(BRAISE,ORP,.6)*exp(-max(ax-w,0.)*mix(7.,22.,f))*mix(.10,.20,f)*bouts;
+  return lum;
+}
+
+// ——— La fin : une verticale de lumière, qui passe derrière le texte puis derrière le livre ———
+vec3 final(vec2 s){
+  vec3 c=mix(NUIT*.95, ABY, smoothstep(-.6,.6,s.y));
+  float x=s.x-uFinalX+.004*(fbm(vec2(s.y*9.,2.))-.5);
+  float px=1./uRes.y*1.2;
+  float coeur=exp(-x*x/(2.*px*px*1.2));
+  float halo=exp(-abs(x)*22.)*.16+exp(-abs(x)*5.)*.05;
+  float vert=(.55+.45*exp(-s.y*s.y*2.5))*smoothstep(uCoupe-.01,uCoupe+.06,s.y);
+  c+=INC*coeur*.9*vert+ORP*halo*vert;
+  c+=poussiere(s,.35);
+  return c;
+}
+
+void main(){
+  vec2 fc=gl_FragCoord.xy;
+  vec2 s=(fc-.5*uRes)/uRes.y;
+  vec3 c=ABY;
+  if(uDust>0.) c+=poussiere(s,uDust);
+  if(uVoile>0.) c=mix(c, voile(s), clamp(uVoile*1.4,0.,1.));
+  if(uTun>0.) c+=puits(s)*(1.-clamp(uVoile*1.4,0.,1.)*.6);
+  if(uCym>0.) c+=cymatique(s);
+  if(uFrag>0.) c+=fragment(s);
+  if(uCorde>0.) c+=corde(s);
+  if(uFiss>0.) c+=fissure(s)*uFiss;
+  if(uFinal>0.) c=mix(c, final(s), uFinal);
+  float v=smoothstep(1.25,.35,length(s*vec2(.85,1.)));
+  c*=mix(.62,1.,v);
+  c=c/(1.+c*.18)*1.08;
+  c+=(h12(fc+fract(uT*7.3)*vec2(131.,71.))-.5)*.022;
+  o=vec4(max(c,0.),1.);
+}
+</script>
+
+<script src="assets/verticale/three.min.js"></script>
+<script src="assets/verticale/passerelle.js?v=1"></script>
+<script>
+(()=>{
+// t3De : temps de la passerelle et de la chute ; D : décalage de tout ce qui suit (le morceau entre à T = 30, sur le pouls)
+const D=15, RM=30, HAND=18.6, TR=1.05, FIN=64.5;
+window.DURATION=61; window.FPS=30; window.WIDTH=1920; window.HEIGHT=1080;
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), lerp=(a,b,k)=>a+(b-a)*k;
+const io3=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+const outX=k=>k>=1?1:1-Math.pow(2,-10*k);
+const ss=(a,b,x)=>{const k=clamp((x-a)/(b-a));return k*k*(3-2*k);};
+// le temps de la passerelle : la marche passe 1,5 fois plus vite, la brisure et la chute en temps réel ; t3(RM) = HAND
+const pente=T=>1+.5*(1-ss(19.3,20.7,T));
+function t3De(T){ const n=160, h=(RM-T)/n; let s=0; for(let i=0;i<n;i++) s+=pente(T+(i+.5)*h)*h; return HAND-s; }
+function tDe3(x){ let lo=0,hi=RM; for(let i=0;i<40;i++){ const m=(lo+hi)/2; t3De(m)<x?lo=m:hi=m; } return (lo+hi)/2; }
+const A=[0,9,tDe3(8.5),tDe3(12.8),RM,35.33,43.17,47.34,53.44,57.41], N=A.length;
+
+// ——— Le temps et la page ———
+const scs=[...document.querySelectorAll('.sc')];
+let Y=[], VH=innerHeight;
+function mesure(){ VH=document.querySelector('.pin').offsetHeight||innerHeight; Y=scs.map(s=>s.offsetTop); }
+mesure();
+function yDe(t){
+  if(t>=A[N-1]) return Y[N-1]+VH*.6*clamp((t-A[N-1])/(FIN-A[N-1]));
+  let k=0; for(let i=0;i<N-1;i++) if(t>=A[i]) k=i;
+  const a=A[k], b=A[k+1], h=b-TR;
+  if(t<h) return Y[k]+VH*clamp((t-a)/(h-a));
+  return Y[k]+VH+VH*io3(clamp((t-h)/TR));
+}
+function tDe(y){
+  if(y>=Y[N-1]) return A[N-1]+(FIN-A[N-1])*clamp((y-Y[N-1])/(VH*.6));
+  let k=0; for(let i=0;i<N-1;i++) if(y>=Y[i]) k=i;
+  const a=A[k], b=A[k+1], h=b-TR, r=(y-Y[k])/VH;
+  if(r<1) return a+(h-a)*clamp(r);
+  let lo=0,hi=1; const g=clamp(r-1); for(let i=0;i<22;i++){const m=(lo+hi)/2; io3(m)<g?lo=m:hi=m;}
+  return h+TR*lo;
+}
+
+// ——— Les deux images : la passerelle (Three.js) puis le reste (un shader plein écran) ———
+const cv=document.getElementById('gl'), c3=document.getElementById('g3');
+const gl=cv.getContext('webgl2',{antialias:false,alpha:false,preserveDrawingBuffer:true});
+let U={}, ok=!!gl&&!!window.THREE, echelle=1, P3=null;
+if(ok){
+  const vs=`#version 300 es
+in vec2 p; void main(){gl_Position=vec4(p,0.,1.);}`;
+  const sh=(t,src)=>{const s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(s));ok=false;}return s;};
+  const pr=gl.createProgram();
+  gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs)); gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,document.getElementById('frag').textContent));
+  gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){console.error(gl.getProgramInfoLog(pr));ok=false;}
+  if(ok){
+    gl.useProgram(pr);
+    const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+    const l=gl.getAttribLocation(pr,'p'); gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
+    ['uRes','uT','uDust','uVoile','uZc','uSrc','uFiss','uFissF','uFissX','uFinal','uFinalX','uCoupe','uTun','uPh','uRecul','uFrag','uCym','uMode','uCorde','uVib','uVibT','uHar','uCoeur'].forEach(n=>U[n]=gl.getUniformLocation(pr,n));
+  }
+  try{ P3=Passerelle.init(c3); }catch(e){ console.error(e); ok=false; }
+}
+if(!ok) document.documentElement.classList.add('no-gl');
+function taille(){
+  const d=Math.min(devicePixelRatio||1,+(new URLSearchParams(location.search).get('hd')||1.5))*echelle;   // ?hd=2.5 : export vidéo en pleine définition
+  cv.width=Math.round(innerWidth*d); cv.height=Math.round(cv.clientHeight*d);
+  if(ok){ gl.viewport(0,0,cv.width,cv.height); P3.taille(cv.width,cv.height); }
+}
+taille();
+addEventListener('resize',()=>{mesure();taille();});
+
+// ——— Les textes : chaque ligne monte derrière son masque, au début de sa scène ———
+const textes=[...document.querySelectorAll('[data-a]')].map(el=>({el,a:A[+el.dataset.a]+(+el.dataset.d||0)+.05,ls:[...el.querySelectorAll('.l>span')]}));
+const fs=[...document.querySelectorAll('.f')].map(el=>({el,t:+el.dataset.t}));
+const masqueCouv=document.querySelector('.couv .masque');
+const jauge=document.querySelector('.jauge'), num=jauge.querySelector('.num'), unite=jauge.querySelector('.unite'), etage=jauge.querySelector('.etage'), rempli=jauge.querySelector('.rempli');
+const titreL=[...document.querySelectorAll('.ouv .l>span')];
+
+// L'électrocardiogramme : trois battements, puis plus rien
+const ecg=document.getElementById('ecg-trait'), pointe=document.getElementById('ecg-pointe');
+const BAT=[[150],[330],[505]];
+let dEcg='M0 60';
+for(let x=0;x<=1000;x+=2){
+  let y=60;
+  for(const [bx] of BAT){ const u=x-bx;
+    if(u>-40&&u<-28) y-=6*Math.sin((u+40)/12*Math.PI);
+    if(u>-8&&u<-3) y+=8*((u+8)/5);
+    if(u>=-3&&u<3) y=68-(u+3)/6*62;
+    if(u>=3&&u<10) y=6+(u-3)/7*86;
+    if(u>=10&&u<16) y=92-(u-10)/6*32;
+    if(u>30&&u<60) y-=9*Math.sin((u-30)/30*Math.PI);
+  }
+  dEcg+=` L${x} ${y.toFixed(1)}`;
+}
+ecg.setAttribute('d',dEcg); const LEcg=ecg.getTotalLength(); ecg.style.strokeDasharray=LEcg;
+function ecgA(t){
+  const k=clamp((t-15.15)/2.9);
+  ecg.style.strokeDashoffset=LEcg*(1-k);
+  const p=ecg.getPointAtLength(LEcg*k); pointe.setAttribute('cx',p.x); pointe.setAttribute('cy',p.y);
+  pointe.style.opacity=k>0&&k<1?1:0;
+  ecg.style.opacity=.85*(1-clamp((t-19.8)/.8));
+}
+
+function dom(T,t,t3){
+  titreL.forEach((s,i)=>{ s.style.transform=`translateY(${(1-outX(clamp((T+.9-i*.12)/.9)))*105}%)`; });
+  textes.forEach(o=>{
+    o.ls.forEach((s,i)=>{ const q=outX(clamp((T-o.a-i*.13)/.95)); s.style.transform=`translateY(${(1-q)*108}%)`; });
+  });
+  ecgA(t);
+  fs.forEach(({el,t:ti})=>{ const q=outX(clamp((t-ti)/1.1)); el.style.opacity=q; if(!el.classList.contains('couv')) el.style.transform=`translateY(${(1-q)*16}px)`; });
+  masqueCouv.style.clipPath=`inset(${(1-io3(clamp((t-42.55)/1.5)))*100}% 0 0 0)`;
+  // jauge : l'étage où se trouve Thomas (la passerelle est au 23e), puis zéro, puis le Voile
+  const et=t3<HAND?Math.round(clamp(P3?P3.camera(t3).p[1]/3.5:23,0,88)):0;
+  num.textContent=T>=A[5]?'—':et; unite.textContent=T>=A[5]?'le Voile':'étage';
+  const pr=T<A[5]?1-et/88:1; etage.style.top=`${pr*100}%`; rempli.style.height=`${pr*100}%`;
+  jauge.style.opacity=T>A[9]-.6?0:1;
+}
+
+// Les anneaux de la Source : leur phase est l'intégrale d'une vitesse (aspirés, puis repoussés) — une fonction pure de t
+const vitAnneaux=u=>lerp(.42,-1.15,ss(30.4,31.7,u));
+function phaseAnneaux(t){ const a=27, n=120, b=Math.max(a,t), h=(b-a)/n; let p=0; for(let i=0;i<n;i++) p+=vitAnneaux(a+(i+.5)*h)*h; return p+(t<a?.42*(t-a):0); }
+// les frappes du morceau qui portent le Passager : chaque mode change sur l'une d'elles ; le cœur bat dessus
+const FRAPPES=[32.34,33.19,34.16,35.15,36.14,37.13];
+function coeur(t){ let c=0; for(const b of FRAPPES) if(t>b) c+=Math.exp(-(t-b)*5.5)*(1-Math.exp(-(t-b)*60)); return c; }
+function vibration(t){ // la corde est pincée en naissant, puis à chaque frappe, et s'apaise jusqu'à la fissure
+  let v=0; for(const [b,a] of [[35.55,1],[36.14,.55],[37.13,.4]]) if(t>b) v+=a*Math.exp(-(t-b)*1.35)*ss(b,b+.14,t);
+  return v*(1-ss(37.9,38.44,t));
+}
+// la verticale de lumière : où elle se tient pendant « Réparer », puis derrière le livre
+const couv=document.querySelector('.couv');
+function gl_(t){
+  if(!ok) return;
+  const H=cv.clientHeight, W=innerWidth, portrait=W<H;
+  const rc=couv.getBoundingClientRect();
+  const xLivre=((rc.left+rc.width/2)-W/2)/H;
+  const coupeL=portrait?(H/2-(rc.bottom-8))/H:-9;
+  gl.uniform2f(U.uRes,cv.width,cv.height); gl.uniform1f(U.uT,t);
+  gl.uniform1f(U.uDust,ss(14.7,15.7,t)*(1-ss(19.7,20.8,t)));
+  gl.uniform1f(U.uVoile,ss(20.06,21.16,t)*(1-ss(28.0,29.3,t)));
+  gl.uniform1f(U.uZc,3.3*io3(clamp((t-20.26)/8.2)));
+  gl.uniform1f(U.uSrc,(.32+.68*ss(20.36,28.0,t))*(1-ss(28.3,29.6,t)));
+  // la Source : le puits, ses anneaux (aspirés, puis repoussés quand il choisit de retourner), puis elle s'éloigne
+  gl.uniform1f(U.uTun,ss(27.5,28.5,t)*(1-ss(33.2,35.2,t)));
+  gl.uniform1f(U.uPh,phaseAnneaux(t));
+  gl.uniform1f(U.uRecul,1+5*io3(clamp((t-30.9)/3.6)));
+  // le Passager : le fragment qui reste, la Fréquence rendue visible, puis la corde
+  gl.uniform1f(U.uFrag,ss(30.6,32.0,t)*(1-ss(38.5,39.2,t)));
+  gl.uniform1f(U.uCym,ss(32.3,33.5,t)*(1-ss(35.3,36.5,t)));
+  gl.uniform1f(U.uMode,ss(33.05,33.6,t)+ss(34.0,34.55,t)+ss(34.95,35.5,t));
+  gl.uniform1f(U.uCorde,ss(35.25,36.4,t)*(1-ss(38.5,39.0,t)));
+  gl.uniform1f(U.uVib,vibration(t));
+  gl.uniform1f(U.uVibT,t*2*Math.PI*1.45);
+  gl.uniform1f(U.uHar,Math.exp(-Math.max(0,t-35.6)*1.3));
+  gl.uniform1f(U.uCoeur,coeur(t));
+  gl.uniform1f(U.uFiss,ss(38.3,38.8,t)*(1-ss(42.1,42.8,t)));
+  gl.uniform1f(U.uFissF,io3(clamp((t-38.44)/1.4)));
+  gl.uniform1f(U.uFissX,lerp(0,xLivre,ss(41.6,42.45,t)));
+  gl.uniform1f(U.uFinal,ss(42.0,42.75,t));
+  gl.uniform1f(U.uFinalX,xLivre);
+  gl.uniform1f(U.uCoupe,coupeL);
+  gl.drawArrays(gl.TRIANGLES,0,3);
+}
+function rendu(T){
+  const t=T-D, t3=t3De(T);
+  dom(T,t,t3);
+  if(!ok) return;
+  const sur3=t3<HAND+.05;
+  c3.style.visibility=sur3?'visible':'hidden';
+  if(sur3) P3.rendu(t3, (.3+.7*ss(0,7,T))*(1-ss(17.5,18.45,t3)));   // la passerelle sort de la pénombre avec le premier bourdon
+  if(t3>HAND-.6) gl_(t);
+}
+
+// ——— Lecture ———
+const son=document.getElementById('son'), sonBtn=document.getElementById('son-btn'), go=document.getElementById('go'), reprendre=document.getElementById('reprendre');
+const lancerBloc=document.getElementById('lancer');
+let mode='libre', figé=null, ancre=null, rejoint=null, muet=false;
+function tAudio(){ // horloge lissée : le temps de la bande, interpolé entre deux mises à jour
+  const now=performance.now()/1000, ct=son.currentTime;
+  if(son.paused||son.ended){ ancre=null; return ct; }
+  if(!ancre||Math.abs(ancre.a+(now-ancre.p)-ct)>.06) ancre={a:ct,p:now};
+  return ancre.a+(now-ancre.p);
+}
+function volume(v,d=.45){ // jamais de coupure franche
+  const v0=son.volume, t0=performance.now();
+  (function f(){const k=clamp((performance.now()-t0)/(d*1000)); son.volume=lerp(v0,v,k*k*(3-2*k)); if(k<1) requestAnimationFrame(f);})();
+}
+function majSon(){ sonBtn.classList.toggle('muet', muet||son.paused); sonBtn.setAttribute('aria-label', muet||son.paused?'Activer le son':'Couper le son'); }
+let depart=0;
+function demarrer(){
+  mesure(); mode='auto'; depart=performance.now(); son.currentTime=0; son.volume=muet?0:1;
+  son.play().then(majSon).catch(()=>{mode='libre';});
+  lancerBloc.style.opacity=0; lancerBloc.style.pointerEvents='none';
+  reprendre.classList.remove('on');
+}
+go.addEventListener('click',()=>{
+  if(scrollY>8){ rejoint={y0:scrollY,y1:0,t0:performance.now(),d:900,fin:demarrer}; mode='rejoint'; }
+  else demarrer();
+});
+sonBtn.addEventListener('click',()=>{
+  if(son.paused){ // pas encore lancé : on part d'ici, en fondu
+    son.currentTime=tDe(scrollY); son.volume=0; muet=false; son.play().then(()=>{volume(1,.8);majSon();});
+    mode='auto'; depart=performance.now(); lancerBloc.style.opacity=0; lancerBloc.style.pointerEvents='none'; return;
+  }
+  muet=!muet; volume(muet?0:1); majSon();
+});
+// on reprend la main dès que le visiteur fait défiler lui-même ; le son continue
+const main=e=>{ if(performance.now()-depart<1200) return;           // l'inertie du clic de départ ne compte pas
+  if(e&&e.type==='wheel'&&Math.abs(e.deltaY)<3) return;
+  if(mode==='auto'||mode==='rejoint'){ mode='libre'; rejoint=null; if(!son.paused&&!son.ended) reprendre.classList.add('on'); } };
+addEventListener('wheel',main,{passive:true}); addEventListener('touchstart',main,{passive:true});
+addEventListener('keydown',e=>{ if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key)&&e.target.tagName!=='BUTTON') main(); });
+reprendre.addEventListener('click',()=>{ reprendre.classList.remove('on'); rejoint={y0:scrollY,t0:performance.now(),d:1100,suit:true,fin:()=>{mode='auto';}}; mode='rejoint'; });
+son.addEventListener('ended',()=>{ mode='libre'; reprendre.classList.remove('on'); majSon(); });
+
+let dernier=performance.now(), lent=0;
+function boucle(){
+  const now=performance.now();
+  let t;
+  if(figé!==null) t=figé;
+  else if(mode==='auto'){ t=Math.min(tAudio(),FIN); scrollTo(0,yDe(t)); }
+  else if(mode==='rejoint'&&rejoint){
+    const k=io3(clamp((now-rejoint.t0)/rejoint.d)); const y1=rejoint.suit?yDe(Math.min(tAudio(),FIN)):rejoint.y1;
+    scrollTo(0,lerp(rejoint.y0,y1,k)); t=tDe(scrollY);
+    if(k>=1){ const f=rejoint.fin; rejoint=null; f&&f(); }
+  }
+  else t=tDe(scrollY);
+  rendu(t);
+  // résolution adaptée à la machine : on baisse si l'image ne suit pas
+  const dt=now-dernier; dernier=now;
+  if(figé===null&&!location.search.includes('hd=')){ lent=dt>24?lent+1:Math.max(0,lent-1); if(lent>20&&echelle>.55){echelle-=.15;taille();lent=0;} }
+  requestAnimationFrame(boucle);
+}
+
+window.seek=async t=>{ figé=t; mode='fige'; mesure(); scrollTo(0,yDe(t)); await new Promise(r=>requestAnimationFrame(()=>r())); rendu(t); if(ok){ gl.finish(); } };
+const q=new URLSearchParams(location.search).get('t');
+document.fonts.ready.then(()=>{ mesure(); if(q!==null){ window.seek(parseFloat(q)); } requestAnimationFrame(boucle); });
+})();
+</script>
+<script>
+/* Lecteur vidéo au clic : rien n'est demandé à YouTube tant que le visiteur n'a pas cliqué */
+document.querySelectorAll('.yt-facade').forEach(function(box){
+  var btn=box.querySelector('.yt-facade-btn'); if(!btn) return;
+  btn.addEventListener('click',function(){
+    var f=document.createElement('iframe');
+    f.src='https://www.youtube-nocookie.com/embed/'+box.dataset.yt+'?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+    f.title=box.dataset.ytTitle||'Vidéo'; f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen'; f.setAttribute('allowfullscreen','');
+    box.replaceChildren(f); box.classList.add('is-playing');
+  });
+});
+</script>
 </body>
 </html>
