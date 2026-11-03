@@ -436,6 +436,13 @@
     z-index: 2;
 }
 
+/* Quand le manifeste est plus court que la remontée (téléphones), la pièce
+   déborde sous la section suivante : les sections passent par-dessus */
+.has-motion .hv ~ section {
+    position: relative;
+    z-index: 2;
+}
+
 .hv-sticky {
     position: sticky;
     top: 0;
