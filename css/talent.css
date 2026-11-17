@@ -1,0 +1,1226 @@
+/* ============================================
+   LA FRANCE DES TALENTS, tome 1 — « Le troisième serviteur », scènes 0 à 13 (v2)
+   Valeurs : places, repère, pastille, planches, typographie, couleurs. Chargée après home.css (en-tête, variables).
+   Trois largeurs de référence : 390 (base), 768 (≥ 600 px), 1440 (≥ 1100 px).
+   Par défaut : les dix planches gravées, l'une sous l'autre (sans JavaScript, mouvement réduit, sans WebGL, palier « bas »).
+   html.talent-anime : la scène fixe ; les planches se superposent et l'horloge (js/talent/horloge.js) anime les textes.
+   Positions verticales : fraction de la hauteur (--y), de la planche (cadre) ou de l'écran (version animée).
+   ============================================ */
+
+/* « œ » (U+0153) figure dans les deux plages d'Inter : on rend U+0152-0153 au fichier latin déjà chargé. */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../assets/fonts/inter-latin-500-normal.woff2') format('woff2');
+    unicode-range: U+0152-0153;
+}
+
+/* Fraunces allégée pour cette page : romain variable (graisse 330 à 400, opsz 14 à 144, SOFT 0 à 30, WONK 1),
+   italique fixe 320 · opsz 36. Les rôles qui demandent SOFT 50 (phrase d'écran) ou la graisse 300 (valeur du repère)
+   sont rendus au plus près (SOFT 30, graisse 330) : ces axes ne sont pas dans le fichier allégé. */
+@font-face {
+    font-family: 'Fraunces Talent';
+    font-style: normal;
+    font-weight: 330 400;
+    font-display: swap;
+    src: url('../assets/fonts/fraunces-talent-normal.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02bb-02bc, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Fraunces Talent';
+    font-style: italic;
+    font-weight: 320;
+    font-display: swap;
+    src: url('../assets/fonts/fraunces-talent-italic.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02bb-02bc, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.talent-v2 {
+    --f-display: 'Fraunces Talent', 'Iowan Old Style', Georgia, serif;
+    --f-verset: 'Cormorant Garamond', Georgia, serif;
+    --outrenoir: #141218;
+    --abysse: #060912;
+    --ocre-profond: #473100;
+    --ambre-profond: #532800;
+    --braise: #C9772E;
+    --perle: #ECE8E2;
+    --brume: #D6D1CA;
+    --cendre-nuit: #8A8580;
+    --col: min(342px, calc(100vw - 32px));
+    --col-cle: min(342px, calc(100vw - 32px));
+    --marge: 16px;
+    background: var(--outrenoir);
+    color: var(--perle);
+    font-family: var(--f-text);
+}
+.talent-v2 main { overflow-x: clip; }
+
+/* textes pour lecteur d'écran, séparateurs lus mais non affichés */
+.talent-v2 .sr, .talent-v2 .sep {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0; border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------- EN-TÊTE : pastille d'achat et bouton du son ---------- */
+.talent-v2 .site-header { z-index: 1000; }
+.talent-v2 .nav-container { padding-right: calc(var(--marge) + 124px + 8px + 44px + 8px); }
+.hd-talent {
+    position: absolute;
+    top: 16px;
+    right: var(--marge);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+}
+.pastille {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    width: 128px;
+    height: 44px;
+    margin: 0 -2px;
+    padding: 0 14px 0 6px;
+    border: 2px solid transparent;            /* zone de toucher 128 × 44 ; le dessin reste 124 × 40 */
+    border-radius: 22px;
+    background: var(--or);
+    background-clip: padding-box;
+    color: var(--outrenoir);
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.pastille img { display: block; flex: none; width: 28px; height: 28px; }
+.pastille:hover { background: var(--or-pale); }
+.pastille:focus-visible { outline: 2px solid var(--or-pale); outline-offset: 3px; }
+.pastille-suite {
+    position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+.son {
+    position: relative;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 44px;                               /* zone de toucher 44 × 44 ; le cercle dessiné reste de 40 px */
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--or-pale);
+    cursor: pointer;
+}
+.js .son { display: inline-flex; }
+.son::before { content: ''; position: absolute; inset: 2px; border: 1px solid rgba(232, 212, 139, 0.7); border-radius: 50%; pointer-events: none; }
+.son svg { position: relative; display: block; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.son .son-hp { fill: currentColor; stroke: none; }
+.son .son-ondes { display: none; }
+.son[aria-pressed="true"] .son-ondes { display: inline; }
+.son[aria-pressed="true"] .son-barre { display: none; }
+.son:hover::before { background: rgba(232, 212, 139, 0.12); }
+.son:focus-visible { outline: 2px solid var(--or-pale); outline-offset: 1px; }
+.site-header.on-light .son { color: var(--outrenoir); }
+.site-header.on-light .son::before { border-color: rgba(20, 18, 24, 0.45); }
+.site-header.on-light .son:focus-visible { outline-color: var(--outrenoir); }
+@media (max-width: 599px) {
+    .talent-v2 .menu-toggle-label { display: none; }
+    .talent-v2 .menu-toggle { padding-left: 0.8rem; padding-right: 0.8rem; min-height: 44px; }
+}
+
+/* sans JavaScript : en-tête fixe sur un fond Outrenoir (il passe sur les planches et sur la Nacre du livre) */
+html:not(.js) .talent-v2 .site-header,
+html:not(.js) .talent-v2 .site-header.on-light {
+    --hd-ink: var(--nacre);
+    --seal-lead: var(--nacre);
+    background: rgba(20, 18, 24, 0.92);
+    box-shadow: none;
+}
+/* sans JavaScript, sous 768 px : la liste de navigation de repli ne tient pas à côté de la pastille ; les mêmes liens
+   restent dans le pied de page (« Navigation pied de page »). Au-delà, elle reste dans l'en-tête. */
+@media (max-width: 767px) {
+    html:not(.js) .talent-v2 .nav-links { display: none; }
+}
+html:not(.js) .talent-v2 .nav-link { font-size: 0.75rem; }
+
+/* version animée : l'en-tête reste transparent au-dessus de la scène (aucun bandeau), clair sur la Nacre */
+.talent-anime .talent-v2 .site-header.scrolled:not(.on-light) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+/* ---------- PLANCHES (version par défaut) ---------- */
+.talent { position: relative; }
+.scene-fixe { position: relative; }
+.planche {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--outrenoir);
+}
+/* le cadre a les proportions de la planche (390 × 844) et tient entier dans l'écran ; les textes s'y placent */
+.cadre {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(100%, calc(100vh * 390 / 844));
+    width: min(100%, calc(100svh * 390 / 844));
+    aspect-ratio: 390 / 844;
+    transform: translate(-50%, -50%);
+}
+.planche-0 .cadre { width: 100%; height: 100%; aspect-ratio: auto; }
+.fond { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.planche-5, .planche-6 { background: var(--abysse); }
+
+/* blocs de texte : colonne centrée sur l'écran (elle peut déborder du cadre), --y = haut du bloc */
+.phrase, .injonction, .cle, .verset, .etiquette, .seuil {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--y, 0.5) * 100%);
+    width: var(--col);
+    margin: 0 0 0 calc(var(--col) / -2);
+    text-align: center;
+}
+.cle { width: var(--col-cle); margin-left: calc(var(--col-cle) / -2); }
+
+.phrase {
+    font-family: var(--f-display);
+    font-weight: 340;
+    font-variation-settings: 'opsz' 72, 'SOFT' 50;
+    font-size: 28px;
+    line-height: 1.2;
+    color: var(--perle);
+    text-wrap: balance;
+}
+.t7-1 { font-size: 22px; }   /* la phrase entière, un cran plus petite */
+.injonction {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-variation-settings: 'opsz' 72;
+    font-size: 34px;
+    line-height: 1.15;
+    color: var(--perle);
+}
+.cle {
+    font-family: var(--f-display);
+    font-weight: 360;
+    font-variation-settings: 'opsz' 96;
+    font-size: 32px;
+    line-height: 1.15;
+    color: var(--perle);
+    text-wrap: balance;
+}
+.cle-a, .cle-b { display: block; }
+.cle-b { margin-top: 0.42em; }
+.verset { margin-top: 0; margin-bottom: 0; }
+.verset p {
+    margin: 0;
+    font-family: var(--f-verset);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.22;
+    color: var(--perle);
+    text-wrap: balance;
+}
+.verset cite {
+    display: block;
+    margin-top: 28px;
+    font-family: var(--f-text);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5px;
+    line-height: 1.3;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-transform: uppercase;
+    color: var(--or-pale);
+}
+.etiquette {
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 10.5px;
+    line-height: 1.4;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-transform: uppercase;
+    color: var(--brume);
+}
+
+/* places */
+.t1-1 { --y: 0.705; }
+.t2-1 { --y: 0.715; }
+.t3-1 { --y: 0.17; }
+.t3-2 { --y: 0.31; }
+.t3-i { --y: 0.915; display: none; }
+.t4-1 { --y: 0.117; }
+.t5-1 { --y: 0.18; }
+.verset { --y: 0.13; }
+.t7-1 { --y: 0.14; }
+.t8-1 { --y: 0.17; }
+.t9-1 { --y: 0.635; }
+
+/* scène 0 : la porte et le bloc du seuil */
+.porte {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    width: 96px;
+    height: 34%;
+    margin-left: -48px;
+    box-sizing: border-box;
+    border: 1px solid rgb(58 56 66 / var(--cadre, 1));   /* Ardoise ; 35 % en 1,2 s après la rupture (horloge.js) */
+    overflow: hidden;
+}
+.porte-chant { stroke: var(--or-bruni); stroke-opacity: 0.5; stroke-width: 2; }   /* chants des battants : Or bruni à 50 % sur 2 px */
+.porte-fente { fill: var(--incandescence); }
+/* flaque de lumière au sol : trapèze de 0,52 h à 0,72 h (large comme la fente en haut, 0,55 de l'écran en bas),
+   Or pâle à 14 % au pied de la porte puis 0 % ; flou sur le conteneur, aucun bord net ; largeur pilotée par horloge.js (--fw, --fb) */
+.porte-sol { position: absolute; left: 0; top: var(--porte-bas, 52%); width: 100%; height: 20%; filter: blur(7px); pointer-events: none; }
+.porte-sol > div {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(232, 212, 139, 0.14), rgba(232, 212, 139, 0.05) 50%, rgba(232, 212, 139, 0));
+    clip-path: polygon(calc(50% - var(--fw, 1.5px)) 0, calc(50% + var(--fw, 1.5px)) 0, calc(50% + var(--fb, 27.5%)) 100%, calc(50% - var(--fb, 27.5%)) 100%);
+}
+.porte-halo { pointer-events: none; }
+.porte-filet { stroke: var(--or-bruni); stroke-opacity: 0.25; stroke-width: 1; opacity: 0; }
+.seuil { --y: 0.585; }
+.titre {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 330;
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 1;
+    color: var(--perle);
+}
+.sous-titre {
+    margin: 14px auto 0;
+    max-width: 330px;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 320;
+    font-size: 18px;
+    line-height: 1.45;
+    font-variation-settings: 'opsz' 36;
+    color: var(--brume);
+    text-wrap: balance;
+}
+.auteur {
+    margin: 16px 0 0;
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-transform: uppercase;
+    color: var(--or-pale);
+}
+.entree { display: none; margin-top: 26px; }
+.js .entree { display: block; }
+.commencer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 262px;
+    height: 48px;
+    padding: 0 20px;
+    border: 1px solid var(--or-pale);
+    border-radius: 24px;
+    background: transparent;
+    color: var(--or-pale);
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+.commencer:hover { background: rgba(232, 212, 139, 0.12); }
+.commencer:focus-visible { outline: 2px solid var(--or-pale); outline-offset: 4px; }
+.indice {
+    margin: 22px 0 0;
+    font-family: var(--f-text);
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--cendre-nuit);
+}
+.chevron { display: block; margin: 8px auto 0; fill: none; stroke: currentColor; stroke-width: 1.4; }
+@media (max-width: 599px) and (max-height: 760px) {
+    .porte { top: 14%; height: 30%; }
+    .porte-sol { --porte-bas: 44%; }
+    .seuil { top: auto; bottom: 20px; }
+}
+
+/* scène 4 : couches datées (<details> natifs) et repère */
+.strates { position: absolute; inset: 0; pointer-events: none; }
+.strate {
+    position: absolute;
+    right: 4.1%;
+    top: calc(var(--y) * 100%);
+    max-width: min(260px, 70vw);
+    text-align: right;
+    pointer-events: auto;
+}
+.strate-2025 { --y: 0.30; }
+.strate-2002 { --y: 0.547; }
+.strate summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 0 0 12px;
+    list-style: none;
+    cursor: pointer;
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.28em;
+    margin-right: -0.28em;
+    text-transform: uppercase;
+    color: var(--brume);
+}
+.strate summary::-webkit-details-marker { display: none; }
+.strate summary::marker { content: ''; }
+.strate summary:focus-visible { outline: 2px solid var(--or-pale); outline-offset: 2px; }
+.fait {
+    margin: 0;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 320;
+    font-size: 15px;
+    line-height: 1.35;
+    color: var(--perle);
+    text-wrap: balance;
+}
+.repere { position: absolute; inset: 0; pointer-events: none; }
+.repere-filet, .repere-tiret, .repere-point { display: none; position: absolute; }
+.repere-texte {
+    position: absolute;
+    left: 4.1%;
+    top: calc(0.915 * 100% - 11px);
+    margin: 0;
+    white-space: nowrap;
+}
+/* voile Outrenoir sous le texte du repère : ellipse, 0,55 au centre, 0 au bord (fondu sur ~48 px), pour tenir le contraste même sans la scène */
+.repere-texte::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -72px -110px;
+    background: radial-gradient(ellipse closest-side, rgba(20, 18, 24, 0.55) 0, rgba(20, 18, 24, 0.55) 50%, rgba(20, 18, 24, 0.3) 75%, rgba(20, 18, 24, 0.08) 92%, rgba(20, 18, 24, 0) 100%);   /* ellipse : 0,55 au centre, 0 au bord, aucun segment droit */
+    pointer-events: none;
+}
+.repere-texte { z-index: 0; }
+.repere-etiquette {
+    display: block;
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 9.5px;
+    line-height: 13px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brume);
+}
+.repere-valeur {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--f-display);
+    font-weight: 330;
+    font-variation-settings: 'opsz' 36;
+    font-variant-numeric: tabular-nums;
+    font-size: 20px;
+    line-height: 24px;
+    color: var(--or-pale);
+}
+.repere-v { display: inline-block; }
+.indice-geste { display: none; }
+.reprendre { display: none; }
+
+/* ---------- 768 ---------- */
+@media (min-width: 600px) {
+    .talent-v2 { --col: 560px; --col-cle: 560px; --marge: 24px; }
+    .talent-v2 .nav-container { padding-right: calc(var(--marge) + 196px + 8px + 44px + 8px); }
+    .hd-talent { top: 24px; }
+    .pastille { width: 196px; height: 44px; margin: 0; border: 0; border-radius: 22px; padding: 0 16px 0 8px; font-size: 15px; gap: 10px; }
+    .pastille-suite { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; clip-path: none; }
+    .phrase { font-size: 38px; }
+    .t7-1 { font-size: 28px; }
+    .injonction { font-size: 44px; }
+    .cle { font-size: 46px; }
+    .verset p { font-size: 42px; }
+    .verset cite { font-size: 11.5px; margin-top: 34px; }
+    .etiquette { font-size: 11px; }
+    .porte { width: 130px; margin-left: -65px; }
+    .seuil { --y: 0.567; }
+    .titre { font-size: 64px; }
+    .sous-titre { max-width: 480px; font-size: 22px; }
+    .auteur { font-size: 12px; margin-top: 20px; }
+    .commencer { width: 280px; height: 52px; border-radius: 26px; }
+    .strate summary { font-size: 11px; }
+    .fait { font-size: 17px; }
+    .repere-etiquette { font-size: 10.5px; }
+    .repere-valeur { font-size: 24px; line-height: 28px; }
+    .t9-1 { --y: 0.645; }
+}
+
+/* ---------- 1440 ---------- */
+@media (min-width: 1100px) {
+    .talent-v2 { --col: 760px; --col-cle: 900px; --marge: 32px; }
+    .talent-v2 .nav-container { padding-right: calc(var(--marge) + 212px + 8px + 44px + 8px); }
+    .hd-talent { top: 26px; }
+    .pastille { width: 212px; }
+    .phrase { font-size: 52px; }
+    .t7-1 { font-size: 34px; }
+    .injonction { font-size: 56px; }
+    .cle { font-size: 64px; }
+    .verset p { font-size: 58px; }
+    .verset cite { font-size: 12px; margin-top: 40px; }
+    .etiquette { font-size: 12px; }
+    .porte { top: 15%; height: 33%; width: 164px; margin-left: -82px; }
+    .porte-sol { --porte-bas: 48%; }
+    .seuil { --y: 0.537; }
+    .titre { font-size: 88px; }
+    .sous-titre { max-width: 820px; font-size: 26px; }
+    .auteur { font-size: 13px; margin-top: 22px; }
+    .commencer { width: 300px; }
+    .t1-1 { --y: 0.72; }
+    .t4-1 { --y: 0.131; }
+    .t9-1 { --y: 0.754; }
+    .strate summary { font-size: 12px; }
+    .fait { font-size: 19px; }
+    .repere-etiquette { font-size: 11px; }
+    .repere-valeur { font-size: 28px; line-height: 32px; }
+    /* planches 4 et 9 : cadrage 1440 × 900 */
+    .planche-4 .cadre, .planche-9 .cadre { width: min(100%, calc(100vh * 1.6)); width: min(100%, calc(100svh * 1.6)); aspect-ratio: 1440 / 900; }
+    .planche-4 .strate { right: 2.2%; }
+    .planche-4 .strate-2025 { --y: 0.38; }
+    .planche-4 .strate-2002 { --y: 0.60; }
+    .planche-4 .repere-texte { left: 4.4%; top: calc(0.84 * 100% - 12px); }
+}
+
+/* ============================================
+   VERSION ANIMÉE (html.talent-anime) : une scène fixe, quatorze écrans de défilement
+   ============================================ */
+.talent-anime .talent { height: calc(20.5 * 100vh); height: calc(20.5 * 100svh); }   /* scène épinglée jusqu'à 19,50 écrans */
+.talent-anime .scene-fixe {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--outrenoir);
+}
+.talent-anime .planche {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    overflow: visible;
+    background: transparent;
+    pointer-events: none;
+    z-index: 3;
+}
+.talent-anime .planche-0 { z-index: 1; }
+.talent-anime .cadre { inset: 0; left: 0; top: 0; width: auto; height: auto; aspect-ratio: auto; transform: none; }
+.talent-anime .fond, .talent-anime .planche picture { display: none; }
+.talent-anime [data-texte]:not(.seuil):not(.t9-1) { opacity: 0; }
+.talent-anime .t3-2 { --y: 0.17; }
+.talent-anime .t3-i { display: block; }
+.talent-anime.mode-auto .t3-i .si-libre, .talent-anime:not(.mode-auto) .t3-i .si-auto { display: none; }
+.talent-anime .commencer, .talent-anime .strate, .talent-anime .reprendre { pointer-events: auto; }
+.talent-anime .seuil.parti { visibility: hidden; }
+.talent-anime .strates.cachees { visibility: hidden; }
+/* chaque ligne monte derrière son masque (horloge.js découpe les lignes ; quelques masques sont écrits dans le HTML) */
+.talent-anime .l { display: block; overflow: hidden; overflow: clip; overflow-clip-margin: 0.08em; padding: 0 0.12em 0.16em; margin: 0 -0.12em -0.16em; }
+.talent-anime .li { display: block; transform: translateY(125%); }
+.talent-anime .li.fixe { transform: none; }
+/* le verset n'est demandé qu'au lot 2 (la terre) : avant, la police de repli (il est invisible) */
+.talent-anime:not(.lot-terre) .talent-v2 .verset p,
+.talent-anime:not(.lot-terre) .talent-v2 .verset11 p,
+.talent-anime:not(.lot-terre) .talent-v2 .parole12 p,
+.talent-anime:not(.lot-terre) .talent-v2 .ch-corps blockquote { font-family: Georgia, serif; }   /* scènes 11, 12 et chapitres : même report (premier écran ≤ 200 ko) */
+/* en version planches (mouvement réduit, palier bas), même report jusqu'à « load » (page.js ajoute .polices-tardives) */
+html.js:not(.talent-anime):not(.polices-tardives) .talent-v2 .verset p,
+html.js:not(.talent-anime):not(.polices-tardives) .talent-v2 .verset11 p,
+html.js:not(.talent-anime):not(.polices-tardives) .talent-v2 .parole12 p,
+html.js:not(.talent-anime):not(.polices-tardives) .talent-v2 .ch-corps blockquote { font-family: Georgia, serif; }
+/* la couverture du tome 1 n'est demandée qu'au lot 3 (T ≥ 50 ou 9 écrans) : sans boîte avant, l'image paresseuse n'est pas chargée */
+.talent-anime:not(.lot-livre) .livre-couverture { display: none; }
+
+.talent-anime .strate { transition: opacity 0.3s ease; }
+.talent-anime .strate .fait { position: absolute; right: 0; top: 40px; width: min(260px, 70vw); }
+.talent-anime .repere { opacity: 0; }
+.talent-anime .repere-filet { display: block; left: 0; width: 1px; background: rgba(168, 132, 47, 0.5); }
+.talent-anime .repere-tiret { display: block; left: 0; width: 6px; height: 1px; background: rgba(168, 132, 47, 0.7); }
+.talent-anime .repere-point { display: block; width: 7px; height: 7px; margin: -3.5px 0 0 -3px; border-radius: 50%; background: var(--or-pale); }
+.talent-anime .repere-filet, .talent-anime .repere-tiret, .talent-anime .repere-point { transform: translateX(var(--marge)); }
+.talent-anime .repere-texte { left: var(--marge); top: auto; bottom: calc((1 - 0.955) * 100% - 4px); }
+.talent-anime .repere-v { transition: opacity 0.15s linear; }
+.talent-anime .repere-v.change { opacity: 0; }
+
+.talent-anime .indice-geste {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 84%;
+    width: 40px;
+    height: 8px;
+    margin: -4px 0 0 -20px;
+    opacity: 0;
+}
+.talent-anime .indice-geste i { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--or-pale); }
+
+.talent-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: pan-y;
+    pointer-events: none;
+    outline: none;
+}
+.geste-actif .talent-canvas { pointer-events: auto; }
+.talent-canvas:focus-visible { outline: none; }
+/* anneau de focus de la scène 8 : cercle de 2 px Or pâle autour de la pièce (diamètre + 16 px), placé par horloge.js */
+.anneau-geste { display: none; position: absolute; z-index: 4; box-sizing: border-box; border: 2px solid var(--or-pale); border-radius: 50%; pointer-events: none; }
+.anneau-actif .anneau-geste { display: block; }
+
+/* « Reprendre » : en bas au centre */
+.talent-anime .reprendre {
+    display: inline-flex;
+    align-items: center;
+    position: absolute;
+    z-index: 5;
+    left: 50%;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    height: 44px;
+    padding: 0 22px;
+    transform: translateX(-50%);
+    border: 1px solid var(--or-pale);
+    border-radius: 22px;
+    background: transparent;
+    color: var(--or-pale);
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    animation: reprendre-entre 0.25s ease-out both;
+}
+.talent-anime .reprendre[hidden] { display: none; }
+.talent-anime .reprendre.sort { animation: reprendre-sort 0.25s ease-in both; }
+.talent-anime .reprendre:focus-visible { outline: 2px solid var(--or-pale); outline-offset: 3px; }
+@keyframes reprendre-entre { from { opacity: 0; } to { opacity: 1; } }
+@keyframes reprendre-sort { from { opacity: 1; } to { opacity: 0; } }
+
+@media (min-width: 600px) {
+    .talent-anime .reprendre { bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (min-width: 1100px) {
+    .talent-anime .reprendre { bottom: calc(32px + env(safe-area-inset-bottom, 0px)); }
+    .talent-anime .t9-1 { --y: 0.78; }
+    .talent-anime .repere-texte { bottom: auto; top: var(--repere-y, 86%); left: calc(var(--marge) + 16px); transform: translateY(-50%); }
+}
+
+/* ---------- mouvement réduit : aucune animation, aucun fondu ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .commencer, .talent-v2 .site-header, .talent-v2 .site-header * { transition: none !important; }
+    .reprendre { animation: none !important; }
+}
+
+/* ============================================
+   SCÈNES 10 À 13 — le livre, les deux portes, les trois frappes, la suite
+   Valeurs : places, passage, frappe, pastille, canevas / HTML, planches.
+   Planches (par défaut) : positions de la planche 390 dans le cadre. Version animée : fractions de l'écran ;
+   les portes sont placées par horloge.js (--d1x, --d2x, --dw, en px).
+   La couverture du tome 1 : aucun filter, mask, clip-path, box-shadow, border-radius ni mix-blend-mode sur elle ni ses parents.
+   ============================================ */
+
+/* ---------- pastille : logement de l'icône, contour, filet sur la Nacre, battement (§ 6.1, § 6.3) ---------- */
+.pastille-icone { position: relative; display: block; flex: none; width: 28px; height: 28px; }
+.pastille-icone::before { content: ''; position: absolute; inset: 0; box-sizing: border-box; border: 1px solid rgba(20, 18, 24, 0.35); border-radius: 50%; opacity: 0; transition: opacity 0.4s ease; }
+.pastille-icone img { transition: opacity 0.4s ease; }
+.pastille.vide .pastille-icone img { opacity: 0; }
+.pastille.vide .pastille-icone::before { opacity: 1; }
+.pastille.arrivee .pastille-icone img { transition: opacity 0.12s linear; }
+.pastille.contour { background: transparent; color: var(--or-pale); box-shadow: inset 0 0 0 1px var(--or); }
+.pastille.contour:hover { background: rgba(232, 212, 139, 0.12); }
+.site-header.on-light .pastille { box-shadow: inset 0 0 0 1px var(--or-bruni); }
+.site-header.on-light .pastille:focus-visible { outline-color: var(--outrenoir); }
+.pastille.bat { animation: pastille-bat 0.32s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes pastille-bat {
+    0% { transform: scale(1); background-color: var(--or); }
+    35% { transform: scale(1.06); background-color: var(--or-pale); }
+    100% { transform: scale(1); background-color: var(--or); }
+}
+/* en-tête clair sur la Nacre : fondu enchaîné de 0,3 s, filet bas de 1 px Brume (§ 3) */
+.talent-v2 .site-header { transition-duration: 0.3s; }
+.talent-v2 .site-header.on-light { box-shadow: 0 1px 0 var(--brume); }
+
+/* ---------- PLANCHE 10 · le livre (sur la terre gravée) ---------- */
+.couv { position: absolute; display: block; left: 30%; top: 21.4%; width: 40%; height: auto; }
+.t10-1, .t10-2, .t10-3, .t10-5 {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--y) * 100%);
+    width: var(--col);
+    margin: 0 0 0 calc(var(--col) / -2);
+    text-align: center;
+}
+.t10-1 {
+    --y: 0.571;
+    font-family: var(--f-display);
+    font-weight: 330;
+    font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 1;
+    font-size: 30px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--perle);
+}
+.t10-2 {
+    --y: 0.621;
+    max-width: 330px;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 320;
+    font-variation-settings: 'opsz' 36;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--brume);
+    text-wrap: balance;
+}
+.t10-3 {
+    --y: 0.701;
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.30em;
+    text-indent: 0.30em;
+    text-transform: uppercase;
+    color: var(--or-pale);
+}
+.t10-5 {
+    --y: 0.754;
+    font-family: var(--f-display);
+    font-weight: 340;
+    font-variation-settings: 'opsz' 72;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--perle);
+}
+.t10-5 em { font-style: italic; font-weight: 320; }
+.talent-v2 .t10-2 { left: 50%; margin-left: calc(min(330px, var(--col)) / -2); width: min(330px, var(--col)); }
+
+/* ---------- la bande du passage nuit → Nacre (planches seulement, § 3 « Statique ») ---------- */
+.bande-jour {
+    height: 60vh;
+    height: 60svh;
+    background:
+        linear-gradient(to bottom, rgba(255, 243, 214, 0) 30%, #FFF3D6 62%, #F7F5F1 100%),
+        linear-gradient(to bottom, rgba(232, 212, 139, 0) 0, rgba(232, 212, 139, 0.18) 30%, rgba(232, 212, 139, 0.18) 62%),
+        var(--outrenoir);
+}
+
+/* ---------- PLANCHE 11 · les deux portes ---------- */
+.planche-11 .cadre { --d1x: 3.077%; --d2x: 57.18%; --dw: 39.74%; }
+.verset11 {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--y) * 100%);
+    --y: 0.105;
+    width: var(--col);
+    margin: 0 0 0 calc(var(--col) / -2);
+    text-align: center;
+}
+.verset11 p {
+    max-width: 310px;
+    margin: 0 auto;
+    font-family: var(--f-verset);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.22;
+    color: var(--perle);
+    text-wrap: balance;
+}
+.verset11 cite {
+    display: block;
+    margin-top: 13px;
+    font-family: var(--f-text);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5px;
+    line-height: 1.3;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-transform: uppercase;
+    color: var(--or-pale);
+}
+.porte11 { position: absolute; top: 0; bottom: 0; left: var(--d1x); width: var(--dw); }
+.porte11-2 { left: var(--d2x); }
+.porte-nom, .porte-mention, .porte-bouton { position: absolute; left: 50%; top: calc(var(--y) * 100%); margin: 0; transform: translateX(-50%); text-align: center; }
+.porte-nom {
+    --y: 0.328;
+    width: 100%;
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-variation-settings: 'opsz' 72;
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--outrenoir);
+    white-space: nowrap;
+}
+.porte-mention {
+    --y: 0.586;
+    width: 100%;
+    font-family: var(--f-text);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--ardoise);
+}
+.porte-mention-2 {
+    --y: 0.432;
+    padding: 0 8px;
+    box-sizing: border-box;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 320;
+    font-variation-settings: 'opsz' 36;
+    font-size: 16px;
+    line-height: 1.3;
+    text-wrap: balance;
+}
+.porte-bouton { --y: 0.735; width: 168px; }
+.couv-porte { position: absolute; left: 17.74%; top: 37.5%; width: 64.5%; height: auto; display: block; }
+.pbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 48px;
+    border-radius: 24px;
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.25s ease;
+}
+.pbtn-achat { background: var(--or); color: var(--outrenoir); border: 1px solid var(--or-bruni); }
+.pbtn-achat:hover { background: var(--or-pale); }
+.pbtn-intro { background: var(--outrenoir); color: var(--or-pale); border: 1px solid var(--or-pale); }
+.pbtn-intro:hover { background: rgba(58, 56, 66, 0.6); }
+.pbtn:focus-visible { outline: 2px solid var(--or-pale); outline-offset: 3px; }
+.talent-v2 .porte-bouton .pbtn { display: flex; }
+
+/* ---------- PLANCHE 12 · les trois faces (flux, sur la Nacre) ---------- */
+.planche-12 { height: auto; overflow: visible; background: var(--nacre); color: var(--outrenoir); padding: 72px 16px 56px; }
+.planche-12 .cadre { position: relative; left: auto; top: auto; width: auto; aspect-ratio: auto; transform: none; max-width: 1240px; margin: 0 auto; }
+.t12-2 {
+    margin: 0 auto 40px;
+    max-width: var(--col);
+    font-family: var(--f-display);
+    font-weight: 340;
+    font-variation-settings: 'opsz' 72;
+    font-size: 22px;
+    line-height: 1.3;
+    text-align: center;
+    color: var(--outrenoir);
+    text-wrap: balance;
+}
+.pv13, .frapper, .repere12 { display: none; }
+.g12 { max-width: var(--col); margin: 0 auto 56px; text-align: center; }
+.face12 {
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 40px;
+}
+.g12 { background: radial-gradient(105px 26px at 50% 168px, rgba(232, 212, 139, 0.3), rgba(232, 212, 139, 0.12) 50%, rgba(232, 212, 139, 0) 100%) no-repeat; }   /* le reflet de l'or sur le papier : 1,4 D × 0,35 D, à 0,62 D sous le centre */
+.parole12 { margin: 0; }
+.parole12 p {
+    max-width: 310px;
+    margin: 0 auto;
+    font-family: var(--f-verset);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--outrenoir);
+    text-wrap: balance;
+}
+.parole12 cite, .g-titre small {
+    display: block;
+    font-family: var(--f-text);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5px;
+    line-height: 1.3;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-transform: uppercase;
+    color: var(--ardoise);
+}
+.parole12 cite { margin-top: 15px; }
+.g-titre { margin: 37px 0 0; font-family: var(--f-display); font-weight: 360; font-variation-settings: 'opsz' 72; font-size: 22px; line-height: 1.2; color: var(--outrenoir); }
+.g-t { display: block; text-wrap: balance; }
+.g-titre small { margin-top: 8px; }
+.g-phrase { margin: 21px 0 0; font-family: var(--f-display); font-weight: 340; font-variation-settings: 'opsz' 36; font-size: 18px; line-height: 1.4; color: var(--ardoise); text-wrap: balance; }
+.g-lien { margin: 22px 0 0; }
+.g-lien a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--outrenoir);
+    text-decoration: none;
+    box-shadow: inset 0 -1px 0 var(--or-bruni);
+}
+.g-lien a:hover { color: var(--or-bruni); }
+.g-lien a:focus-visible { outline: 2px solid var(--or-bruni); outline-offset: 3px; }
+
+/* ---------- LES DIX-SEPT CHAPITRES ---------- */
+.chapitres { background: var(--nacre); color: var(--outrenoir); padding: 0 16px; }
+.ch-details { max-width: 342px; margin: 0 auto; border-top: 1px solid var(--brume); border-bottom: 1px solid var(--brume); }
+.ch-details summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 44px;
+    padding: 8px 0;
+    list-style: none;
+    cursor: pointer;
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.3;
+    color: var(--outrenoir);
+}
+.ch-details summary::-webkit-details-marker { display: none; }
+.ch-details summary::marker { content: ''; }
+.ch-details summary:focus-visible { outline: 2px solid var(--or-bruni); outline-offset: 2px; }
+.ch-chevron { display: inline-flex; flex: none; color: var(--or-bruni); }
+.ch-chevron svg { display: block; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.ch-details[open] .ch-chevron { transform: rotate(90deg); }
+.ch-corps { padding: 8px 0 32px; font-family: var(--f-display); font-weight: 340; font-variation-settings: 'opsz' 14; font-size: 17px; line-height: 1.6; color: var(--ardoise); }
+.ch-corps p { margin: 0 0 16px; }
+.ch-corps h3 { margin: 36px 0 12px; font-family: var(--f-display); font-weight: 360; font-size: 21px; line-height: 1.25; color: var(--outrenoir); }
+.ch-corps h3 small { display: block; margin-top: 6px; font-family: var(--f-text); font-weight: 500; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ardoise); }
+.ch-corps blockquote { margin: 0 0 16px; font-family: var(--f-verset); font-style: italic; font-weight: 500; font-size: 21px; line-height: 1.3; color: var(--outrenoir); }
+.ch-corps blockquote cite { display: block; margin-top: 8px; font-family: var(--f-text); font-style: normal; font-weight: 500; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ardoise); }
+.ch-liste { font-family: var(--f-text); font-size: 14px; line-height: 1.6; }
+
+/* ---------- SCÈNE 13 · la suite : de la Nacre à la Perle sur 1,5 écran ---------- */
+.suite {
+    background: linear-gradient(to bottom, var(--nacre) 0, var(--perle) 150vh) var(--perle);
+    background: linear-gradient(to bottom, var(--nacre) 0, var(--perle) 150svh) var(--perle);
+    color: var(--outrenoir);
+    padding: 48px 16px 64px;
+}
+.suite-in { max-width: 342px; margin: 0 auto; text-align: center; }
+.suite-kicker { margin: 0 0 24px; font-family: var(--f-text); font-weight: 500; font-size: 11px; line-height: 1.4; letter-spacing: 0.28em; text-indent: 0.28em; text-transform: uppercase; color: var(--ardoise); }
+.suite-couv { position: relative; width: 168px; margin: 0 auto; }
+.suite-couv img { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
+.suite-ombre { position: absolute; z-index: 0; left: -5%; width: 110%; height: 12px; bottom: -6px; background: radial-gradient(ellipse closest-side, rgba(214, 209, 202, 0.6), rgba(214, 209, 202, 0)); }
+.suite-titre { margin: 28px 0 0; font-family: var(--f-display); font-weight: 330; font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 1; font-size: 30px; line-height: 1.1; color: var(--outrenoir); }
+.suite-titre span { display: block; }
+.suite-desc { margin: 16px 0 0; font-family: var(--f-display); font-weight: 340; font-variation-settings: 'opsz' 36; font-size: 17px; line-height: 1.45; color: var(--ardoise); text-wrap: balance; }
+.sbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 0 24px;
+    border: 1px solid var(--ardoise);
+    border-radius: 24px;
+    background: transparent;
+    color: var(--ardoise);
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+.sbtn:hover { background: rgba(214, 209, 202, 0.5); }
+.sbtn:focus-visible { outline: 2px solid var(--or-bruni); outline-offset: 3px; }
+.sbtn-fort { margin-top: 24px; min-height: 48px; min-width: 220px; border-color: var(--outrenoir); color: var(--outrenoir); }
+.suite-album { margin-top: 48px; }
+.suite-ecouter { margin: 0 0 14px; font-family: var(--f-display); font-weight: 340; font-size: 18px; color: var(--outrenoir); }
+.suite-liens { display: flex; justify-content: center; gap: 12px; margin: 0; }
+.suite-liens .sbtn { min-width: 132px; }
+.suite-partage { margin: 48px 0 0; }
+
+/* ---------- pied de page de la maison, sur la Perle ---------- */
+.talent-v2 .site-footer { background: var(--perle); border-top: 1px solid rgba(168, 132, 47, 0.25); }
+.talent-v2 .footer-copyright, .talent-v2 .footer-nav a, .talent-v2 .footer-copyright a { color: var(--ardoise); }
+.talent-v2 .footer-nav a:hover, .talent-v2 .footer-copyright a:hover { color: var(--or-bruni); }
+
+/* ---------- 768 et 1440 (planches et flux) ---------- */
+@media (min-width: 600px) {
+    .t10-1 { font-size: 40px; }
+    .t10-2 { font-size: 20px; }
+    .talent-v2 .t10-2 { max-width: 480px; width: min(480px, var(--col)); margin-left: calc(min(480px, var(--col)) / -2); }
+    .t10-3 { font-size: 12px; }
+    .t10-5 { font-size: 26px; }
+    .verset11 p { font-size: 34px; max-width: 560px; }
+    .verset11 cite { margin-top: 24px; }
+    .verset11 cite { font-size: 11.5px; }
+    .t12-2 { font-size: 30px; }
+    .parole12 p { font-size: 30px; max-width: 520px; }
+    .parole12 cite, .g-titre small { font-size: 11.5px; }
+    .g-titre { font-size: 30px; }
+    .g-phrase { font-size: 22px; }
+    .ch-details { max-width: 560px; }
+    .ch-corps { font-size: 18px; }
+    .suite { padding-top: 64px; padding-bottom: 80px; }
+    .suite-in { max-width: 560px; }
+    .suite-kicker { font-size: 12px; }
+    .suite-couv { width: 200px; }
+    .suite-ombre { height: 14px; bottom: -7px; }
+    .suite-titre { font-size: 36px; }
+    .suite-desc { font-size: 18px; }
+    .suite-album, .suite-partage { margin-top: 64px; }
+}
+@media (min-width: 1100px) {
+    .t10-1 { font-size: 52px; }
+    .t10-2 { font-size: 24px; }
+    .t10-3 { font-size: 13px; }
+    .t10-5 { font-size: 30px; }
+    .verset11 p { font-size: 40px; max-width: 900px; }
+    .verset11 cite { margin-top: 22px; }
+    .verset11 cite { font-size: 12px; }
+    .planche-12 { padding: 96px 48px 64px; }
+    .planche-12 .cadre { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 48px; align-items: start; }
+    .t12-2 { grid-column: 1 / -1; font-size: 36px; max-width: 900px; margin-bottom: 64px; }
+    .g12 { max-width: none; margin: 0; }
+    .parole12 p { font-size: 28px; }
+    .parole12 cite, .g-titre small { font-size: 12px; }
+    .g-titre { font-size: 28px; }
+    .g-phrase { font-size: 20px; }
+    .ch-details { max-width: 760px; }
+    .ch-corps { font-size: 19px; }
+    .suite-in { max-width: 760px; }
+    .suite-tome2 { display: flex; align-items: center; gap: 48px; text-align: left; }
+    .suite-couv { flex: none; width: 240px; margin: 0; }
+    .suite-ombre { height: 16px; bottom: -8px; }
+    .suite-titre { margin-top: 0; font-size: 40px; }
+    .suite-desc { font-size: 19px; }
+    .suite { padding-top: 80px; }
+    .suite-album, .suite-partage { margin-top: 80px; }
+}
+
+/* ============================================
+   SCÈNES 10 À 12, VERSION ANIMÉE
+   ============================================ */
+.decor-fin, .vol, .indice-suite { display: none; }
+.talent-anime .bande-jour, .talent-anime .couv-porte, .talent-anime .face12 { display: none; }
+.talent-anime .planche-10 { z-index: 4; }   /* la couverture : au-dessus du canevas, des portes et du calque du jour */
+.talent-anime .planche-12 { padding: 0; background: transparent; color: inherit; }
+.talent-anime .planche-12 .cadre { position: absolute; inset: 0; max-width: none; margin: 0; display: block; }
+
+/* le décor de la fin : sous le canevas (z 1) */
+.talent-anime .decor-fin { display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.nuit-vignette { position: absolute; inset: 0; opacity: 0; background: radial-gradient(ellipse farthest-corner at 50% 50%, rgba(6, 9, 18, 0) 0, rgba(6, 9, 18, 0.04) 35%, rgba(6, 9, 18, 0.16) 60%, rgba(6, 9, 18, 0.4) 100%); }
+.portes11 { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+/* flaque devant chaque porte : large d'une ouverture au seuil, 1,4 fois à 0,16 h ; décroissance en (1 − d/r)^1,5 ; bords fondus */
+.flaque { position: absolute; top: var(--seuil, 70%); left: calc(var(--dx) - 0.2 * var(--dw)); width: calc(1.4 * var(--dw)); height: 16%; opacity: 0; filter: blur(var(--flou, 8px)); }
+.flaque-1 { --dx: var(--d1x); }
+.flaque-2 { --dx: var(--d2x); }
+.flaque > div {
+    position: absolute;
+    inset: 0;
+    /* flaque chaude : Or pâle 35 % au seuil, Perle 20 % par-dessus, même décroissance en (1 − d/r)^1,5 */
+    background:
+        linear-gradient(to bottom, rgba(236, 232, 226, 0.2) 0, rgba(236, 232, 226, 0.13) 25%, rgba(236, 232, 226, 0.071) 50%, rgba(236, 232, 226, 0.025) 75%, rgba(236, 232, 226, 0) 100%),
+        linear-gradient(to bottom, rgba(232, 212, 139, 0.35) 0, rgba(232, 212, 139, 0.227) 25%, rgba(232, 212, 139, 0.124) 50%, rgba(232, 212, 139, 0.044) 75%, rgba(232, 212, 139, 0) 100%);
+    clip-path: polygon(14.286% 0, 85.714% 0, 100% 100%, 0 100%);
+}
+.ombre-couv { position: absolute; left: 0; top: 0; opacity: 0; background: radial-gradient(ellipse closest-side, rgba(214, 209, 202, 0.6), rgba(214, 209, 202, 0.25) 55%, rgba(214, 209, 202, 0)); }
+/* le calque du jour (§ 3) : la Nacre révélée par deux ellipses ; bord chaud (Incandescence, puis Or pâle 40 % → 0) */
+.jour { position: absolute; inset: 0; opacity: 0; }
+.jour i { position: absolute; inset: 0; }
+.jour-or { background: rgba(232, 212, 139, 0.4); }
+.jour-inc { background: var(--incandescence); }
+.jour-nacre { background: var(--nacre); }
+.jour.plein .jour-or, .jour.plein .jour-inc { display: none; }
+.jour.plein .jour-nacre { -webkit-mask-image: none; mask-image: none; }
+
+/* scène 10 : la couverture et les textes (fractions de l'écran) */
+.talent-anime .couv { left: 0; top: 0; width: var(--couv-l, 156px); transform-origin: 0 0; opacity: 0; visibility: hidden; will-change: transform, opacity; }
+.talent-anime .planche-10 [data-texte], .talent-anime .planche-11 [data-texte] { opacity: 0; }
+.talent-anime .t10-5.l { padding: 0 0.12em 0.16em; margin-bottom: -0.16em; margin-right: 0; margin-left: calc(var(--col) / -2); }
+
+/* scène 11 : portes placées par horloge.js */
+.talent-anime .planche-11 .cadre { --d1x: 12px; --d2x: 223px; --dw: 155px; }
+.talent-anime .porte-bouton.l { box-sizing: content-box; padding: 6px; margin: -6px 0 0 -6px; transform: translateX(-50%); left: calc(50% + 6px); }
+.talent-anime .porte-bouton .pbtn { display: flex; }
+.talent-anime .pbtn { pointer-events: auto; }
+
+/* scène 12 : sur la Nacre (fractions de l'écran) */
+.talent-anime .t12-2 { position: absolute; left: 50%; top: calc(0.41 * 100% - 18px); width: var(--col); margin: 0 0 0 calc(var(--col) / -2); }
+.talent-anime .pv13 {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: calc(0.56 * 100% - 10px);
+    width: var(--col);
+    margin: 0 0 0 calc(var(--col) / -2);
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 10.5px;
+    line-height: 14px;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ardoise);
+}
+.pv13-point { display: block; width: 8px; height: 8px; margin: 14px auto 0; border-radius: 50%; background: var(--or-bruni); animation: pv13-bat 1.4s ease-in-out infinite; }
+@keyframes pv13-bat { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+/* entrées et sorties des textes de la scène 12 (temps réel) : sortie 0,4 s sans montée ; entrée ligne par ligne */
+.talent-anime .t12-2, .talent-anime .pv13, .talent-anime .g12 { opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0s linear 0.4s; }
+.talent-anime .t12-2.vu, .talent-anime .pv13.vu, .talent-anime .g12.vu { opacity: 1; visibility: visible; transition: opacity 0s, visibility 0s; }
+.talent-anime .planche-12 .li { transition: transform 0s linear 0.4s; }
+.talent-anime .planche-12 .vu .li { transform: none; transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--d, 0s) + var(--i, 0) * 0.13s); }
+.talent-anime .g12 {
+    position: absolute;
+    left: 50%;
+    top: calc(0.41 * 100% - 19px);
+    width: var(--col);
+    margin: 0 0 0 calc(var(--col) / -2);
+    background: none;
+}
+.talent-anime .g12-3 .g-titre .g-t { max-width: 300px; margin: 0 auto; }
+.talent-anime .g-lien .l { display: inline-block; padding: 6px; margin: -6px; vertical-align: top; }
+.talent-anime .g-lien a.li { display: inline-flex; }
+/* le bouton de la pièce : rond, transparent, posé sur elle (diamètre D + 24 px), placé par horloge.js */
+.talent-anime .frapper {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 174px;
+    height: 174px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+    visibility: hidden;
+    pointer-events: none;
+}
+.talent-anime .frapper.actif { visibility: visible; pointer-events: auto; }
+.talent-anime .frapper::before { content: ''; position: absolute; inset: 6px; box-sizing: border-box; border: 1px solid var(--or-bruni); border-radius: 50%; opacity: 0; transition: opacity 0.2s ease; }
+.talent-anime .frapper:hover::before { opacity: 1; }
+.talent-anime .frapper:focus-visible { outline: 2px solid var(--or-bruni); outline-offset: 4px; }
+.talent-anime .repere12 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 44px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(0.945 * 100% - 8px);
+    margin: 0;
+    font-family: var(--f-text);
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.2em;
+    color: rgba(58, 56, 66, 0.58);   /* à venir : Ardoise à 58 %, 3,26:1 sur la Nacre */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.talent-anime .repere12.vu { opacity: 1; }
+.talent-anime .repere12.vu.fin { opacity: 0; transition: opacity 0.3s ease; }   /* D2 : s'efface en 0,3 s au départ du vol (19,50), revient en remontant */
+.talent-anime .repere12 span { position: relative; }
+.talent-anime .repere12 span + span::before { content: ''; position: absolute; right: calc(100% + 10px); top: 50%; width: 24px; height: 1px; background: currentColor; opacity: 0.6; }
+.talent-anime .repere12 span.faite { color: var(--or-bruni); }
+
+/* le vol de la pièce vers la pastille : au-dessus de l'en-tête, sans capter le pointeur */
+.talent-anime .vol { display: block; position: fixed; inset: 0; z-index: 1100; pointer-events: none; overflow: hidden; }
+.vol-img { position: absolute; left: 0; top: 0; width: 150px; height: 150px; opacity: 0; visibility: hidden; transform-origin: 0 0; }
+
+/* indice de suite (§ 2, scène 11) : chevron Cendre qui monte et descend de 6 px, 1,6 s */
+.talent-anime .indice-suite { display: block; position: absolute; z-index: 5; left: 50%; top: calc(0.95 * 100% - 4px); margin-left: -7px; color: var(--cendre-nuit); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+.indice-suite svg { display: block; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.talent-anime .indice-suite.montre { opacity: 1; animation: indice-suite 1.6s ease-in-out infinite; }
+@keyframes indice-suite { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+@media (min-width: 600px) {
+    .talent-anime .t10-1 { --y: 0.578; }
+    .talent-anime .t10-2 { --y: 0.635; }
+    .talent-anime .t10-3 { --y: 0.722; }
+    .talent-anime .t10-5 { --y: 0.778; }
+    .talent-anime .verset11 { --y: 0.088; }
+    .talent-anime .porte-nom { --y: 0.311; font-size: 24px; }
+    .talent-anime .porte-mention { --y: 0.607; font-size: 13px; }
+    .talent-anime .porte-mention-2 { --y: 0.450; font-size: 20px; }
+    .talent-anime .porte-bouton { --y: 0.775; width: 240px; }
+    .talent-anime .t12-2 { top: calc(0.42 * 100% - 24px); }
+    .talent-anime .pv13 { font-size: 11px; }
+    .talent-anime .g12 { top: calc(0.42 * 100% - 26px); }
+    .talent-anime .g12-3 .g-titre .g-t { max-width: none; }
+    .talent-anime .repere12 { top: calc(0.95 * 100% - 8px); }
+}
+@media (min-width: 1100px) {
+    /* scène 10 en deux colonnes : textes à gauche (x 200 → 680), couverture et lit à droite (x = 960) */
+    .talent-anime .t10-1, .talent-anime .t10-3, .talent-anime .t10-5 { left: calc(200 / 1440 * 100%); width: calc(480 / 1440 * 100%); margin-left: 0; }
+    .talent-anime .talent-v2 .t10-2, .talent-anime .t10-2 { left: calc(200 / 1440 * 100%); width: calc(480 / 1440 * 100%); max-width: none; margin-left: 0; }
+    .talent-anime .t10-5.l { margin-left: 0; }
+    .talent-anime .t10-1 { --y: 0.372; }
+    .talent-anime .t10-2 { --y: 0.453; }
+    .talent-anime .t10-3 { --y: 0.564; }
+    .talent-anime .t10-5 { --y: 0.631; }
+    .talent-anime .verset11 { --y: 0.115; width: 900px; margin-left: -450px; }
+    .talent-anime .porte-nom { --y: 0.316; font-size: 28px; }
+    .talent-anime .porte-mention { --y: 0.686; font-size: 14px; }
+    .talent-anime .porte-mention-2 { --y: 0.454; font-size: 24px; }
+    .talent-anime .porte-bouton { --y: 0.835; width: 260px; }
+    /* scène 12 en deux colonnes : pièce à 0,30 W, textes à droite (x 760 → 1240) */
+    .talent-anime .t12-2, .talent-anime .g12 { left: calc(760 / 1440 * 100%); width: calc(480 / 1440 * 100%); margin-left: 0; text-align: left; }
+    .talent-anime .t12-2 { top: calc(0.36 * 100% - 6px); }
+    .talent-anime .g12 .parole12 cite, .talent-anime .g12 .g-titre small { text-indent: 0; }
+    .talent-anime .g12 .parole12 p { margin: 0; }
+    .talent-anime .g12 { top: calc(0.20 * 100% - 30px); }
+    .talent-anime .parole12 p { font-size: 34px; max-width: none; }
+    .talent-anime .g-titre { font-size: 34px; margin-top: 30px; }
+    .talent-anime .g-phrase { font-size: 24px; }
+    .talent-anime .pv13 { left: calc(0.30 * 100%); width: 300px; margin-left: -150px; top: calc(0.80 * 100% - 10px); font-size: 12px; }
+    .talent-anime .repere12 { top: calc(0.90 * 100% - 8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .pastille.bat, .pv13-point, .indice-suite.montre { animation: none !important; }
+}
+.talent-anime .g12 { --d: 0.25s; }   /* le groupe d'une frappe entre 0,25 s après le coup */
+.talent-anime .pv13.vu { transition: opacity 0.6s ease, visibility 0s; }

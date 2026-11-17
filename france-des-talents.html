@@ -2,26 +2,30 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#F7F5F1">
-    <!-- Signale que JS est disponible : active le bouton « Menu » (drawer) sans FOUC -->
-    <script>document.documentElement.classList.add('js');</script>
-    <!-- La frise gravée : la pierre s'affiche tout de suite, sans montrer les paroles en clair.
-         Si la frise ne démarre pas, les paroles réapparaissent en colonne. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#141218">
+    <!-- Trois versions d'un même HTML :
+         - sans JavaScript : les dix planches gravées, l'une sous l'autre (aucun script, aucune 3D) ;
+         - avec JavaScript, mouvement réduit ou sans WebGL2 : les mêmes planches (html.js) ;
+         - sinon : la version animée (html.talent-anime), une scène fixe et une horloge ; page.js revient aux planches
+           si le palier est « bas » ou si le script ne répond pas en 6 s. -->
     <script>
         (function (d) {
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.WebGLRenderingContext) return;
-            d.classList.add('fr-wait');
-            setTimeout(function () { if (!d.querySelector('.fr-live')) d.classList.remove('fr-wait'); }, 6000);
+            d.classList.add('js');
+            var q = location.search, force = /[?&]palier=(haut|moyen)\b/.test(q), statique = /[?&]palier=(bas|aucun)\b/.test(q);
+            if (!statique && (force || (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.WebGL2RenderingContext))) {
+                d.classList.add('talent-anime');
+                setTimeout(function () { if (!window.__talentPret) d.classList.remove('talent-anime'); }, 6000);
+            }
         })(document.documentElement);
     </script>
-    <title>La France des Talents — Tome 1 | Éditions Kileton</title>
-    <meta name="description" content="La France des Talents, Tome 1 : les fondements évangéliques d'une France libre, responsable et souveraine. Les paroles du Christ prises au mot comme grammaire politique. Un essai de Matthieu Straub, Éditions Kileton.">
+    <title>La France des talents, tome 1 — Matthieu Straub | Éditions KILETON</title>
+    <meta name="description" content="La France des talents, tome 1&#8239;: les Évangiles pour une France libre, responsable et souveraine. Les paroles du Christ prises au mot comme grammaire politique. Un essai de Matthieu Straub, Éditions KILETON.">
     <link rel="canonical" href="https://editions-kileton.fr/france-des-talents.html">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="La France des Talents — Tome 1">
-    <meta property="og:description" content="Les Évangiles pris au mot comme grille de pensée politique. Les fondements d'une France libre, responsable et souveraine.">
+    <meta property="og:title" content="La France des talents — Tome 1">
+    <meta property="og:description" content="Les Évangiles pris au mot comme grille de pensée politique. La France a reçu des talents. Il est temps de cesser de les enfouir.">
     <meta property="og:image" content="https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg">
     <meta property="og:url" content="https://editions-kileton.fr/france-des-talents.html">
     <meta property="og:type" content="book">
@@ -29,8 +33,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="La France des Talents — Tome 1 · Matthieu Straub">
-    <meta name="twitter:description" content="Les fondements évangéliques d'une France libre, responsable et souveraine.">
+    <meta name="twitter:title" content="La France des talents — Tome 1 · Matthieu Straub">
+    <meta name="twitter:description" content="Les Évangiles pour une France libre, responsable et souveraine.">
     <meta name="twitter:image" content="https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg">
 
     <!-- Favicon -->
@@ -41,38 +45,38 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
 
-    <!-- Polices hébergées localement : aucun appel vers Google, aucune donnée
-         du visiteur transmise à un tiers. Voir css/fonts.css -->
-    <link rel="preload" href="assets/fonts/fraunces-latin-full-normal.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Polices hébergées localement (css/fonts.css, css/talent.css) : aucun appel vers un tiers.
+         Préchargées : celles du premier écran, Fraunces allégée (le titre, élément le plus grand) et Inter 500 (bouton, pastille).
+         Cormorant (le verset) n'est demandée qu'à l'approche de la scène 6 (classe lot-terre, posée par l'horloge). -->
+    <link rel="preload" href="assets/fonts/fraunces-talent-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="css/fonts.css">
 
-    <!-- Feuilles de style : base du site, en-tête de la maison, puis l'univers du livre -->
+    <!-- Feuilles de style : base du site, en-tête de la maison, puis la page du talent déterré -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css?v=4">
-    <link rel="stylesheet" href="css/talents.css?v=4">
+    <link rel="stylesheet" href="css/talent.css">
 
     <!-- JSON-LD Book -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Book",
-        "name": "La France des Talents — Tome 1",
+        "name": "La France des talents — Tome 1",
         "author": {
             "@type": "Person",
             "name": "Matthieu Straub"
         },
         "publisher": {
             "@type": "Organization",
-            "name": "Éditions Kileton"
+            "name": "Éditions KILETON"
         },
         "isbn": "9791098457722",
         "bookFormat": "Paperback",
         "inLanguage": "fr",
         "genre": ["Essai", "Politique", "Spiritualité"],
         "numberOfPages": "396",
-        "description": "Les Évangiles pris au mot comme grille de pensée politique : les fondements d'une France libre, responsable et souveraine. Premier volet d'un diptyque.",
+        "description": "Les Évangiles pris au mot comme grille de pensée politique, pour une France libre, responsable et souveraine. Premier volet d’un diptyque.",
         "image": "https://editions-kileton.fr/assets/images/couverture-france-talents-tome1.jpg",
         "url": "https://editions-kileton.fr/france-des-talents.html",
         "offers": {
@@ -87,7 +91,7 @@
     }
     </script>
 </head>
-<body class="home-v2 ft">
+<body class="home-v2 talent-v2">
 
     <!-- HEADER / NAVIGATION -->
     <header class="site-header on-light" role="banner">
@@ -133,6 +137,18 @@
                 <span class="menu-toggle-label">Menu</span>
             </button>
         </nav>
+        <!-- AJOUT DE LA PAGE : bouton du son, puis la pastille d'achat, toujours à un geste -->
+        <div class="hd-talent">
+            <!-- Nom fixe « Son » ; l’état est donné par aria-pressed (un seul signal pour le lecteur d’écran). -->
+            <button class="son" type="button" aria-pressed="false" aria-label="Son">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path class="son-hp" d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="son-ondes" d="M15 9.2c1.4 1.6 1.4 4 0 5.6M17.6 7c2.6 2.9 2.6 7.1 0 10"/><path class="son-barre" d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg>
+            </button>
+            <a class="pastille" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener">
+                <!-- Logement de l’icône : vide pendant la scène 12, la pièce y arrive à la scène 13 -->
+                <span class="pastille-icone"><img src="assets/talent/embleme/talent-28.svg" width="28" height="28" alt=""></span>
+                <span class="pastille-mot">Acheter<span class="pastille-suite"> le tome 1</span></span>
+            </a>
+        </div>
     </header>
 
     <!-- MENU LATÉRAL (DRAWER) — navigation principale, Mode Nuit -->
@@ -183,120 +199,290 @@
             </nav>
         </div>
     </aside>
+    <!-- Avec JavaScript, l'en-tête commence sombre (la page est dans la nuit) ; il passe en « on-light » sur la Nacre (scènes 12 et 13).
+         Sans JavaScript : talent.css le garde sombre, sur un fond Outrenoir. -->
+    <script>document.querySelector('.site-header').classList.remove('on-light');</script>
 
     <main role="main">
 
-        <!-- I. LA FRISE GRAVÉE — les paroles taillées dans la pierre, puis dorées -->
-        <section class="fr" aria-labelledby="fr-title">
-            <div class="fr-sticky">
-                <canvas class="fr-canvas" aria-hidden="true"></canvas>
+        <!-- « LE TROISIÈME SERVITEUR », SCÈNES 0 À 13.
+             Une section par scène, dans l'ordre du récit. Sans JavaScript, en mouvement réduit, sans WebGL ou au palier « bas » :
+             ce sont les dix planches gravées, l'une sous l'autre. En version animée, talent.css les superpose dans une scène fixe
+             (.scene-fixe) et l'horloge (js/talent/horloge.js) fait entrer et sortir chaque texte à son instant. -->
+        <section id="talent" class="talent" aria-label="Le troisième serviteur">
+            <div class="scene-fixe">
 
-                <ol class="fr-list" aria-label="Les paroles qui fondent le livre">
-                    <li data-engrave="« J’AI EU PEUR, ET JE SUIS ALLÉ CACHER TON TALENT DANS LA TERRE. »" data-cite="MATTHIEU · XXV · 25">
-                        <blockquote><p>«&nbsp;J'ai eu peur, et je suis allé cacher ton&nbsp;talent dans la terre.&nbsp;»</p><cite>Matthieu 25, 25</cite></blockquote>
-                    </li>
-                    <li data-engrave="« LA VÉRITÉ VOUS RENDRA LIBRES. »" data-cite="JEAN · VIII · 32">
-                        <blockquote><p>«&nbsp;La vérité vous rendra libres.&nbsp;»</p><cite>Jean 8, 32</cite></blockquote>
-                    </li>
-                    <li data-engrave="« RENDEZ À CÉSAR CE QUI EST À CÉSAR, ET À DIEU CE QUI EST À DIEU. »" data-cite="MATTHIEU · XXII · 21">
-                        <blockquote><p>«&nbsp;Rendez à César ce qui est à César, et à Dieu ce qui est à Dieu.&nbsp;»</p><cite>Matthieu 22, 21</cite></blockquote>
-                    </li>
-                    <li data-engrave="« CELUI QUI VEUT ÊTRE LE PREMIER, QU’IL SOIT LE SERVITEUR DE TOUS. »" data-cite="MARC · X · 44">
-                        <blockquote><p>«&nbsp;Celui qui veut être le premier, qu'il soit le serviteur de tous.&nbsp;»</p><cite>Marc 10, 44</cite></blockquote>
-                    </li>
-                    <li data-engrave="« JE NE SUIS PAS VENU APPORTER LA PAIX, MAIS LE GLAIVE. »" data-cite="MATTHIEU · X · 34">
-                        <blockquote><p>«&nbsp;Je ne suis pas venu apporter la paix, mais le glaive.&nbsp;»</p><cite>Matthieu 10, 34</cite></blockquote>
-                    </li>
-                </ol>
-
-                <div class="fr-title" data-engrave="LA FRANCE|DES TALENTS" data-title>
-                    <p class="fr-eyebrow">Essai · Tome 1 — Le Pourquoi</p>
-                    <h1 id="fr-title" class="fr-h1">La France des talents</h1>
-                    <div class="fr-foot">
-                        <p class="fr-sub">Les Évangiles pour une France libre, responsable et&nbsp;souveraine</p>
-                        <div class="fr-actions">
-                            <a class="ft-btn ft-btn-gold" href="france-des-talents-introduction.html">Lire l'introduction</a>
-                            <a class="ft-btn ft-btn-line" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener noreferrer">Acheter le tome 1</a>
+                <!-- SCÈNE 0 · Le seuil -->
+                <section class="planche planche-0" id="scene-0" aria-labelledby="talent-titre">
+                    <div class="cadre">
+                        <!-- La porte : SVG de la page, animé par l'horloge. Cœur Incandescence de 3 px, retombée Or pâle, chants Or bruni, flaque de lumière au sol. -->
+                        <div class="porte-sol" aria-hidden="true"><div></div></div>
+                        <svg class="porte" aria-hidden="true" focusable="false"><defs><linearGradient id="porte-hg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#E8D48B" stop-opacity="0"/><stop offset=".45" stop-color="#E8D48B" stop-opacity=".12"/><stop offset=".78" stop-color="#E8D48B" stop-opacity=".34"/><stop offset="1" stop-color="#E8D48B" stop-opacity=".6"/></linearGradient><linearGradient id="porte-hd" x1="1" x2="0" y1="0" y2="0"><stop offset="0" stop-color="#E8D48B" stop-opacity="0"/><stop offset=".45" stop-color="#E8D48B" stop-opacity=".12"/><stop offset=".78" stop-color="#E8D48B" stop-opacity=".34"/><stop offset="1" stop-color="#E8D48B" stop-opacity=".6"/></linearGradient></defs><rect class="porte-halo porte-halo-g" x="50%" y="0" width="24" height="100%" fill="url(#porte-hg)" transform="translate(-25.5 0)"/><rect class="porte-halo porte-halo-d" x="50%" y="0" width="24" height="100%" fill="url(#porte-hd)" transform="translate(1.5 0)"/><rect class="porte-fente" x="50%" y="0" width="3" height="100%" transform="translate(-1.5 0)"/><line class="porte-chant porte-chant-g" x1="50%" x2="50%" y1="0" y2="100%" transform="translate(-2.5 0)"/><line class="porte-chant porte-chant-d" x1="50%" x2="50%" y1="0" y2="100%" transform="translate(2.5 0)"/><line class="porte-filet" x1="50%" x2="50%" y1="0" y2="100%"/></svg>
+                        <div class="seuil" data-texte="titre">
+                            <h1 id="talent-titre" class="titre">La France des talents</h1>
+                            <p class="sous-titre">Les Évangiles pour une France libre, responsable et souveraine</p>
+                            <p class="auteur">Matthieu Straub</p>
+                            <div class="entree">
+                                <button class="commencer" type="button">Commencer, avec le son</button>
+                                <p class="indice">ou faites défiler<svg class="chevron" viewBox="0 0 14 8" width="14" height="8" aria-hidden="true" focusable="false"><path d="M1 1l6 6 6-6"/></svg></p>
+                            </div>
                         </div>
                     </div>
+                    <p class="sr">Une porte entrouverte dans le noir.</p>
+                </section>
+
+                <!-- SCÈNE 1 · Le don -->
+                <section class="planche planche-1" id="scene-1">
+                    <p class="sr">Une pièce d’or descend et se pose.</p>
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-1.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <p class="phrase t1-1" data-texte="T1.1">Un maître confie des sommes, des talents, à ses serviteurs,</p>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 2 · Le départ -->
+                <section class="planche planche-2" id="scene-2">
+                    <p class="sr">La porte se ferme. Il ne reste que la pièce.</p>
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-2.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <p class="phrase t2-1" data-texte="T2.1">puis il part.</p>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 3 · La peur -->
+                <section class="planche planche-3" id="scene-3">
+                    <p class="sr">La terre tombe et recouvre la pièce.</p>
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-3.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <p class="phrase t3-1" data-texte="T3.1">La France meurt sans drame, sans bataille, sans cri.</p>
+                        <p class="phrase t3-2" data-texte="T3.2">On se résigne mal à une agonie qui ne fait pas mal.</p>
+                        <p class="etiquette t3-i" data-texte="T3.i"><span class="si-auto">Ne rien faire, c’est enfouir.</span><span class="si-libre">Défiler, c’est enfouir.</span></p>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 4 · Le fond -->
+                <section class="planche planche-4" id="scene-4">
+                    <p class="sr">Coupe de la terre&#8239;: la pièce est tout au fond, sous les couches datées.</p>
+                    <div class="cadre">
+                        <picture><source media="(min-width: 1100px)" srcset="assets/talent/planches/planche-4-1440.svg" width="1440" height="900"><img class="fond" src="assets/talent/planches/planche-4.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async"></picture>
+                        <p class="phrase t4-1" data-texte="T4.1">C’est ce que ce livre appelle l’enfouissement des talents.</p>
+                        <!-- Couches datées : lisibles d'un toucher ou au clavier, jamais imposées -->
+                        <div class="strates" data-texte="strates">
+                            <details class="strate strate-2025" data-strate="2025"><summary>2025</summary><p class="fait"><span class="sep"> · </span>1,56 enfant par femme · INSEE</p></details>
+                            <details class="strate strate-2002" data-strate="2002"><summary>2002</summary><p class="fait"><span class="sep"> · </span>Depuis, le droit en vigueur a doublé · Secrétariat général du Gouvernement</p></details>
+                        </div>
+                        <!-- Le repère de profondeur ; son sens est dans le texte de la scène. -->
+                        <div class="repere" aria-hidden="true">
+                            <span class="repere-filet"></span><span class="repere-tiret repere-tiret-1"></span><span class="repere-tiret repere-tiret-2"></span><span class="repere-point"></span>
+                            <p class="repere-texte"><span class="repere-etiquette">sous terre depuis</span><span class="repere-valeur"><span class="repere-v">quarante ans</span></span></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 5 · Le retour -->
+                <section class="planche planche-5" id="scene-5">
+                    <p class="sr">Une faille s’ouvre dans la terre, au-dessus de la pièce.</p>
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-5.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <p class="phrase t5-1" data-texte="T5.1">Il revient, et il demande des comptes.</p>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 6 · L'aveu -->
+                <section class="planche planche-6" id="scene-6">
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-6.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <blockquote class="verset">
+                            <p data-texte="T6.1">«&#8239;J’ai eu peur, et je suis allé cacher ton talent dans la terre.&#8239;»</p>
+                            <cite data-texte="T6.2">Matthieu 25, 25</cite>
+                        </blockquote>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 7 · La bascule -->
+                <section class="planche planche-7" id="scene-7">
+                    <p class="sr">La terre se fend en deux autour de la pièce.</p>
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-7.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <p class="phrase t7-1" data-texte="T7.1">Celui qui, par peur, a enfoui son talent sans rien en faire est condamné, non pour l’avoir perdu, mais pour n’avoir rien osé.</p>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 8 · Creuser -->
+                <section class="planche planche-8" id="scene-8">
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-8.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <p class="injonction t8-1" data-texte="T8.1">Déterrez-le.</p>
+                        <span class="indice-geste" aria-hidden="true"><i></i></span>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 9 · La révélation -->
+                <section class="planche planche-9" id="scene-9">
+                    <p class="sr">La pièce sort de terre. Sa croix éclaire toute l’image.</p>
+                    <div class="cadre">
+                        <picture><source media="(min-width: 1100px)" srcset="assets/talent/planches/planche-9-1440.svg" width="1440" height="900"><img class="fond" src="assets/talent/planches/planche-9.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async"></picture>
+                        <p class="cle t9-1" data-texte="T9.1"><span class="cle-a" data-texte="T9.1a">La France a reçu des talents.</span> <span class="cle-b" data-texte="T9.1b">Il est temps de cesser de les enfouir.</span></p>
+                    </div>
+                </section>
+
+                <!-- SCÈNES 10 À 12.
+                     Version animée : le décor de la fin (nuit, deux portes, flaques, calque du jour) est sous le canevas ;
+                     les textes et la couverture sont au-dessus. Planches : 10, la bande du passage, 11, 12 (les trois faces). -->
+                <div class="decor-fin" aria-hidden="true">
+                    <div class="nuit-vignette"></div>
+                    <div class="flaque flaque-1"><div></div></div>
+                    <div class="flaque flaque-2"><div></div></div>
+                    <svg class="portes11" focusable="false"></svg>
+                    <span class="ombre-couv"></span>
+                    <div class="jour"><i class="jour-or"></i><i class="jour-inc"></i><i class="jour-nacre"></i></div>
                 </div>
 
-                <p class="fr-hint" aria-hidden="true">Faites défiler : la parole se grave</p>
+                <!-- SCÈNE 10 · Le livre -->
+                <section class="planche planche-10" id="scene-10" aria-labelledby="livre-titre">
+                    <p class="sr">La pièce se lève et laisse dans la terre l’empreinte d’un lys. La couverture du livre apparaît.</p>
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-10.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <!-- La couverture du tome 1, telle quelle : un seul <img>, animé en translation, échelle uniforme et opacité seulement. -->
+                        <img class="livre-couverture couv" src="assets/images/couverture-france-talents-tome1.webp" width="700" height="1050" alt="Première de couverture de «&#8239;La France des talents&#8239;», tome 1, «&#8239;Les Évangiles pour une France libre, responsable et souveraine&#8239;»&#8239;: une fleur de lys tressée de fibres bleues, blanches et rouges, une croix d’or posée sur son pétale central. Matthieu Straub, Éditions KILETON." loading="lazy" decoding="async">
+                        <h2 id="livre-titre" class="t10-1" data-texte="T10.1">La France des talents</h2>
+                        <p class="t10-2" data-texte="T10.2">Les Évangiles pour une France libre, responsable et souveraine</p>
+                        <p class="t10-3" data-texte="T10.3">Matthieu Straub</p>
+                        <p class="t10-5 l" data-texte="T10.5" data-ligne><span class="li">Le <em>pourquoi</em> avant le <em>comment</em>.</span></p>
+                    </div>
+                </section>
+
+                <!-- Planches seulement : le passage de la nuit à la Nacre -->
+                <div class="bande-jour" aria-hidden="true"></div>
+
+                <!-- SCÈNE 11 · Les deux portes -->
+                <section class="planche planche-11" id="scene-11" aria-label="Les deux portes">
+                    <div class="cadre">
+                        <img class="fond" src="assets/talent/planches/planche-11.svg" width="390" height="844" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                        <blockquote class="verset11">
+                            <p data-texte="T11.1">«&#8239;Tu as été fidèle en peu de choses, je t’établirai sur beaucoup.&#8239;»</p>
+                            <cite data-texte="T11.2">Matthieu 25, 21</cite>
+                        </blockquote>
+                        <div class="porte11 porte11-1">
+                            <p class="porte-nom" data-texte="PV6">Faire fructifier</p>
+                            <!-- Planche statique seulement : la couverture dans la porte 1 (en version animée, c’est l’image de la scène 10 qui y glisse) -->
+                            <img class="couv-porte" src="assets/images/couverture-france-talents-tome1.webp" width="700" height="1050" alt="" loading="lazy" decoding="async">
+                            <p class="porte-mention" data-texte="T10.6">Broché · 396 pages</p>
+                            <p class="porte-bouton l" data-texte="B11.1" data-ligne><a class="li pbtn pbtn-achat" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener">Acheter le tome 1</a></p>
+                        </div>
+                        <div class="porte11 porte11-2">
+                            <p class="porte-nom" data-texte="PV7">Lire d’abord</p>
+                            <p class="porte-mention porte-mention-2" data-texte="PV8">L’introduction entière, gratuite.</p>
+                            <p class="porte-bouton l" data-texte="B11.2" data-ligne><a class="li pbtn pbtn-intro" href="france-des-talents-introduction.html">Lire l’introduction</a></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCÈNE 12 · Trois frappes (partie libre). Les trois groupes sont dans le HTML, dans l’ordre, jamais cachés au lecteur d’écran. -->
+                <section class="planche planche-12" id="scene-12" aria-label="Trois frappes">
+                    <div class="cadre">
+                        <p class="t12-2" data-n="T12.2">La personne, puis l’État, puis la société. On ne bâtit pas dans un autre ordre.</p>
+                        <p class="pv13" data-n="PV13">Frappez la pièce.<span class="pv13-point" aria-hidden="true"></span></p>
+                        <button class="frapper" type="button" aria-label="Frapper la pièce" aria-describedby="frappes-faites" tabindex="-1"></button>
+                        <div class="g12 g12-1" data-groupe="1">
+                            <img class="face12" src="assets/talent/embleme/talent-avers.svg" width="150" height="150" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                            <blockquote class="parole12">
+                                <p data-n="P12.I" data-l>«&#8239;Que servirait-il à un homme de gagner le monde entier, s’il vient à perdre son âme&#8239;?&#8239;»</p>
+                                <cite data-l>Matthieu 16, 26</cite>
+                            </blockquote>
+                            <h3 class="g-titre" data-n="T12.3"><span class="g-t" data-l>I. La personne, avant tout le reste</span> <small data-l>Chapitres 1 à 6</small></h3>
+                            <p class="g-phrase" data-n="T12.4" data-l>Avant l’État, avant la loi, avant l’économie, il y a un être irréductible que rien ne peut échanger contre autre chose.</p>
+                            <p class="g-lien" data-n="PV15"><span class="l"><a class="li" href="https://music.apple.com/fr/song/c%C5%93ur-sous-terre/6796951804" target="_blank" rel="noopener">Écouter «&#8239;cœur Sous Terre&#8239;»</a></span></p>
+                        </div>
+                        <div class="g12 g12-2" data-groupe="2">
+                            <img class="face12" src="assets/talent/planches/planche-12-listel.svg" width="150" height="150" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                            <blockquote class="parole12">
+                                <p data-n="P12.II" data-l>«&#8239;Il n’en sera pas ainsi parmi vous&#8239;: celui qui veut être grand parmi vous sera votre serviteur.&#8239;»</p>
+                                <cite data-l>Marc 10, 43</cite>
+                            </blockquote>
+                            <h3 class="g-titre" data-n="T12.5"><span class="g-t" data-l>II. L’État remis à sa place</span> <small data-l>Chapitres 7 à 12</small></h3>
+                            <p class="g-phrase" data-n="T12.6" data-l>Un pouvoir qui sert et qui rend des comptes.</p>
+                            <p class="g-lien" data-n="PV15"><span class="l"><a class="li" href="https://music.apple.com/fr/song/denier-c%C3%A9sar/6796952080" target="_blank" rel="noopener">Écouter «&#8239;Denier César&#8239;»</a></span></p>
+                        </div>
+                        <div class="g12 g12-3" data-groupe="3">
+                            <img class="face12" src="assets/talent/embleme/talent-revers.svg" width="150" height="150" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                            <blockquote class="parole12">
+                                <p data-n="P12.III" data-l>«&#8239;Là où deux ou trois sont rassemblés en mon nom, je suis au milieu d’eux.&#8239;»</p>
+                                <cite data-l>Matthieu 18, 20</cite>
+                            </blockquote>
+                            <h3 class="g-titre" data-n="T12.7"><span class="g-t" data-l>III. La société qui se relève d’elle-même</span> <small data-l>Chapitres 13 à 17</small></h3>
+                            <p class="g-phrase" data-n="T12.8" data-l>Rien de grand ne descend d’en haut.</p>
+                            <p class="g-lien" data-n="PV15"><span class="l"><a class="li" href="https://music.apple.com/fr/song/deux-suffisent/6796952088" target="_blank" rel="noopener">Écouter «&#8239;Deux suffisent&#8239;»</a></span></p>
+                        </div>
+                        <!-- Repère des frappes : décor ; le nombre de frappes faites est dit au lecteur d’écran par #frappes-faites -->
+                        <p class="repere12" aria-hidden="true"><span>I</span><span>II</span><span>III</span></p>
+                        <span class="sr" id="frappes-faites"></span>
+                    </div>
+                </section>
+
+                <!-- Indice de suite (scène 11) : si la page n’a pas bougé 2 s après la fin de l’horloge -->
+                <span class="indice-suite" aria-hidden="true"><svg viewBox="0 0 14 8" width="14" height="8" focusable="false"><path d="M1 1l6 6 6-6"/></svg></span>
+
+                <!-- Anneau de focus du geste (scène 8) : cercle autour de la pièce, placé par horloge.js -->
+                <span class="anneau-geste" aria-hidden="true"></span>
+
+                <button class="reprendre" type="button" hidden>Reprendre</button>
             </div>
         </section>
 
-        <!-- II. L'APPEL -->
-        <section class="ap" aria-labelledby="ap-title">
-            <div class="ft-wrap ap-grid">
-                <figure class="ap-cover ft-reveal">
-                    <div class="ap-cover-tilt">
-                        <picture>
-                            <source srcset="assets/images/couverture-france-talents-tome1.webp" type="image/webp">
-                            <img src="assets/images/couverture-france-talents-tome1.jpg" width="700" height="1050" loading="lazy" decoding="async" alt="Première de couverture de « La France des talents », tome 1 : une fleur de lys tressée de fibres bleues, blanches et rouges, couronnée d'une croix d'or, par Matthieu Straub, Éditions Kileton">
-                        </picture>
+        <!-- Annonces pour le lecteur d’écran : après chaque frappe, et à l’arrivée dans la pastille -->
+        <p class="sr annonce" aria-live="polite" data-k1="La pièce tourne. Première face&#8239;: la croix." data-k2="Deuxième face&#8239;: le listel." data-k3="Troisième face&#8239;: le lys." data-pastille="La pièce rejoint le bouton d’achat, en haut de la page."></p>
+        <!-- Calque du vol (scène 13) : au-dessus de l’en-tête, sans capter le pointeur -->
+        <div class="vol" aria-hidden="true"><img class="vol-img" alt="" width="150" height="150" decoding="async"></div>
+
+        <!-- LES DIX-SEPT CHAPITRES : <details> natif, replié, dans le flux.
+             Corps : repris tel quel (typographie française appliquée : ’, espace fine avant ; : ? et dans les guillemets). -->
+        <section class="chapitres" aria-label="Trois mouvements, dix-sept chapitres">
+            <details class="ch-details">
+                <summary data-n="T12.1"><span class="ch-chevron" aria-hidden="true"><svg viewBox="0 0 8 14" width="8" height="14" focusable="false"><path d="M1 1l6 6-6 6"/></svg></span>Trois mouvements, dix-sept chapitres</summary>
+                <div class="ch-corps">
+                    <p>La personne, puis l’État, puis la société. On ne bâtit pas dans un autre ordre.</p>
+                    <h3>I. La personne, avant tout le reste <small>Chapitres 1 à 6</small></h3>
+                    <blockquote>«&#8239;Que servirait-il à un homme de gagner le monde entier, s’il vient à perdre son âme&#8239;?&#8239;» <cite>Matthieu 16, 26</cite></blockquote>
+                    <p>Avant l’État, avant la loi, avant l’économie, il y a un être irréductible que rien ne peut échanger contre autre chose. De cette irréductibilité découle tout le reste&#8239;: la propriété, qui prolonge la personne&#8239;; le travail, qui la révèle&#8239;; le don libre, qui la grandit&#8239;; la famille, qui la fait naître&#8239;; la vérité, sans laquelle sa liberté n’est qu’un mot.</p>
+                    <p class="ch-liste">La personne libre et responsable · La propriété privée · Le travail, les talents, le risque · La charité volontaire contre la redistribution forcée · La famille comme matrice · La vérité, condition de la liberté</p>
+                    <h3>II. L’État remis à sa place <small>Chapitres 7 à 12</small></h3>
+                    <blockquote>«&#8239;Il n’en sera pas ainsi parmi vous&#8239;: celui qui veut être grand parmi vous sera votre serviteur.&#8239;» <cite>Marc 10, 43</cite></blockquote>
+                    <p>Le cœur régalien du livre, et sa part la plus dure. Un État réduit à ce que lui seul peut faire, et qui le fait vraiment&#8239;: la justice, la sécurité, la défense, la monnaie. Un pouvoir qui sert et qui rend des comptes. Une complexité normative démolie, une corruption traquée, une souveraineté reprise. Ici, chaque principe porte un chiffre et une cible.</p>
+                    <p class="ch-liste">Rendre à César · Les fonctions régaliennes · Le pouvoir comme service, non comme rente · Détruire la complexité · L’anti-corruption · L’Europe des nations souveraines</p>
+                    <h3>III. La société qui se relève d’elle-même <small>Chapitres 13 à 17</small></h3>
+                    <blockquote>«&#8239;Là où deux ou trois sont rassemblés en mon nom, je suis au milieu d’eux.&#8239;» <cite>Matthieu 18, 20</cite></blockquote>
+                    <p>Rien de grand ne descend d’en haut. L’initiative, l’association, le voisin qui relève le voisin&#8239;: c’est là que la nation tient debout, ou nulle part. Le pauvre, le malade et l’étranger y sont regardés en face, sans angélisme et sans dureté. Et la parole y reste libre, y compris quand elle dérange, car une civilisation qui n’ose plus se dire a déjà commencé de mourir.</p>
+                    <p class="ch-liste">L’initiative individuelle · Les corps intermédiaires et la subsidiarité · Le pauvre, le malade, l’étranger · Vérité publique et liberté d’expression · Civilisation, mémoire, transmission</p>
+                </div>
+            </details>
+        </section>
+
+        <!-- SCÈNE 13 · La suite (flux normal, sur un fond qui va de la Nacre à la Perle) -->
+        <section class="suite" id="scene-13" aria-labelledby="suite-titre">
+            <div class="suite-in">
+                <p class="suite-kicker" data-n="T13.1">Premier volet d’un diptyque</p>
+                <div class="suite-tome2">
+                    <div class="suite-couv">
+                        <img src="assets/images/couverture-france-talents-tome2.webp" width="700" height="1050" loading="lazy" decoding="async" alt="">
+                        <span class="suite-ombre" aria-hidden="true"></span>
                     </div>
-                </figure>
-                <div class="ap-text">
-                    <blockquote class="ap-verse ft-reveal">
-                        <p>« Avance en eau profonde, et jetez vos filets pour la pêche. »</p>
-                        <cite>Luc 5, 4</cite>
-                    </blockquote>
-                    <h2 id="ap-title" class="ap-title ft-reveal">La France a reçu des talents. Il est temps de cesser de les&nbsp;enfouir.</h2>
-                    <div class="ap-actions ft-reveal">
-                        <a class="ft-btn ft-btn-gold" href="https://www.amazon.fr/dp/B0HCKBF5K7" target="_blank" rel="noopener noreferrer">Acheter le tome 1</a>
-                        <a class="ft-btn ft-btn-line" href="france-des-talents-introduction.html">Lire l'introduction</a>
+                    <div class="suite-texte">
+                        <!-- T13.2 : « Tome 2 — Le Comment », coupé au tiret et mis en deux lignes -->
+                        <h2 id="suite-titre" class="suite-titre" data-n="T13.2"><span>Tome 2</span> <span>Le Comment</span></h2>
+                        <p class="suite-desc" data-n="T13.3">Les applications concrètes, domaine par domaine&#8239;: fiscalité, monnaie, énergie, santé, défense.</p>
+                        <a class="sbtn sbtn-fort" href="france-des-talents-tome2.html">Découvrir le tome 2</a>
                     </div>
-                    <p class="ap-listen ft-reveal">Écouter l'album&nbsp;:
-                        <a href="https://open.spotify.com/intl-fr/album/5jxEuRnDu4qKtd3rOFLugG" target="_blank" rel="noopener noreferrer">Spotify</a>
-                        <span aria-hidden="true">·</span>
-                        <a href="https://music.apple.com/fr/album/la-france-des-talents/6796951801" target="_blank" rel="noopener noreferrer">Apple Music</a>
+                </div>
+                <div class="suite-album">
+                    <p class="suite-ecouter" data-n="T13.4">Écouter l’album&#8239;:</p>
+                    <p class="suite-liens">
+                        <a class="sbtn" href="https://open.spotify.com/intl-fr/album/5jxEuRnDu4qKtd3rOFLugG" target="_blank" rel="noopener">Spotify</a>
+                        <a class="sbtn" href="https://music.apple.com/fr/album/la-france-des-talents/6796951801" target="_blank" rel="noopener">Apple Music</a>
                     </p>
                 </div>
-            </div>
-
-            <!-- Tout le texte reste là pour qui veut le lire -->
-            <div class="ft-wrap ft-narrow ap-more">
-                <details class="ft-details">
-                    <summary>Le livre en quelques pages</summary>
-                    <div class="ft-details-body">
-                        <p class="ft-lead">La France se meurt, et nous le savons tous. Et si le remède qu'elle cherche partout dormait dans le livre qu'elle a cessé d'ouvrir&nbsp;? Non pour la convertir. Pour la faire penser.</p>
-                        <p>Ce livre prend les Évangiles au mot, non comme une religion, mais comme la plus lucide des grammaires politiques. Il y relit ce qu'aucun parti n'ose plus formuler&nbsp;: une personne libre et responsable, jamais réduite à un numéro de dossier&nbsp;; un État ramené à ses missions vitales, propre, simple, souverain&nbsp;; une société vivante qui n'attend plus tout d'en haut pour exister.</p>
-                        <p>Car il faut avoir le courage de relire ce qui est écrit. Quand un homme dit à ceux qui gouvernent&nbsp;: «&nbsp;Ils lient de pesants fardeaux et les mettent sur les épaules des hommes, mais eux-mêmes ne veulent pas les remuer du doigt&nbsp;», il ne fait pas de la morale. Il décrit, deux mille ans à l'avance, une administration qui empile les normes sans jamais en supporter le poids. Et quand il ajoute&nbsp;: «&nbsp;Il n'en sera pas ainsi parmi vous&nbsp;», il ne prêche pas l'humilité&nbsp;: il congédie la caste.</p>
-                        <p>Ni sermon ni programme&nbsp;: une pensée. Chiffres vérifiés à l'appui, objections affrontées de face, langue de bois proscrite. On ne trouvera ici aucun argument tiré du Ciel, aucune norme justifiée par la seule autorité de la foi. Le Christ y est convoqué comme on convoque un penseur politique, pour la puissance de ce qu'il dit, non pour ce qu'il serait.</p>
-                        <p>Ce premier tome ne dit pas encore <em>comment</em>&nbsp;; il établit, pierre après pierre, le <em>pourquoi</em>, car on ne rebâtit pas une nation sans avoir d'abord retrouvé les raisons de la vouloir.</p>
-                    </div>
-                </details>
-                <details class="ft-details">
-                    <summary>Trois mouvements, dix-sept chapitres</summary>
-                    <div class="ft-details-body">
-                        <p>La personne, puis l'État, puis la société. On ne bâtit pas dans un autre ordre.</p>
-                        <h3>I. La personne, avant tout le reste <small>Chapitres 1 à 6</small></h3>
-                        <blockquote>« Que servirait-il à un homme de gagner le monde entier, s'il vient à perdre son âme&nbsp;? » <cite>Matthieu 16, 26</cite></blockquote>
-                        <p>Avant l'État, avant la loi, avant l'économie, il y a un être irréductible que rien ne peut échanger contre autre chose. De cette irréductibilité découle tout le reste&nbsp;: la propriété, qui prolonge la personne&nbsp;; le travail, qui la révèle&nbsp;; le don libre, qui la grandit&nbsp;; la famille, qui la fait naître&nbsp;; la vérité, sans laquelle sa liberté n'est qu'un mot.</p>
-                        <p class="ft-chapters">La personne libre et responsable · La propriété privée · Le travail, les talents, le risque · La charité volontaire contre la redistribution forcée · La famille comme matrice · La vérité, condition de la liberté</p>
-                        <h3>II. L'État remis à sa place <small>Chapitres 7 à 12</small></h3>
-                        <blockquote>« Il n'en sera pas ainsi parmi vous&nbsp;: celui qui veut être grand parmi vous sera votre serviteur. » <cite>Marc 10, 43</cite></blockquote>
-                        <p>Le cœur régalien du livre, et sa part la plus dure. Un État réduit à ce que lui seul peut faire, et qui le fait vraiment&nbsp;: la justice, la sécurité, la défense, la monnaie. Un pouvoir qui sert et qui rend des comptes. Une complexité normative démolie, une corruption traquée, une souveraineté reprise. Ici, chaque principe porte un chiffre et une cible.</p>
-                        <p class="ft-chapters">Rendre à César · Les fonctions régaliennes · Le pouvoir comme service, non comme rente · Détruire la complexité · L'anti-corruption · L'Europe des nations souveraines</p>
-                        <h3>III. La société qui se relève d'elle-même <small>Chapitres 13 à 17</small></h3>
-                        <blockquote>« Là où deux ou trois sont rassemblés en mon nom, je suis au milieu d'eux. » <cite>Matthieu 18, 20</cite></blockquote>
-                        <p>Rien de grand ne descend d'en haut. L'initiative, l'association, le voisin qui relève le voisin&nbsp;: c'est là que la nation tient debout, ou nulle part. Le pauvre, le malade et l'étranger y sont regardés en face, sans angélisme et sans dureté. Et la parole y reste libre, y compris quand elle dérange, car une civilisation qui n'ose plus se dire a déjà commencé de mourir.</p>
-                        <p class="ft-chapters">L'initiative individuelle · Les corps intermédiaires et la subsidiarité · Le pauvre, le malade, l'étranger · Vérité publique et liberté d'expression · Civilisation, mémoire, transmission</p>
-                    </div>
-                </details>
-            </div>
-
-            <!-- Le diptyque -->
-            <div class="ft-wrap ap-diptych">
-                <p class="ft-kicker">Premier volet d'un diptyque</p>
-                <a class="ap-next" href="france-des-talents-tome2.html">
-                    <img src="assets/images/couverture-france-talents-tome2.webp" width="700" height="1050" loading="lazy" decoding="async" alt="">
-                    <span class="ap-next-text">
-                        <span class="ap-next-name">Tome 2 — Le Comment</span>
-                        <span class="ap-next-desc">Les applications concrètes, domaine par domaine&nbsp;: fiscalité, monnaie, énergie, santé, défense.</span>
-                        <span class="ap-next-cta">Découvrir le tome 2 <span aria-hidden="true">→</span></span>
-                    </span>
-                </a>
+                <!-- Caché tant que le JavaScript n’est pas actif : page.js retire « hidden ». -->
+                <p class="suite-partage" hidden><button class="sbtn partager" type="button" data-partage="«&#8239;La France a reçu des talents. Il est temps de cesser de les enfouir.&#8239;» La France des talents, Matthieu Straub">Partager</button><span class="sr partage-etat" aria-live="polite"></span></p>
             </div>
         </section>
 
@@ -317,8 +503,6 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script src="js/vendor/gsap.min.js" defer></script>
-    <script src="js/vendor/ScrollTrigger.min.js" defer></script>
-    <script type="module" src="js/talents/talents.js?v=4"></script>
+    <script type="module" src="js/talent/page.js"></script>
 </body>
 </html>
