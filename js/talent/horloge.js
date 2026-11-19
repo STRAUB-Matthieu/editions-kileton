@@ -6,7 +6,7 @@
 // le repère. Scène et son sont facultatifs (doublures) : sans eux, la porte, les textes, le repère et l'horloge marchent seuls.
 // Aucun preventDefault : la page reste défilable à tout moment.
 import { SCENES, FIN, ECRANS, CRANS3, CRAN3, IMMOBILES, GESTE8, RETOUR_SEUIL, REPRENDRE, TEXTES, ENTREE, SORTIE, PORTE, REPERE, LOTS, COUVERTURE,
-  COUV, PORTES, JOUR, FRAPPES, VOL, EPINGLE } from './table.js';
+  COUV, PORTES, JOUR, FRAPPES, VOL, EPINGLE, reelDe, tDeReel } from './table.js';
 
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const lerp = (a, b, k) => a + (b - a) * k;
@@ -339,7 +339,7 @@ export class Horloge {
       if (this.pause) {
         T = this.pause.T;
         if (this.pause.reprise !== null && now >= this.pause.reprise) { this.autoT0 = T; this.autoP0 = now; this.pause = null; }
-      } else T = this.autoT0 + (now - this.autoP0) / 1000;
+      } else T = tDeReel(reelDe(this.autoT0) + (now - this.autoP0) / 1000);
       if (T >= FIN) { T = FIN; this.fini = true; }
       y = yDe(T);
       if (this.decalage) {

@@ -21,6 +21,18 @@ export const SCENES = [
 
 // Fin de l'horloge et longueur du défilement des scènes 0 à 11.
 export const FIN = 92.0;
+
+// Ralenti du mode automatique : entre `debut` et `fin`, l'horloge avance moins vite, pour laisser `ajout` secondes
+// de lecture en plus à la phrase de la scène 7. Rien d'autre ne change : chaque scène garde ses instants T.
+export const RALENTI = { debut: 53.5, fin: 57.0, ajout: 2.0 };
+// temps réel écoulé (s) correspondant à T, et son inverse
+export const reelDe = (T) => T + RALENTI.ajout * Math.max(0, Math.min(1, (T - RALENTI.debut) / (RALENTI.fin - RALENTI.debut)));
+export const tDeReel = (r) => {
+  const { debut, fin, ajout } = RALENTI;
+  if (r <= debut) return r;
+  if (r >= fin + ajout) return r - ajout;
+  return debut + (r - debut) * (fin - debut) / (fin - debut + ajout);
+};
 export const ECRANS = 16.5;
 
 // Passage d'une scène à la suivante, compté dans la scène qui commence.
@@ -62,7 +74,7 @@ export const TEXTES = {
   'T5.1':   { entree: 39.0, sortie: 43.2 },
   'T6.1':   { entree: 44.6, sortie: 51.2 },
   'T6.2':   { entree: 45.4, sortie: 51.2 },
-  'T7.1':   { entree: 52.3, sortie: 57.6 },   // lisible 5,3 s (sortie 57,6 → 58,2)
+  'T7.1':   { entree: 52.3, sortie: 57.6 },   // lisible 7,3 s en automatique, avec le ralenti (sortie 57,6 → 58,2)
   'T8.1':   { entree: 58.4, sortie: 63.0 },   // sort plus tôt si la pièce est libérée par le geste
   'T9.1a':  { entree: 67.0, sortie: 74.0 },   // les deux phrases sortent ensemble, 74,0 → 74,6
   'T9.1b':  { entree: 69.0, sortie: 74.0 },

@@ -43,8 +43,8 @@ export const TABLE = {
     { de: 11.05, a: 38.4, off: true, tc: 0.05 },
     { de: 38.4, a: 46.5, p: [0.30, 0.30], tc: 0.6 },      // note tenue
     { de: 46.5, a: 52.0, p: [0.30, 0.30], tc: 0.8 },
-    { de: 52.0, a: 55.0, off: true, tc: 0.3 },
-    { de: 55.0, a: 57.0, p: [0.30, 0.35], tc: 0.8 },
+    { de: 52.0, a: 53.2, off: true, tc: 0.3 },
+    { de: 53.2, a: 57.0, p: [0.30, 0.35], tc: 0.8 },      // la nappe revient dès la coupe du grondement : pas de trou
     { de: 57.0, a: 64.8, p: [0.35, 0.35], tc: 0.8 },
     { de: 64.8, a: 74.0, p: [0.35, 1.0], tc: 0.15, quad: true },   // la nappe s'ouvre
     { de: 74.0, a: 75.4, p: [1.0, 0.80], tc: 0.3, quad: true },    // la nappe s'assombrit pendant la descente vers l'empreinte
@@ -80,7 +80,7 @@ export const TABLE = {
     pastille: { f0: 1180, vel: 0.25 }                                                             // arrivée de la pièce dans la pastille (scène 13)
   },
   coupeNet: { a: 53.2, b: 53.22 },                // le grondement bref est coupé net : rampe linéaire à 0 en 0,02 s
-  geste: { de: 57.0, a: 63.0, retrait: { base: 0.20, amp: 0.15, periode: 1.7 } },   // frottement du geste (v ; retrait seul sans geste)
+  geste: { de: 57.0, a: 63.0, retrait: { base: 0.26, amp: 0.04, periode: 1.7 }, tenue: 0.40 },   // frottement du geste (v ; retrait seul sans geste)
   scene3: { de: 16.0, a: 29.0, vMax: 1.5 },       // mode libre : frottement = vitesse(min(1, |vDefil| / 1,5))
   premierPixel: { f0: 1180, vel: 0.20 },
   fondPieceLibre: 0.30
@@ -205,7 +205,7 @@ function construire(ctx, hl, R, opts = {}) {
     // frottement du geste : défilement (scène 3 libre) ou fouille / retrait seul (scène 8)
     let v = 0;
     if (etat.mode === 'libre' && T >= TABLE.scene3.de && T < TABLE.scene3.a) v = Math.min(1, Math.abs(etat.vDefil || 0) / TABLE.scene3.vMax);
-    if (T >= TABLE.geste.de && T < TABLE.geste.a) { if (!hl && now - m.tFouille > 0.15) m.fouille = 0; v = Math.max(gestuelDe(T), m.fouille); }
+    if (T >= TABLE.geste.de && T < TABLE.geste.a) { if (!hl && now - m.tFouille > TABLE.geste.tenue) m.fouille = 0; v = Math.max(gestuelDe(T), m.fouille); }
     if (v > 0 || m.last.f && m.last.f.v > 0) { const l = m.last.f; if (!l || Math.abs(l.v - v) > 0.01 || (v === 0 && l.v !== 0) || f) { m.last.f = { v }; F2.vitesse(v, quand(T)); } }
     if (T < TABLE.geste.de || T >= TABLE.geste.a) m.pixel = false;
   }
